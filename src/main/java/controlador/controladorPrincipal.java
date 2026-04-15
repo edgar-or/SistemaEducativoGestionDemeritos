@@ -13,9 +13,15 @@ import vista.vistaPrincipalDirector;
  */
 public class controladorPrincipal {
     private vistaPrincipalDirector vista;
-
+   
+    private controladorDocente controladorDocente;
+    
+    
+    
+    
     public controladorPrincipal(vistaPrincipalDirector vista) {
         this.vista = vista;
+        this.controladorDocente = new controladorDocente( vista);
     }
     
     public void iniciar() {
