@@ -8,12 +8,12 @@ package vista;
  *
  * @author estud
  */
-public class vistaAgregarGrado extends javax.swing.JInternalFrame {
+public class verGrado extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form vistaAgregarGrado
      */
-    public vistaAgregarGrado() {
+    public verGrado() {
         initComponents();
     }
 
@@ -54,7 +54,7 @@ public class vistaAgregarGrado extends javax.swing.JInternalFrame {
 
         jLabel1.setText("Grado:");
 
-        comboGrados.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboGrados.addActionListener(this::comboGradosActionPerformed);
 
         btnGuardarGrado.setText("Guardar");
 
@@ -144,6 +144,10 @@ public class vistaAgregarGrado extends javax.swing.JInternalFrame {
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void comboGradosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboGradosActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comboGradosActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

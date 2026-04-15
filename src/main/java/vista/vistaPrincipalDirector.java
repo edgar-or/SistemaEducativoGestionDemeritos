@@ -31,9 +31,11 @@ public class vistaPrincipalDirector extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTree1 = new javax.swing.JTree();
         jDesktopPane1 = new javax.swing.JDesktopPane();
+        btnCerrarSesion = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu2 = new javax.swing.JMenu();
-        menuAgregar = new javax.swing.JMenuItem();
+        menuAgregarDemerito = new javax.swing.JMenuItem();
+        menuAgregarMerito = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         menuBuscar = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
@@ -46,23 +48,38 @@ public class vistaPrincipalDirector extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        btnCerrarSesion.setText("Cerrar Sesion");
+        btnCerrarSesion.addActionListener(this::btnCerrarSesionActionPerformed);
+
+        jDesktopPane1.setLayer(btnCerrarSesion, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
         javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
         jDesktopPane1.setLayout(jDesktopPane1Layout);
         jDesktopPane1Layout.setHorizontalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 388, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDesktopPane1Layout.createSequentialGroup()
+                .addContainerGap(282, Short.MAX_VALUE)
+                .addComponent(btnCerrarSesion)
+                .addContainerGap())
         );
         jDesktopPane1Layout.setVerticalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 265, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDesktopPane1Layout.createSequentialGroup()
+                .addContainerGap(236, Short.MAX_VALUE)
+                .addComponent(btnCerrarSesion)
+                .addContainerGap())
         );
 
         jMenuBar1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         jMenu2.setText("Agregar Demeritos");
 
-        menuAgregar.setText("Agregar");
-        jMenu2.add(menuAgregar);
+        menuAgregarDemerito.setText("Agregar Demerito");
+        jMenu2.add(menuAgregarDemerito);
+
+        menuAgregarMerito.setText("Agregar Merito");
+        menuAgregarMerito.addActionListener(this::menuAgregarMeritoActionPerformed);
+        jMenu2.add(menuAgregarMerito);
 
         jMenuBar1.add(jMenu2);
 
@@ -76,17 +93,19 @@ public class vistaPrincipalDirector extends javax.swing.JFrame {
 
         jMenu1.setText("Configuracion");
 
-        menuGrado.setText("Grado");
+        menuGrado.setText("Ver Grado");
         menuGrado.addActionListener(this::menuGradoActionPerformed);
         jMenu1.add(menuGrado);
 
-        menuEncargado.setText("Encargado");
+        menuEncargado.setText("Ver Encargado");
+        menuEncargado.addActionListener(this::menuEncargadoActionPerformed);
         jMenu1.add(menuEncargado);
 
-        menuDocente.setText("Docente");
+        menuDocente.setText("Ver Docente");
         jMenu1.add(menuDocente);
 
-        menuAlumno.setText("Alumno");
+        menuAlumno.setText("Agregar Alumno");
+        menuAlumno.addActionListener(this::menuAlumnoActionPerformed);
         jMenu1.add(menuAlumno);
 
         jMenuBar1.add(jMenu1);
@@ -121,32 +140,29 @@ public class vistaPrincipalDirector extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_menuBuscarActionPerformed
 
+    private void menuAgregarMeritoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuAgregarMeritoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_menuAgregarMeritoActionPerformed
+
+    private void menuEncargadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuEncargadoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_menuEncargadoActionPerformed
+
+    private void menuAlumnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuAlumnoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_menuAlumnoActionPerformed
+
+    private void btnCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarSesionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCerrarSesionActionPerformed
+
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new vistaPrincipalDirector().setVisible(true));
-    }
+   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    public javax.swing.JButton btnCerrarSesion;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
@@ -154,7 +170,8 @@ public class vistaPrincipalDirector extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTree jTree1;
-    public javax.swing.JMenuItem menuAgregar;
+    public javax.swing.JMenuItem menuAgregarDemerito;
+    public javax.swing.JMenuItem menuAgregarMerito;
     public javax.swing.JMenuItem menuAlumno;
     public javax.swing.JMenuItem menuBuscar;
     public javax.swing.JMenuItem menuDocente;
