@@ -6,8 +6,8 @@ package modelo;
 
 /**
  *
- * @author estud
+ * @author renec
  */
-public class rene {
+public class ModeloEncardoAlumno {
     
 }
