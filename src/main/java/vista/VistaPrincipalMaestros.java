@@ -43,6 +43,7 @@ public class VistaPrincipalMaestros extends javax.swing.JFrame {
         btnAgregarDemerito = new javax.swing.JButton();
         btnVerEstado = new javax.swing.JButton();
         btnAgregarMerito2 = new javax.swing.JButton();
+        btnCerrarsesion = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -90,6 +91,9 @@ public class VistaPrincipalMaestros extends javax.swing.JFrame {
         btnAgregarMerito2.setText("Agregar Merito");
         btnAgregarMerito2.addActionListener(this::btnAgregarMerito2ActionPerformed);
 
+        btnCerrarsesion.setText("Cerrar Sesion");
+        btnCerrarsesion.addActionListener(this::btnCerrarsesionActionPerformed);
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -125,10 +129,12 @@ public class VistaPrincipalMaestros extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(26, 26, 26)
                 .addComponent(btnAgregarMerito2)
-                .addGap(53, 53, 53)
+                .addGap(26, 26, 26)
                 .addComponent(btnAgregarDemerito)
-                .addGap(54, 54, 54)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnVerEstado)
+                .addGap(18, 18, 18)
+                .addComponent(btnCerrarsesion)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -154,7 +160,8 @@ public class VistaPrincipalMaestros extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAgregarMerito2)
                     .addComponent(btnAgregarDemerito)
-                    .addComponent(btnVerEstado))
+                    .addComponent(btnVerEstado)
+                    .addComponent(btnCerrarsesion))
                 .addContainerGap(38, Short.MAX_VALUE))
         );
 
@@ -168,8 +175,6 @@ public class VistaPrincipalMaestros extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
-
-        jPanel2.getAccessibleContext().setAccessibleName("");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -213,6 +218,10 @@ public class VistaPrincipalMaestros extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnAgregarMerito2ActionPerformed
 
+    private void btnCerrarsesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarsesionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCerrarsesionActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -242,6 +251,7 @@ public class VistaPrincipalMaestros extends javax.swing.JFrame {
     public javax.swing.JButton brnBuscar;
     public javax.swing.JButton btnAgregarDemerito;
     public javax.swing.JButton btnAgregarMerito2;
+    public javax.swing.JButton btnCerrarsesion;
     public javax.swing.JButton btnVerEstado;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
