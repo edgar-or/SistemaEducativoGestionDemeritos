@@ -4,16 +4,18 @@
  */
 package modelo;
 
+import DAO.AlumnoDAO;
+
 
 public class ModeloAlumno {
     private int nie;
     private String nombre;
     private String apelliddos;
     private int idGrado;
-    private int duiEncargado;
+    private String duiEncargado;
     private int totalPuntos;
 
-    public ModeloAlumno(int nie, String nombre, String apelliddos, int idGrado, int duiEncargado, int totalPuntos) {
+    public ModeloAlumno(int nie, String nombre, String apelliddos, int idGrado, String duiEncargado, int totalPuntos) {
         this.nie = nie;
         this.nombre = nombre;
         this.apelliddos = apelliddos;
@@ -38,7 +40,7 @@ public class ModeloAlumno {
         return idGrado;
     }
 
-    public int getDuiEncargado() {
+    public String getDuiEncargado() {
         return duiEncargado;
     }
 
@@ -58,7 +60,7 @@ public class ModeloAlumno {
         this.idGrado = idGrado;
     }
 
-    public void setDuiEncargado(int duiEncargado) {
+    public void setDuiEncargado(String duiEncargado) {
         this.duiEncargado = duiEncargado;
     }
 
@@ -69,6 +71,8 @@ public class ModeloAlumno {
     public void setTotalPuntos(int totalPuntos) {
         this.totalPuntos = totalPuntos;
     }
+    
+  
     
    
     
