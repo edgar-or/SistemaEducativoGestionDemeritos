@@ -13,16 +13,18 @@ public class Login {
     private String usuario;
     private String password;
 
-    public boolean validarCredenciales() {
+    public String validarCredenciales() {
         if (this.usuario == null || this.password == null) {
-            return false;
+            return "ERROR";
         } else if (usuario.equals("admin") && password.equals("12345")) {
-            return true;
+            return "ADMIN";
 
+        }else if(usuario.equals("irvinlanda") && password.endsWith("1234")){
+        return "USER";
         }
-        return false;
-
+        return "ERROR";
     }
+
 
     public String getUsuario() {
         return usuario;

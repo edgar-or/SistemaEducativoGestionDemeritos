@@ -6,6 +6,7 @@ package controlador;
 
 import javax.swing.JOptionPane;
 import modelo.Login;
+import vista.VistaPrincipalMaestros;
 import vista.vistaLogin;
 import vista.vistaPrincipalDirector;
 
@@ -20,13 +21,15 @@ public class controladorLogin {
     private final Login loginModelo;
     vistaPrincipalDirector vista; 
     controladorPrincipal controladorPrincipal; 
+    private VistaPrincipalMaestros visPrincipalMaestros;
     
     
 
-    public controladorLogin(vistaLogin vistaLogin, Login Login) {
+    public controladorLogin(vistaLogin vistaLogin, Login Login ) {
         this.loginVista = vistaLogin;
         this.loginModelo = Login;
         this.vista  = null; 
+        this.visPrincipalMaestros= visPrincipalMaestros;
         
         //Para boton Enter
         this.loginVista.getRootPane().setDefaultButton(this.loginVista.btnLogin);
@@ -48,9 +51,8 @@ public class controladorLogin {
         loginModelo.setUsuario(usuario);
         loginModelo.setPassword(password);
 
-        boolean esValido = loginModelo.validarCredenciales();
-
-        if (esValido) {
+        String tipo= loginModelo.validarCredenciales();
+        if (tipo.equals("ADMIN")) {
 
             vista = new vistaPrincipalDirector(); 
 
@@ -63,8 +65,20 @@ public class controladorLogin {
             vista.btnCerrarSesion.addActionListener(e -> cerrarSesion());
 
             cerrar(); 
-        } else {
-            mostrarError("Usuario o contraseña incorrectos.");
+        } else if (tipo.equals("USER")){
+            VistaPrincipalMaestros visMaestros= new VistaPrincipalMaestros();
+            ControladorPrinciplaMaestros controladorMaestros = new ControladorPrinciplaMaestros(visMaestros);
+            controladorMaestros.iniciar();
+            
+            visMaestros.btnCerrarsesion.addActionListener(e->{
+            visMaestros.dispose();
+            iniciar();
+            
+            });
+            cerrar();
+           
+        }else{
+            mostrarError("Usuario o contraseña incorrectos");
         }
     }
 
