@@ -5,47 +5,45 @@
 package controlador;
 
 import java.awt.Dimension;
-import vista.VistaAgregarAlumno;
+import vista.VerEncargado;
+import vista.VistaAgregarDemerito;
 import vista.VistaPrincipalDirector;
 
 /**
  *
  * @author estud
  */
-public class ControladorAlumno {
-    private VistaPrincipalDirector vistaPrincipal;
-    private VistaAgregarAlumno vistaAlumno;
+public class ControladorDemerito {
+     private VistaPrincipalDirector vistaPrincipal;
+    private VistaAgregarDemerito vistaDemerito;
 
-    public ControladorAlumno(VistaPrincipalDirector vistaPrincipal) {
-        this.vistaAlumno = new VistaAgregarAlumno();
+    public ControladorDemerito(VistaPrincipalDirector vistaPrincipal) {
+        this.vistaDemerito = new VistaAgregarDemerito();
         this.vistaPrincipal = vistaPrincipal;
-        
+
         onEventos();
     }
 
-   
-    
-    
-    
     private void onEventos() {
-        vistaPrincipal.menuAlumno.addActionListener(e -> mostrarVista());
-        vistaAlumno.btnCerrar.addActionListener(e -> vistaAlumno.dispose());
+        vistaPrincipal.menuAgregarDemerito.addActionListener(e -> mostrarVista());
+        vistaDemerito.btnCerrar.addActionListener(e -> vistaDemerito.dispose());
     }
+
     public void mostrarVista() {
 
-        vistaAlumno.setVisible(true);
+        vistaDemerito.setVisible(true);
 
         // 2️⃣ Centrar la vista
         Dimension desktopSize = vistaPrincipal.escritorio.getSize();
-        Dimension internal = vistaAlumno.getSize();
+        Dimension internal = vistaDemerito.getSize();
         int x = (desktopSize.width - internal.width) / 2;
         int y = (desktopSize.height - internal.height) / 2;
-        vistaAlumno.setLocation(x, y);
-        vistaPrincipal.escritorio.remove(vistaAlumno);
-        vistaPrincipal.escritorio.add(vistaAlumno);
+        vistaDemerito.setLocation(x, y);
+        vistaPrincipal.escritorio.remove(vistaDemerito);
+        vistaPrincipal.escritorio.add(vistaDemerito);
 
         // 3️⃣ Mostrar y traer al frente
-        vistaAlumno.toFront();
+        vistaDemerito.toFront();
         //mostrarRutasTabla(base.getRutas());
         //formaAgregarDepartamentos();
         //activarEventoDepartamento();

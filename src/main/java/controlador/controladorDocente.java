@@ -5,19 +5,19 @@
 package controlador;
 
 import java.awt.Dimension;
-import vista.verDocente;
-import vista.vistaPrincipalDirector;
+import vista.VerDocente;
+import vista.VistaPrincipalDirector;
 
 /**
  *
  * @author estud
  */
-public class controladorDocente {
-    private verDocente vistaDocente;
-    private vistaPrincipalDirector vistaPrincipal;
+public class ControladorDocente {
+    private VerDocente vistaDocente;
+    private VistaPrincipalDirector vistaPrincipal;
 
-    public controladorDocente(vistaPrincipalDirector vistaPrincipal) {
-        this.vistaDocente = new verDocente();
+    public ControladorDocente(VistaPrincipalDirector vistaPrincipal) {
+        this.vistaDocente = new VerDocente();
         this.vistaPrincipal = vistaPrincipal;
         eventos();
     }

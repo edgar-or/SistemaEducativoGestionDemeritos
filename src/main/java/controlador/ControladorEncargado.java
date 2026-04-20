@@ -5,47 +5,46 @@
 package controlador;
 
 import java.awt.Dimension;
-import vista.VistaAgregarAlumno;
+import vista.VerEncargado;
+import vista.VerGrado;
 import vista.VistaPrincipalDirector;
 
 /**
  *
  * @author estud
  */
-public class ControladorAlumno {
-    private VistaPrincipalDirector vistaPrincipal;
-    private VistaAgregarAlumno vistaAlumno;
+public class ControladorEncargado {
 
-    public ControladorAlumno(VistaPrincipalDirector vistaPrincipal) {
-        this.vistaAlumno = new VistaAgregarAlumno();
+    private VistaPrincipalDirector vistaPrincipal;
+    private VerEncargado verEncargado;
+
+    public ControladorEncargado(VistaPrincipalDirector vistaPrincipal) {
+        this.verEncargado = new VerEncargado();
         this.vistaPrincipal = vistaPrincipal;
-        
+
         onEventos();
     }
 
-   
-    
-    
-    
     private void onEventos() {
-        vistaPrincipal.menuAlumno.addActionListener(e -> mostrarVista());
-        vistaAlumno.btnCerrar.addActionListener(e -> vistaAlumno.dispose());
+        vistaPrincipal.menuEncargado.addActionListener(e -> mostrarVista());
+        verEncargado.btnCerrar.addActionListener(e -> verEncargado.dispose());
     }
+
     public void mostrarVista() {
 
-        vistaAlumno.setVisible(true);
+        verEncargado.setVisible(true);
 
         // 2️⃣ Centrar la vista
         Dimension desktopSize = vistaPrincipal.escritorio.getSize();
-        Dimension internal = vistaAlumno.getSize();
+        Dimension internal = verEncargado.getSize();
         int x = (desktopSize.width - internal.width) / 2;
         int y = (desktopSize.height - internal.height) / 2;
-        vistaAlumno.setLocation(x, y);
-        vistaPrincipal.escritorio.remove(vistaAlumno);
-        vistaPrincipal.escritorio.add(vistaAlumno);
+        verEncargado.setLocation(x, y);
+        vistaPrincipal.escritorio.remove(verEncargado);
+        vistaPrincipal.escritorio.add(verEncargado);
 
         // 3️⃣ Mostrar y traer al frente
-        vistaAlumno.toFront();
+        verEncargado.toFront();
         //mostrarRutasTabla(base.getRutas());
         //formaAgregarDepartamentos();
         //activarEventoDepartamento();

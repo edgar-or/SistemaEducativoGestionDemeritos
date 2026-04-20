@@ -8,14 +8,14 @@ package vista;
  *
  * @author estud
  */
-public class vistaPrincipalDirector extends javax.swing.JFrame {
+public class VistaPrincipalDirector extends javax.swing.JFrame {
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(vistaPrincipalDirector.class.getName());
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VistaPrincipalDirector.class.getName());
 
     /**
      * Creates new form vistaPrincipal
      */
-    public vistaPrincipalDirector() {
+    public VistaPrincipalDirector() {
         initComponents();
     }
 

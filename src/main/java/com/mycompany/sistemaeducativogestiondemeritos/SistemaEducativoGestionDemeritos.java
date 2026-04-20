@@ -1,9 +1,9 @@
 
 package com.mycompany.sistemaeducativogestiondemeritos;
 
-import controlador.controladorLogin;
+import controlador.ControladorLogin;
 import modelo.Login;
-import vista.vistaLogin;
+import vista.VistaLogin;
 
 
 public class SistemaEducativoGestionDemeritos {
@@ -11,9 +11,9 @@ public class SistemaEducativoGestionDemeritos {
     public static void main(String[] args) {
         try {
             Login loginModelo = new Login(); 
-               vistaLogin loginVista = new vistaLogin();
+               VistaLogin loginVista = new VistaLogin();
                
-               controladorLogin controladorLogin = new controladorLogin(loginVista, loginModelo); 
+               ControladorLogin controladorLogin = new ControladorLogin(loginVista, loginModelo); 
                controladorLogin.iniciar();
         } catch (Exception ex) {
             ex.printStackTrace();

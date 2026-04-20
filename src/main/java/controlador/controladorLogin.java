@@ -6,24 +6,24 @@ package controlador;
 
 import javax.swing.JOptionPane;
 import modelo.Login;
-import vista.vistaLogin;
-import vista.vistaPrincipalDirector;
+import vista.VistaLogin;
+import vista.VistaPrincipalDirector;
 
 /**
  *
  * @author estud
  */
-public class controladorLogin {
+public class ControladorLogin {
    
     
-     private final vistaLogin loginVista;
+     private final VistaLogin loginVista;
     private final Login loginModelo;
-    vistaPrincipalDirector vista; 
-    controladorPrincipal controladorPrincipal; 
+    VistaPrincipalDirector vista; 
+    ControladorPrincipal controladorPrincipal; 
     
     
 
-    public controladorLogin(vistaLogin vistaLogin, Login Login) {
+    public ControladorLogin(VistaLogin vistaLogin, Login Login) {
         this.loginVista = vistaLogin;
         this.loginModelo = Login;
         this.vista  = null; 
@@ -52,11 +52,11 @@ public class controladorLogin {
 
         if (esValido) {
 
-            vista = new vistaPrincipalDirector(); 
+            vista = new VistaPrincipalDirector(); 
 
            
 
-            controladorPrincipal = new controladorPrincipal(vista);
+            controladorPrincipal = new ControladorPrincipal(vista);
             controladorPrincipal.iniciar();
 
             // Registrar listener DESPUÉS de crear la vista

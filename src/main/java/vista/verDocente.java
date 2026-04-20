@@ -8,12 +8,12 @@ package vista;
  *
  * @author estud
  */
-public class verDocente extends javax.swing.JInternalFrame {
+public class VerDocente extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form verEncargado
      */
-    public verDocente() {
+    public VerDocente() {
         initComponents();
     }
 
