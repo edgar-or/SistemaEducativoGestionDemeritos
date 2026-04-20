@@ -1,13 +1,12 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package controlador;
 
 import javax.swing.JOptionPane;
 import modelo.Login;
 import vista.VistaLogin;
 import vista.VistaPrincipalDirector;
+import vista.VistaPrincipalMaestros;
+
 
 /**
  *
@@ -18,15 +17,15 @@ public class ControladorLogin {
     
      private final VistaLogin loginVista;
     private final Login loginModelo;
-    VistaPrincipalDirector vista; 
-    ControladorPrincipal controladorPrincipal; 
-    
-    
+    private VistaPrincipalDirector vista; 
+    private ControladorPrincipal controladorPrincipal; 
+    private VistaPrincipalMaestros vistaPrincipalMaestros;
 
-    public ControladorLogin(VistaLogin vistaLogin, Login Login) {
+    public ControladorLogin(VistaLogin vistaLogin, Login Login ) {
         this.loginVista = vistaLogin;
         this.loginModelo = Login;
         this.vista  = null; 
+        this.vistaPrincipalMaestros= new VistaPrincipalMaestros();
         
         //Para boton Enter
         this.loginVista.getRootPane().setDefaultButton(this.loginVista.btnLogin);
@@ -48,9 +47,8 @@ public class ControladorLogin {
         loginModelo.setUsuario(usuario);
         loginModelo.setPassword(password);
 
-        boolean esValido = loginModelo.validarCredenciales();
-
-        if (esValido) {
+        String tipo= loginModelo.validarCredenciales();
+        if (tipo.equals("ADMIN")) {
 
             vista = new VistaPrincipalDirector(); 
 
@@ -63,8 +61,20 @@ public class ControladorLogin {
             vista.btnCerrarSesion.addActionListener(e -> cerrarSesion());
 
             cerrar(); 
-        } else {
-            mostrarError("Usuario o contraseña incorrectos.");
+        } else if (tipo.equals("USER")){
+            VistaPrincipalMaestros visMaestros= new VistaPrincipalMaestros();
+            ControladorPrinciplaMaestros controladorMaestros = new ControladorPrinciplaMaestros(visMaestros);
+            controladorMaestros.iniciar();
+            
+            visMaestros.btnCerrarsesion.addActionListener(e->{
+            visMaestros.dispose();
+            iniciar();
+            
+            });
+            cerrar();
+           
+        }else{
+            mostrarError("Usuario o contraseña incorrectos");
         }
     }
 

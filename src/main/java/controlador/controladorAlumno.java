@@ -5,32 +5,31 @@
 package controlador;
 
 import java.awt.Dimension;
+import modelo.ModeloAlumno;
+import services.AlumnoService;
 import vista.VistaAgregarAlumno;
 import vista.VistaPrincipalDirector;
 
 /**
  *
- * @author estud
+ * @author ayala
  */
 public class ControladorAlumno {
-    private VistaPrincipalDirector vistaPrincipal;
-    private VistaAgregarAlumno vistaAlumno;
 
-    public ControladorAlumno(VistaPrincipalDirector vistaPrincipal) {
+    private VistaAgregarAlumno vistaAlumno;
+    private VistaPrincipalDirector vistaPrincipal;
+    private AlumnoService service = new AlumnoService();
+
+    public ControladorAlumno( VistaPrincipalDirector vistaPrincipal) {
         this.vistaAlumno = new VistaAgregarAlumno();
         this.vistaPrincipal = vistaPrincipal;
-        
         onEventos();
     }
-
-   
-    
-    
-    
     private void onEventos() {
         vistaPrincipal.menuAlumno.addActionListener(e -> mostrarVista());
         vistaAlumno.btnCerrar.addActionListener(e -> vistaAlumno.dispose());
     }
+
     public void mostrarVista() {
 
         vistaAlumno.setVisible(true);
@@ -51,4 +50,19 @@ public class ControladorAlumno {
         //activarEventoDepartamento();
 
     }
+    
+    
+
+    public void insertarAlumno() {
+        //int nie, String nombre, String apelliddos, int idGrado, int duiEncargado, int totalPuntos
+
+        ModeloAlumno alumno = new ModeloAlumno(1, "Edgar", "Ayala", 1, "06908504-1", 0);
+        try {
+            service.insertarAlumno(alumno);
+            System.out.println("Guardado correctamente");
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+
 }
