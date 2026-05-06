@@ -8,7 +8,7 @@ package modelo;
  *
  * @author renec
  */
-public class modeloDocente {
+public class ModeloDocente {
 
     private String nombre;
     private String apellido;
@@ -21,7 +21,7 @@ public class modeloDocente {
     private String calle;
     private String distrito;
 
-    public modeloDocente(String nombre, String apellido, int idDocente,
+    public ModeloDocente(String nombre, String apellido, int idDocente,
             int telefonoDocente, String correo, String departamento,
                 String municipio, String caserio, String calle, String distrito) {
         this.nombre = nombre;
