@@ -2,17 +2,17 @@ package controlador;
 
 import java.awt.Dimension;
 import javax.swing.JOptionPane;
-import vista.vistaAgregarMerito;
+import vista.VistaAgregarMerito;
 import vista.VistaPrincipalDirector;
 
 public class ControladorMerito {
 
     private VistaPrincipalDirector vistaPrincipal;
-    private vistaAgregarMerito vistaMerito;
+    private VistaAgregarMerito vistaMerito;
 
     public ControladorMerito(VistaPrincipalDirector vistaPrincipal) {
-        this.vistaMerito = new vistaAgregarMerito();
         this.vistaPrincipal = vistaPrincipal;
+        this.vistaMerito = new VistaAgregarMerito();
 
         onEventos();
     }
@@ -37,8 +37,13 @@ public class ControladorMerito {
 
         JOptionPane.showMessageDialog(
                 null,
-                "Mérito agregado correctamente"+ "NIE: " + nie + "\n"+ "Nombre: " + nombre + "\n"+ "Descripción: " + descripcion + "\n"          + "Observación: " + observacion
-        ); 
+                "Mérito agregado correctamente\n\n"
+                + "NIE: " + nie + "\n"
+                + "Nombre: " + nombre + "\n"
+                + "Descripción: " + descripcion + "\n"
+                + "Observación: " + observacion
+        );
+
         vistaMerito.txtNie.setText("");
         vistaMerito.txtNombreCompleto.setText("");
         vistaMerito.txtObservaciones.setText("");
@@ -47,15 +52,18 @@ public class ControladorMerito {
 
     public void mostrarVista() {
 
-        vistaMerito.setVisible(true);
-        Dimension desktopSize = vistaPrincipal.escritorio.getSize();
-        Dimension internal = vistaMerito.getSize();
-        int x = (desktopSize.width - internal.width) / 2;
-        int y = (desktopSize.height - internal.height) / 2;
-        vistaMerito.setLocation(x, y);
-        vistaPrincipal.escritorio.remove(vistaMerito);
-        vistaPrincipal.escritorio.add(vistaMerito);
+        if (vistaMerito.getParent() == null) {
+            vistaPrincipal.escritorio.add(vistaMerito);
+        }
 
+        Dimension desktopSize = vistaPrincipal.escritorio.getSize();
+        Dimension internalSize = vistaMerito.getSize();
+
+        int x = (desktopSize.width - internalSize.width) / 2;
+        int y = (desktopSize.height - internalSize.height) / 2;
+
+        vistaMerito.setLocation(x, y);
+        vistaMerito.setVisible(true);
         vistaMerito.toFront();
     }
 }

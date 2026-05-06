@@ -8,12 +8,12 @@ package vista;
  *
  * @author javie
  */
-public class vistaAgregarMerito extends javax.swing.JInternalFrame {
+public class VistaAgregarMerito extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form vistaAgregarMerito
      */
-    public vistaAgregarMerito() {
+    public VistaAgregarMerito() {
         initComponents();
     }
 
