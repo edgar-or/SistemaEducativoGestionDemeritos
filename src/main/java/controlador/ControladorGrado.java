@@ -14,24 +14,22 @@ import vista.VistaPrincipalDirector;
  * @author estud
  */
 public class ControladorGrado {
+
     private VistaPrincipalDirector vistaPrincipal;
     private VerGrado verGrado;
 
     public ControladorGrado(VistaPrincipalDirector vistaPrincipal) {
         this.verGrado = new VerGrado();
         this.vistaPrincipal = vistaPrincipal;
-        
+
         onEventos();
     }
 
-   
-    
-    
-    
     private void onEventos() {
         vistaPrincipal.menuGrado.addActionListener(e -> mostrarVista());
         verGrado.btnCerrar.addActionListener(e -> verGrado.dispose());
     }
+
     public void mostrarVista() {
 
         verGrado.setVisible(true);
@@ -51,5 +49,5 @@ public class ControladorGrado {
         //formaAgregarDepartamentos();
         //activarEventoDepartamento();
 
-    } 
+    }
 }

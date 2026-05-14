@@ -14,7 +14,8 @@ import vista.VistaPrincipalDirector;
  * @author estud
  */
 public class ControladorMerito {
-     private VistaPrincipalDirector vistaPrincipal;
+
+    private VistaPrincipalDirector vistaPrincipal;
     private VistaAgregarMerito vistaMerito;
 
     public ControladorMerito(VistaPrincipalDirector vistaPrincipal) {

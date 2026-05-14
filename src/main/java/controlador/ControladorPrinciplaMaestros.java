@@ -12,16 +12,17 @@ import vista.VistaPrincipalMaestros;
  * @author renec
  */
 public class ControladorPrinciplaMaestros {
+
     private VistaPrincipalMaestros visPrincipalMaaestros;
 
     public ControladorPrinciplaMaestros(VistaPrincipalMaestros visPrincipalMaaestros) {
         this.visPrincipalMaaestros = visPrincipalMaaestros;
     }
-    
+
     public void iniciar() {
         visPrincipalMaaestros.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         visPrincipalMaaestros.setExtendedState(JFrame.MAXIMIZED_BOTH);
         visPrincipalMaaestros.setVisible(true);
     }
-    
+
 }

@@ -20,11 +20,12 @@ public class ControladorAlumno {
     private VistaPrincipalDirector vistaPrincipal;
     private AlumnoService service = new AlumnoService();
 
-    public ControladorAlumno( VistaPrincipalDirector vistaPrincipal) {
+    public ControladorAlumno(VistaPrincipalDirector vistaPrincipal) {
         this.vistaAlumno = new VistaAgregarAlumno();
         this.vistaPrincipal = vistaPrincipal;
         onEventos();
     }
+
     private void onEventos() {
         vistaPrincipal.menuAlumno.addActionListener(e -> mostrarVista());
         vistaAlumno.btnCerrar.addActionListener(e -> vistaAlumno.dispose());
@@ -50,8 +51,6 @@ public class ControladorAlumno {
         //activarEventoDepartamento();
 
     }
-    
-    
 
     public void insertarAlumno() {
         //int nie, String nombre, String apelliddos, int idGrado, int duiEncargado, int totalPuntos
