@@ -1,7 +1,11 @@
 package controlador;
 
+import DAO.UsuarioDao;
+import dto.LoginResultadoDto;
 import javax.swing.JOptionPane;
 import modelo.Login;
+import modelo.ModeloCargoDocente;
+import modelo.ModeloDocente;
 import vista.VistaLogin;
 import vista.VistaPrincipalDirector;
 import vista.VistaPrincipalMaestros;
@@ -17,6 +21,8 @@ public class ControladorLogin {
     private VistaPrincipalDirector vista;
     private ControladorPrincipal controladorPrincipal;
     private VistaPrincipalMaestros vistaPrincipalMaestros;
+    private UsuarioDao usuarioDao; 
+    private LoginResultadoDto loginResultDto;
 
     public ControladorLogin(VistaLogin vistaLogin, Login Login) {
         this.loginVista = vistaLogin;
@@ -35,15 +41,39 @@ public class ControladorLogin {
 
         String usuario = loginVista.txtUsuario.getText();
         String password = new String(loginVista.txtContraseña.getText());
+        
+        
 
         if (usuario.isEmpty() || password.isEmpty()) {
             mostrarError("El usuario y la contraseña no pueden estar vacíos.");
             return;
         }
+        
+        UsuarioDao dao = new UsuarioDao();
 
-        loginModelo.setUsuario(usuario);
-        loginModelo.setPassword(password);
+        LoginResultadoDto res = dao.validar(usuario, password);
+        
+        ModeloCargoDocente cargo = res.getCargoDocente(); 
+        ModeloDocente docente = res.getModeloDocente(); 
+        
+        
+        
+         if (res!= null) {
+             
+             if (cargo.getCargo().equalsIgnoreCase("Director")) {
+                 VistaPrincipalDirector vista = new VistaPrincipalDirector(); 
+                 ControladorPrincipal ctrlDirec = new ControladorPrincipal(vista); 
+                 ctrlDirec.iniciar();
+             }else if(cargo.getCargo().equalsIgnoreCase("Docente")){
+                 
+                 VistaPrincipalMaestros visMaestros = new VistaPrincipalMaestros(); 
+                 ControladorPrinciplaMaestros ctrlnMaestros = new ControladorPrinciplaMaestros(visMaestros); 
+                 ctrlnMaestros.iniciar();
+                 
+             }
+         }
 
+<<<<<<< HEAD
         String tipo = loginModelo.validarCredenciales();
         if (tipo.equals("ADMIN")) {
 
@@ -71,6 +101,11 @@ public class ControladorLogin {
         } else {
             mostrarError("Usuario o contraseña incorrectos");
         }
+=======
+       
+
+        
+>>>>>>> 1e73b612836ac47ba382f5cb677cfe525a2ec1dd
     }
 
     private void mostrarError(String mensaje) {

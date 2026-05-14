@@ -18,6 +18,11 @@ public class ModeloCargoDocente {
         this.cargo = cargo;
     }
 
+    public ModeloCargoDocente() {
+    }
+    
+    
+
     public int getIdCargo() {
         return idCargo;
     }
