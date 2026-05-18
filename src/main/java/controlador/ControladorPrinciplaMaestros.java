@@ -12,10 +12,13 @@ import vista.VistaPrincipalMaestros;
  * @author renec
  */
 public class ControladorPrinciplaMaestros {
+
     private VistaPrincipalMaestros visPrincipalMaaestros;
+    private ControladorMerito controladorMerito;
 
     public ControladorPrinciplaMaestros(VistaPrincipalMaestros visPrincipalMaaestros) {
         this.visPrincipalMaaestros = visPrincipalMaaestros;
+        this.controladorMerito = new ControladorMerito(visPrincipalMaaestros);
     }
     
     public void iniciar() {
