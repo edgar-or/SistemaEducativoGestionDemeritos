@@ -51,9 +51,7 @@ public class VistaPrincipalMaestros extends javax.swing.JFrame {
 
         jLabel2.setText("SECCION");
 
-        comboSeccion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        comboGrado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboGrado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " " }));
 
         jLabel1.setText("AÑO ");
 
