@@ -5,45 +5,71 @@
 package controlador;
 
 import javax.swing.JFrame;
+import modelo.Login;
+import vista.VistaAgregarDemerito;
+import vista.VistaAgregarMerito;
+import vista.VistaLogin;
 import vista.VistaPrincipalMaestros;
-import vista.vistaAgregarMerito;
+import vista.VistaPrincipalMaestros;
+import vista.VistaVerEstado;
 
 /**
  *
  * @author renec
  */
 public class ControladorPrinciplaMaestros {
-    private VistaPrincipalMaestros visPrincipalMaaestros;
-    private ControladorAgragarDemerito controladoragrgarDemerito;
 
-    public ControladorPrinciplaMaestros(VistaPrincipalMaestros visPrincipalMaaestros, ControladorAgragarDemerito controladoragrgarDemerito) {
+    private VistaPrincipalMaestros visPrincipalMaaestros;
+
+    public ControladorPrinciplaMaestros(VistaPrincipalMaestros visPrincipalMaaestros) {
+
         this.visPrincipalMaaestros = visPrincipalMaaestros;
-        this.controladoragrgarDemerito = new ControladorAgragarDemerito();
-        controladoragrgarDemerito.iniciarVistaDemerito();
-        
-        
-        
-        
-        
+
+        eventos();
     }
-    
+
     public void iniciar() {
+
         visPrincipalMaaestros.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         visPrincipalMaaestros.setExtendedState(JFrame.MAXIMIZED_BOTH);
         visPrincipalMaaestros.setVisible(true);
-        
+
     }
 
-    private void iniciarVistaDemerito() {
-        
-        visPrincipalMaaestros.btnAgregarDemerito.addActionListener(e->{
-                       
-            ControladorAgragarDemerito ctr = new ControladorAgragarDemerito();
+    private void eventos() {
 
-        
-  
-            
+        visPrincipalMaaestros.btnAgrgarDemerito.addActionListener(e -> {
+
+            VistaAgregarDemerito vista = new VistaAgregarDemerito();
+            new ControladorAgregarDemerito(vista);
         });
+        visPrincipalMaaestros.btnAgregarMerito.addActionListener(e -> {
+
+            VistaAgregarMerito vista = new VistaAgregarMerito();
+            new ControladorAgregarMerito(vista);
+        });
+
+        visPrincipalMaaestros.btnVerEstados.addActionListener(e -> {
+
+            VistaVerEstado vista = new VistaVerEstado();
+            new ControladorVerEstado(vista);
+
+        });
+        visPrincipalMaaestros.btnCerrarsesion.addActionListener(e -> {
+            // crear vista y modelo
+            VistaLogin login = new VistaLogin();
+            Login modelo = new Login();
+
+            // crear controlador correctamente
+            new ControladorLogin(login, modelo);
+
+            login.setLocationRelativeTo(null);
+            login.setVisible(true);
+
+            // cerrar la ventana actual
+            visPrincipalMaaestros.dispose();
+        });
+
     }
-    
+
 }

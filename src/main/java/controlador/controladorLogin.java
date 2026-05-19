@@ -1,35 +1,37 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package controlador;
 
+import DAO.UsuarioDao;
+import dto.LoginResultadoDto;
 import javax.swing.JOptionPane;
 import modelo.Login;
+import modelo.ModeloCargoDocente;
+import modelo.ModeloDocente;
+import vista.VistaLogin;
+import vista.VistaPrincipalDirector;
 import vista.VistaPrincipalMaestros;
-import vista.vistaLogin;
-import vista.vistaPrincipalDirector;
+
 
 /**
  *
  * @author estud
  */
-public class controladorLogin {
+public class ControladorLogin {
    
     
-     private final vistaLogin loginVista;
+     private final VistaLogin loginVista;
     private final Login loginModelo;
-    vistaPrincipalDirector vista; 
-    controladorPrincipal controladorPrincipal; 
-    private VistaPrincipalMaestros visPrincipalMaestros;
-    
-    
+    private VistaPrincipalDirector vista; 
+    private ControladorPrincipal controladorPrincipal; 
+    private VistaPrincipalMaestros vistaPrincipalMaestros;
+    private UsuarioDao usuarioDao; 
+    private LoginResultadoDto loginResultDto;
 
-    public controladorLogin(vistaLogin vistaLogin, Login Login ) {
+    public ControladorLogin(VistaLogin vistaLogin, Login Login ) {
         this.loginVista = vistaLogin;
         this.loginModelo = Login;
         this.vista  = null; 
-        this.visPrincipalMaestros= visPrincipalMaestros;
+        this.vistaPrincipalMaestros= new VistaPrincipalMaestros();
         
         //Para boton Enter
         this.loginVista.getRootPane().setDefaultButton(this.loginVista.btnLogin);
@@ -42,44 +44,42 @@ public class controladorLogin {
 
         String usuario = loginVista.txtUsuario.getText();
         String password = new String(loginVista.txtContraseña.getText());
+        
+        
 
         if (usuario.isEmpty() || password.isEmpty()) {
             mostrarError("El usuario y la contraseña no pueden estar vacíos.");
             return; 
         }
+        
+        UsuarioDao dao = new UsuarioDao();
 
-        loginModelo.setUsuario(usuario);
-        loginModelo.setPassword(password);
+        LoginResultadoDto res = dao.validar(usuario, password);
+        
+        ModeloCargoDocente cargo = res.getCargoDocente(); 
+        ModeloDocente docente = res.getModeloDocente(); 
+        
+        
+        
+         if (res!= null) {
+             
+             if (cargo.getCargo().equalsIgnoreCase("Director")) {
+                 loginVista.dispose();
+                 VistaPrincipalDirector vista = new VistaPrincipalDirector(); 
+                 ControladorPrincipal ctrlDirec = new ControladorPrincipal(vista); 
+                 ctrlDirec.iniciar();
+             }else if(cargo.getCargo().equalsIgnoreCase("Docente")){
+                 
+                 VistaPrincipalMaestros visMaestros = new VistaPrincipalMaestros(); 
+                 ControladorPrinciplaMaestros ctrlnMaestros = new ControladorPrinciplaMaestros(vistaPrincipalMaestros); 
+                 ctrlnMaestros.iniciar();
+                 
+             }
+         }
 
-        String tipo= loginModelo.validarCredenciales();
-        if (tipo.equals("ADMIN")) {
+       
 
-            vista = new vistaPrincipalDirector(); 
-
-           
-
-            controladorPrincipal = new controladorPrincipal(vista);
-            controladorPrincipal.iniciar();
-
-            // Registrar listener DESPUÉS de crear la vista
-            vista.btnCerrarSesion.addActionListener(e -> cerrarSesion());
-
-            cerrar(); 
-        } else if (tipo.equals("USER")){
-            VistaPrincipalMaestros visMaestros= new VistaPrincipalMaestros();
-            ControladorPrinciplaMaestros controladorMaestros = new ControladorPrinciplaMaestros(visMaestros);
-            controladorMaestros.iniciar();
-            
-            visMaestros.btnCerrarsesion.addActionListener(e->{
-            visMaestros.dispose();
-            iniciar();
-            
-            });
-            cerrar();
-           
-        }else{
-            mostrarError("Usuario o contraseña incorrectos");
-        }
+        
     }
 
     private void mostrarError(String mensaje) {

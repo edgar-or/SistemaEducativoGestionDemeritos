@@ -8,12 +8,12 @@ package vista;
  *
  * @author estud
  */
-public class verGrado extends javax.swing.JInternalFrame {
+public class VerGrado extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form vistaAgregarGrado
      */
-    public verGrado() {
+    public VerGrado() {
         initComponents();
     }
 

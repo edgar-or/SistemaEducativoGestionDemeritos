@@ -5,48 +5,51 @@
 package controlador;
 
 import java.awt.Dimension;
-import vista.VerDocente;
+import vista.VerGrado;
+import vista.VistaAgregarAlumno;
 import vista.VistaPrincipalDirector;
 
 /**
  *
  * @author estud
  */
-public class ControladorDocente {
-    private VerDocente vistaDocente;
+public class ControladorGrado {
     private VistaPrincipalDirector vistaPrincipal;
+    private VerGrado verGrado;
 
-    public ControladorDocente(VistaPrincipalDirector vistaPrincipal) {
-        this.vistaDocente = new VerDocente();
+    public ControladorGrado(VistaPrincipalDirector vistaPrincipal) {
+        this.verGrado = new VerGrado();
         this.vistaPrincipal = vistaPrincipal;
-        eventos();
-    }
-    private void eventos() {
-        vistaPrincipal.menuDocente.addActionListener(e -> mostrarVista());
-        vistaDocente.btnCerrar.addActionListener(e -> vistaDocente.dispose());
+        
+        onEventos();
     }
 
+   
     
     
+    
+    private void onEventos() {
+        vistaPrincipal.menuGrado.addActionListener(e -> mostrarVista());
+        verGrado.btnCerrar.addActionListener(e -> verGrado.dispose());
+    }
     public void mostrarVista() {
 
-        vistaDocente.setVisible(true);
+        verGrado.setVisible(true);
 
         // 2️⃣ Centrar la vista
         Dimension desktopSize = vistaPrincipal.escritorio.getSize();
-        Dimension internal = vistaDocente.getSize();
+        Dimension internal = verGrado.getSize();
         int x = (desktopSize.width - internal.width) / 2;
         int y = (desktopSize.height - internal.height) / 2;
-        vistaDocente.setLocation(x, y);
-        vistaPrincipal.escritorio.remove(vistaDocente);
-        vistaPrincipal.escritorio.add(vistaDocente);
+        verGrado.setLocation(x, y);
+        vistaPrincipal.escritorio.remove(verGrado);
+        vistaPrincipal.escritorio.add(verGrado);
 
         // 3️⃣ Mostrar y traer al frente
-        vistaDocente.toFront();
+        verGrado.toFront();
         //mostrarRutasTabla(base.getRutas());
         //formaAgregarDepartamentos();
         //activarEventoDepartamento();
 
-    }
-
+    } 
 }

@@ -8,14 +8,14 @@ package vista;
  *
  * @author javie
  */
-public class vistaLogin extends javax.swing.JFrame {
+public class VistaLogin extends javax.swing.JFrame {
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(vistaLogin.class.getName());
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VistaLogin.class.getName());
 
     /**
      * Creates new form vistaLogin
      */
-    public vistaLogin() {
+    public VistaLogin() {
         initComponents();
     }
 

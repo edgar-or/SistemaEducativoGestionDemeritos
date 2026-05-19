@@ -5,40 +5,64 @@
 package controlador;
 
 import java.awt.Dimension;
-import vista.vistaPrincipalDirector;
+import modelo.ModeloAlumno;
+import services.AlumnoService;
+import vista.VistaAgregarAlumno;
+import vista.VistaPrincipalDirector;
 
 /**
  *
- * @author estud
+ * @author ayala
  */
-public class controladorAlumno {
-//    private vistaPrincipalDirector vistaPrincipal;
-//    private vistaAgregarAlumno vista;
-//    
-//    
-//    
-//    private void eventos() {
-//        vistaPrincipal.menuDocente.addActionListener(e -> mostrarVista());
-//        vistaDocente.btnCerrar.addActionListener(e -> vistaDocente.dispose());
-//    }
-//    public void mostrarVista() {
-//
-//        vistaDocente.setVisible(true);
-//
-//        // 2️⃣ Centrar la vista
-//        Dimension desktopSize = vistaPrincipal.escritorio.getSize();
-//        Dimension internal = vistaDocente.getSize();
-//        int x = (desktopSize.width - internal.width) / 2;
-//        int y = (desktopSize.height - internal.height) / 2;
-//        vistaDocente.setLocation(x, y);
-//        vistaPrincipal.escritorio.remove(vistaDocente);
-//        vistaPrincipal.escritorio.add(vistaDocente);
-//
-//        // 3️⃣ Mostrar y traer al frente
-//        vistaDocente.toFront();
-//        //mostrarRutasTabla(base.getRutas());
-//        //formaAgregarDepartamentos();
-//        //activarEventoDepartamento();
-//
-//    }
+public class ControladorAlumno {
+
+    private VistaAgregarAlumno vistaAlumno;
+    private VistaPrincipalDirector vistaPrincipal;
+    private AlumnoService service = new AlumnoService();
+
+    public ControladorAlumno( VistaPrincipalDirector vistaPrincipal) {
+        this.vistaAlumno = new VistaAgregarAlumno();
+        this.vistaPrincipal = vistaPrincipal;
+        onEventos();
+    }
+    private void onEventos() {
+        vistaPrincipal.menuAlumno.addActionListener(e -> mostrarVista());
+        vistaAlumno.btnCerrar.addActionListener(e -> vistaAlumno.dispose());
+    }
+
+    public void mostrarVista() {
+
+        vistaAlumno.setVisible(true);
+
+        // 2️⃣ Centrar la vista
+        Dimension desktopSize = vistaPrincipal.escritorio.getSize();
+        Dimension internal = vistaAlumno.getSize();
+        int x = (desktopSize.width - internal.width) / 2;
+        int y = (desktopSize.height - internal.height) / 2;
+        vistaAlumno.setLocation(x, y);
+        vistaPrincipal.escritorio.remove(vistaAlumno);
+        vistaPrincipal.escritorio.add(vistaAlumno);
+
+        // 3️⃣ Mostrar y traer al frente
+        vistaAlumno.toFront();
+        //mostrarRutasTabla(base.getRutas());
+        //formaAgregarDepartamentos();
+        //activarEventoDepartamento();
+
+    }
+    
+    
+
+    public void insertarAlumno() {
+        //int nie, String nombre, String apelliddos, int idGrado, int duiEncargado, int totalPuntos
+
+        ModeloAlumno alumno = new ModeloAlumno(1, "Edgar", "Ayala", 1, "06908504-1", 0);
+        try {
+            service.insertarAlumno(alumno);
+            System.out.println("Guardado correctamente");
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+
 }

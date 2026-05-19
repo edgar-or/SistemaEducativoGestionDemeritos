@@ -5,23 +5,29 @@
 package controlador;
 
 import javax.swing.JFrame;
-import vista.vistaPrincipalDirector;
+import vista.VistaPrincipalDirector;
 
 /**
  *
  * @author estud
  */
-public class controladorPrincipal {
-    private vistaPrincipalDirector vista;
-   
-    private controladorDocente controladorDocente;
+public class ControladorPrincipal {
+    private VistaPrincipalDirector vista;   
+    private ControladorDocente controlDocente;
+    private ControladorAlumno controlAlumno;
+    private ControladorEncargado controlEncargado;
+    private ControladorGrado controlGrado;
+    private ControladorDemerito controlDemerito;
+    private ControladorMerito conrolMerito;
     
-    
-    
-    
-    public controladorPrincipal(vistaPrincipalDirector vista) {
+    public ControladorPrincipal(VistaPrincipalDirector vista) {
         this.vista = vista;
-        this.controladorDocente = new controladorDocente( vista);
+        this.controlDocente = new ControladorDocente( vista);
+        this.controlAlumno = new ControladorAlumno(vista);
+        this.controlEncargado= new ControladorEncargado(vista);
+        this.controlGrado = new ControladorGrado(vista);
+        this.controlDemerito = new ControladorDemerito(vista);
+        this.conrolMerito = new ControladorMerito(vista);
     }
     
     public void iniciar() {
