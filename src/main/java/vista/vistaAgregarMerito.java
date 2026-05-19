@@ -150,10 +150,9 @@ public class VistaAgregarMerito extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnAgregarActionPerformed
 
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JComboBox<String> ComboDescripcion;
-    private javax.swing.JButton btnAgregar;
+    public javax.swing.JButton btnAgregar;
     public javax.swing.JButton btnCerrar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -164,6 +163,6 @@ public class VistaAgregarMerito extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     public javax.swing.JTextField txtNie;
     public javax.swing.JTextField txtNombreCompleto;
-    private javax.swing.JTextArea txtObservaciones;
+    public javax.swing.JTextArea txtObservaciones;
     // End of variables declaration//GEN-END:variables
 }

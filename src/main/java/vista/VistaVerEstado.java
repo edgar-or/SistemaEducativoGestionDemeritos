@@ -8,8 +8,9 @@ package vista;
  *
  * @author renec
  */
-public class VistaVerEstado extends javax.swing.JFrame {
     
+public class VistaVerEstado extends javax.swing.JFrame {
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VistaVerEstado.class.getName());
 
     /**
@@ -114,8 +115,6 @@ public class VistaVerEstado extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-  
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JButton btnCerrar;
     private javax.swing.JLabel jLabel1;

@@ -1,53 +1,124 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package controlador;
 
 import java.awt.Dimension;
-import vista.VerEncargado;
+import javax.swing.JDesktopPane;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import vista.VistaAgregarMerito;
 import vista.VistaPrincipalDirector;
+import vista.VistaPrincipalMaestros;
 
-/**
- *
- * @author estud
- */
 public class ControladorMerito {
-     private VistaPrincipalDirector vistaPrincipal;
+
+    private VistaPrincipalDirector vistaPrincipal;
+    private VistaPrincipalMaestros vistaPrincipalMaestros;
     private VistaAgregarMerito vistaMerito;
     
 
+    // Constructor para Director (usa JDesktopPane con menú)
     public ControladorMerito(VistaPrincipalDirector vistaPrincipal) {
-        this.vistaMerito = new VistaAgregarMerito();
         this.vistaPrincipal = vistaPrincipal;
-
-        onEventos();
+        this.vistaMerito = new VistaAgregarMerito();
+        onEventosDirector();
     }
 
-    private void onEventos() {
-        vistaPrincipal.menuAgregarMerito.addActionListener(e -> mostrarVista());
+    // Constructor para Maestros (usa JFrame con botón)
+    public ControladorMerito(VistaPrincipalMaestros vistaPrincipalMaestros) {
+        this.vistaPrincipalMaestros = vistaPrincipalMaestros;
+        this.vistaMerito = new VistaAgregarMerito();
+        onEventosMaestros();
+    }
+
+    private void onEventosDirector() {
+        // Limpiar listener previo de NetBeans
+        for (java.awt.event.ActionListener al : vistaPrincipal.menuAgregarMerito.getActionListeners()) {
+            vistaPrincipal.menuAgregarMerito.removeActionListener(al);
+        }
+        vistaPrincipal.menuAgregarMerito.addActionListener(e -> mostrarVistaEnDesktop(vistaPrincipal.escritorio));
         vistaMerito.btnCerrar.addActionListener(e -> vistaMerito.dispose());
+        vistaMerito.btnAgregar.addActionListener(e -> agregarMerito());
     }
 
-    public void mostrarVista() {
+    private void onEventosMaestros() {
+        // Limpiar listener previo de NetBeans
+        for (java.awt.event.ActionListener al : vistaPrincipalMaestros.btnAgregarMerito.getActionListeners()) {
+            vistaPrincipalMaestros.btnAgregarMerito.removeActionListener(al);
+        }
+        // VistaPrincipalMaestros no tiene JDesktopPane, se muestra en JDialog
+        vistaPrincipalMaestros.btnAgregarMerito.addActionListener(e -> mostrarVistaComoDialogo());
+        vistaMerito.btnCerrar.addActionListener(e -> cerrarDialogo());
+        vistaMerito.btnAgregar.addActionListener(e -> agregarMerito());
+    }
 
-        vistaMerito.setVisible(true);
-
-        // 2️⃣ Centrar la vista
-        Dimension desktopSize = vistaPrincipal.escritorio.getSize();
-        Dimension internal = vistaMerito.getSize();
-        int x = (desktopSize.width - internal.width) / 2;
-        int y = (desktopSize.height - internal.height) / 2;
+    // ─── Para Director: muestra el JInternalFrame dentro del JDesktopPane ───
+    private void mostrarVistaEnDesktop(JDesktopPane escritorio) {
+        if (vistaMerito.getParent() == null) {
+            escritorio.add(vistaMerito);
+        }
+        Dimension desktopSize = escritorio.getSize();
+        Dimension internalSize = vistaMerito.getPreferredSize();
+        int x = (desktopSize.width - internalSize.width) / 2;
+        int y = (desktopSize.height - internalSize.height) / 2;
         vistaMerito.setLocation(x, y);
-        vistaPrincipal.escritorio.remove(vistaMerito);
-        vistaPrincipal.escritorio.add(vistaMerito);
-
-        // 3️⃣ Mostrar y traer al frente
+        vistaMerito.setVisible(true);
         vistaMerito.toFront();
-        //mostrarRutasTabla(base.getRutas());
-        //formaAgregarDepartamentos();
-        //activarEventoDepartamento();
+    }
 
+    // ─── Para Maestros: monta el JInternalFrame en un JDialog propio ───
+    private JDialog dialogo;
+
+    private void mostrarVistaComoDialogo() {
+        if (dialogo == null) {
+            dialogo = new JDialog(vistaPrincipalMaestros, "Agregar Mérito", true);
+
+            JDesktopPane desktop = new JDesktopPane();
+            desktop.setPreferredSize(new Dimension(480, 430));
+            desktop.add(vistaMerito);
+
+            vistaMerito.setSize(vistaMerito.getPreferredSize());
+            vistaMerito.setLocation(10, 10);
+            vistaMerito.setVisible(true);
+
+            dialogo.setContentPane(desktop);
+            dialogo.pack();
+            dialogo.setLocationRelativeTo(vistaPrincipalMaestros);
+            dialogo.setResizable(false);
+        }
+        dialogo.setVisible(true);
+    }
+
+    private void cerrarDialogo() {
+        if (dialogo != null) {
+            dialogo.setVisible(false);
+        }
+    }
+
+    // ─── Lógica de guardar mérito ───
+    private void agregarMerito() {
+        String nie = vistaMerito.txtNie.getText().trim();
+        String nombre = vistaMerito.txtNombreCompleto.getText().trim();
+        String descripcion = vistaMerito.ComboDescripcion.getSelectedItem().toString();
+        String observacion = vistaMerito.txtObservaciones.getText().trim();
+
+        if (nie.isEmpty() || nombre.isEmpty() || observacion.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Complete todos los campos");
+            return;
+        }
+
+        JOptionPane.showMessageDialog(null,
+                "Mérito agregado correctamente\n\n"
+                + "NIE: " + nie + "\n"
+                + "Nombre: " + nombre + "\n"
+                + "Descripción: " + descripcion + "\n"
+                + "Observación: " + observacion);
+
+        // Limpiar campos
+        vistaMerito.txtNie.setText("");
+        vistaMerito.txtNombreCompleto.setText("");
+        vistaMerito.txtObservaciones.setText("");
+        vistaMerito.ComboDescripcion.setSelectedIndex(0);
+
+        // Cerrar si viene de maestros
+        cerrarDialogo();
     }
 }

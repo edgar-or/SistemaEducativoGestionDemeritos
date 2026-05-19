@@ -14,8 +14,8 @@ import services.CentroEscolarService;
  * @author ayala
  */
 public class ControladorCentroEscolar {
-    
-    private String codigoCE; 
+
+    private String codigoCE;
     private String nombreCentroEscolar;
     private String numeroTel;
     private String departamento;
@@ -25,20 +25,15 @@ public class ControladorCentroEscolar {
     private String distrito;
     private String correoElectronico;
 
-    
-    
-    
-    
-    public void insertar (){
-        
-        try {
-                ModeloCentroEscolar centro = new ModeloCentroEscolar("123", "CE Tecoluca", "7645-9087", "San Vicente", "Tecoluca", "Canton La Esperanza", "asdas", "San Vicente sur", "ceteco@gmail.com"); 
+    public void insertar() {
 
-            CentroEscolarService service = new CentroEscolarService(); 
+        try {
+            ModeloCentroEscolar centro = new ModeloCentroEscolar("123", "CE Tecoluca", "7645-9087", "San Vicente", "Tecoluca", "Canton La Esperanza", "asdas", "San Vicente sur", "ceteco@gmail.com");
+
+            CentroEscolarService service = new CentroEscolarService();
             service.insertarCE(centro);
         } catch (Exception e) {
         }
-        
-        
-    }    
+
+    }
 }

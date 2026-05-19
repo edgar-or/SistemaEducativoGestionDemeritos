@@ -9,7 +9,7 @@ package vista;
  * @author estud
  */
 public class VistaPrincipalDirector extends javax.swing.JFrame {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VistaPrincipalDirector.class.getName());
 
     /**
@@ -159,8 +159,6 @@ public class VistaPrincipalDirector extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-   
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JButton btnCerrarSesion;
     public javax.swing.JDesktopPane escritorio;

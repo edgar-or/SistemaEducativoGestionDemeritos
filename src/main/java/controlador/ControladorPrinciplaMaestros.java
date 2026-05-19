@@ -20,12 +20,15 @@ import vista.VistaVerEstado;
 public class ControladorPrinciplaMaestros {
 
     private VistaPrincipalMaestros visPrincipalMaaestros;
+    private ControladorMerito controladorMerito;
 
     public ControladorPrinciplaMaestros(VistaPrincipalMaestros visPrincipalMaaestros) {
 
         this.visPrincipalMaaestros = visPrincipalMaaestros;
 
+
         eventos();
+        this.controladorMerito = new ControladorMerito(visPrincipalMaaestros);
     }
 
     public void iniciar() {
@@ -71,5 +74,6 @@ public class ControladorPrinciplaMaestros {
         });
 
     }
+
 
 }
