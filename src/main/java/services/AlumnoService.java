@@ -13,10 +13,11 @@ import modelo.ModeloAlumno;
  * @author ayala
  */
 public class AlumnoService {
+
     private AlumnoDAO daoAlumno = new AlumnoDAO();
 
     public void insertarAlumno(ModeloAlumno alumno) throws SQLException {
         //daoAlumno.(alumno);
     }
-    
+
 }

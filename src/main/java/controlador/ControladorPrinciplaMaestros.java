@@ -20,11 +20,11 @@ public class ControladorPrinciplaMaestros {
         this.visPrincipalMaaestros = visPrincipalMaaestros;
         this.controladorMerito = new ControladorMerito(visPrincipalMaaestros);
     }
-    
+
     public void iniciar() {
         visPrincipalMaaestros.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         visPrincipalMaaestros.setExtendedState(JFrame.MAXIMIZED_BOTH);
         visPrincipalMaaestros.setVisible(true);
     }
-    
+
 }

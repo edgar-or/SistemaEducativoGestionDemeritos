@@ -6,8 +6,8 @@ package modelo;
 
 import DAO.AlumnoDAO;
 
-
 public class ModeloAlumno {
+
     private int nie;
     private String nombre;
     private String apelliddos;
@@ -71,10 +71,5 @@ public class ModeloAlumno {
     public void setTotalPuntos(int totalPuntos) {
         this.totalPuntos = totalPuntos;
     }
-    
-  
-    
-   
-    
-    
+
 }

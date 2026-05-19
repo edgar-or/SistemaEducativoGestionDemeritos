@@ -55,7 +55,6 @@ public class VistaAgregarAlumno extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnCerrarActionPerformed
 
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JButton btnCerrar;
     // End of variables declaration//GEN-END:variables
