@@ -28,15 +28,11 @@ public class ControladorPrinciplaMaestros {
     public ControladorPrinciplaMaestros(VistaPrincipalMaestros visPrincipalMaaestros) {
 
         this.visPrincipalMaaestros = visPrincipalMaaestros;
-<<<<<<< HEAD
         
-        
-=======
 
 
         eventos();
         this.controladorMerito = new ControladorMerito(visPrincipalMaaestros);
->>>>>>> 57594b350bf720ac7a17dbe289a949182d0110cb
     }
 
     public void iniciar() {
@@ -44,19 +40,15 @@ public class ControladorPrinciplaMaestros {
         visPrincipalMaaestros.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         visPrincipalMaaestros.setExtendedState(JFrame.MAXIMIZED_BOTH);
         visPrincipalMaaestros.setVisible(true);
-<<<<<<< HEAD
         
         llenarComboSeccion(); 
-=======
 
->>>>>>> 57594b350bf720ac7a17dbe289a949182d0110cb
     }
     
     public void llenarComboSeccion(){
         AñoSeccionDao dao = new AñoSeccionDao();
 List<SeccionGradoDto> lista = dao.listarSeccionGrado();
 
-<<<<<<< HEAD
 for (SeccionGradoDto obj : lista) {
     visPrincipalMaaestros.comboSeccion.addItem(obj.getSeccion().getSeccion());
     visPrincipalMaaestros.comboGrado.addItem(obj.getGrado().getGrado());
@@ -66,10 +58,9 @@ for (SeccionGradoDto obj : lista) {
     
     
     
-=======
     private void eventos() {
 
-        visPrincipalMaaestros.btnAgrgarDemerito.addActionListener(e -> {
+        visPrincipalMaaestros.btnAgregarDemerito.addActionListener(e -> {
 
             VistaAgregarDemerito vista = new VistaAgregarDemerito();
             new ControladorAgregarDemerito(vista);
@@ -80,7 +71,7 @@ for (SeccionGradoDto obj : lista) {
             new ControladorAgregarMerito(vista);
         });
 
-        visPrincipalMaaestros.btnVerEstados.addActionListener(e -> {
+        visPrincipalMaaestros.btnVerEstado.addActionListener(e -> {
 
             VistaVerEstado vista = new VistaVerEstado();
             new ControladorVerEstado(vista);
@@ -103,6 +94,4 @@ for (SeccionGradoDto obj : lista) {
 
     }
 
-
->>>>>>> 57594b350bf720ac7a17dbe289a949182d0110cb
 }
