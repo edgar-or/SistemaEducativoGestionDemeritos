@@ -163,13 +163,13 @@
                   <EmptySpace pref="328" max="32767" attributes="0"/>
               </Group>
               <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" pref="71" max="-2" attributes="0"/>
-                  <Component id="btnAgregarMerito" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
+                  <Component id="btnAgregarMerito" min="-2" pref="128" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="59" max="-2" attributes="0"/>
                   <Component id="btnAgrgarDemerito" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="57" max="32767" attributes="0"/>
+                  <EmptySpace min="-2" pref="55" max="-2" attributes="0"/>
                   <Component id="btnVerEstados" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="75" max="-2" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
                   <Component id="btnCerrarsesion" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
               </Group>
@@ -206,10 +206,10 @@
                   <Component id="jScrollPane2" pref="306" max="32767" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="btnAgregarMerito" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="btnCerrarsesion" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="btnVerEstados" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="btnAgrgarDemerito" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnAgregarMerito" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
               </Group>
@@ -339,7 +339,7 @@
         </Container>
         <Component class="javax.swing.JButton" name="btnAgrgarDemerito">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Agrgar Demerito "/>
+            <Property name="text" type="java.lang.String" value="Agregar Demerito "/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAgrgarDemeritoActionPerformed"/>

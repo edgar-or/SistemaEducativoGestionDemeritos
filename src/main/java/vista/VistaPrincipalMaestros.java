@@ -139,7 +139,7 @@ public class VistaPrincipalMaestros extends javax.swing.JFrame {
         ));
         jScrollPane2.setViewportView(tablaAlumnos);
 
-        btnAgrgarDemerito.setText("Agrgar Demerito ");
+        btnAgrgarDemerito.setText("Agregar Demerito ");
         btnAgrgarDemerito.addActionListener(this::btnAgrgarDemeritoActionPerformed);
 
         btnVerEstados.setText("Ver Estado");
@@ -182,13 +182,13 @@ public class VistaPrincipalMaestros extends javax.swing.JFrame {
                         .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(328, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(71, 71, 71)
-                .addComponent(btnAgregarMerito)
+                .addGap(43, 43, 43)
+                .addComponent(btnAgregarMerito, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(59, 59, 59)
                 .addComponent(btnAgrgarDemerito)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
+                .addGap(55, 55, 55)
                 .addComponent(btnVerEstados)
-                .addGap(75, 75, 75)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnCerrarsesion)
                 .addGap(24, 24, 24))
         );
@@ -218,10 +218,10 @@ public class VistaPrincipalMaestros extends javax.swing.JFrame {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 306, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAgregarMerito)
                     .addComponent(btnCerrarsesion)
                     .addComponent(btnVerEstados)
-                    .addComponent(btnAgrgarDemerito))
+                    .addComponent(btnAgrgarDemerito)
+                    .addComponent(btnAgregarMerito))
                 .addGap(41, 41, 41))
         );
 
