@@ -4,14 +4,12 @@
  */
 package vista;
 
-import javax.swing.JFrame;
-
 /**
  *
  * @author estud
  */
 public class VistaPrincipalMaestros extends javax.swing.JFrame {
-
+    
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VistaPrincipalMaestros.class.getName());
 
     /**
@@ -19,8 +17,6 @@ public class VistaPrincipalMaestros extends javax.swing.JFrame {
      */
     public VistaPrincipalMaestros() {
         initComponents();
-       // setExtendedState(JFrame.MAXIMIZED_BOTH);
-    setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
     }
 
     /**
@@ -32,26 +28,44 @@ public class VistaPrincipalMaestros extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        DesttopPaneAgrgarDemeritos = new javax.swing.JDesktopPane();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        txtBuscarNie = new javax.swing.JTextField();
-        btnAgregarDemerito = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        comboSeccion = new javax.swing.JComboBox<>();
+        comboGrado = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
         txtBuscarNombres = new javax.swing.JTextField();
-        txtBuscarNie2 = new javax.swing.JTextField();
-        brnBuscar = new javax.swing.JButton();
+        txtBuscarNie = new javax.swing.JTextField();
         txtBuscarApellido = new javax.swing.JTextField();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        tablaAlumnos = new javax.swing.JTable();
-        btnAgrgarDemerito = new javax.swing.JButton();
-        btnVerEstados = new javax.swing.JButton();
-        btnCerrarsesion = new javax.swing.JButton();
+        brnBuscar = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        btnAgregarDemerito = new javax.swing.JButton();
+        btnVerEstado = new javax.swing.JButton();
         btnAgregarMerito = new javax.swing.JButton();
+        btnCerrarsesion = new javax.swing.JButton();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+
+        jLabel2.setText("SECCION");
+
+        comboGrado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " " }));
+
+        jLabel1.setText("AÑO ");
+
+        txtBuscarNombres.setBorder(javax.swing.BorderFactory.createTitledBorder("NOMBRE"));
+        txtBuscarNombres.addActionListener(this::txtBuscarNombresActionPerformed);
+
+        txtBuscarNie.setBorder(javax.swing.BorderFactory.createTitledBorder("NIE"));
+        txtBuscarNie.addActionListener(this::txtBuscarNieActionPerformed);
+
+        txtBuscarApellido.setBorder(javax.swing.BorderFactory.createTitledBorder("APELLIDO"));
+        txtBuscarApellido.addActionListener(this::txtBuscarApellidoActionPerformed);
+
+        brnBuscar.setText("Buscar");
+        brnBuscar.addActionListener(this::brnBuscarActionPerformed);
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -66,163 +80,98 @@ public class VistaPrincipalMaestros extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(jTable1);
 
-        txtBuscarNie.setBorder(javax.swing.BorderFactory.createTitledBorder("NIE"));
-        txtBuscarNie.addActionListener(this::txtBuscarNieActionPerformed);
+        btnAgregarDemerito.setText("Agregar Demerito");
+        btnAgregarDemerito.addActionListener(this::btnAgregarDemeritoActionPerformed);
 
-        btnAgregarDemerito.setText("Agrgar Demerito");
-
-        DesttopPaneAgrgarDemeritos.setLayer(jScrollPane1, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        DesttopPaneAgrgarDemeritos.setLayer(txtBuscarNie, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        DesttopPaneAgrgarDemeritos.setLayer(btnAgregarDemerito, javax.swing.JLayeredPane.DEFAULT_LAYER);
-
-        javax.swing.GroupLayout DesttopPaneAgrgarDemeritosLayout = new javax.swing.GroupLayout(DesttopPaneAgrgarDemeritos);
-        DesttopPaneAgrgarDemeritos.setLayout(DesttopPaneAgrgarDemeritosLayout);
-        DesttopPaneAgrgarDemeritosLayout.setHorizontalGroup(
-            DesttopPaneAgrgarDemeritosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(DesttopPaneAgrgarDemeritosLayout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addComponent(txtBuscarNie, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(DesttopPaneAgrgarDemeritosLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 625, Short.MAX_VALUE)
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, DesttopPaneAgrgarDemeritosLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnAgregarDemerito, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(145, 145, 145))
-        );
-        DesttopPaneAgrgarDemeritosLayout.setVerticalGroup(
-            DesttopPaneAgrgarDemeritosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, DesttopPaneAgrgarDemeritosLayout.createSequentialGroup()
-                .addContainerGap(33, Short.MAX_VALUE)
-                .addComponent(txtBuscarNie, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(34, 34, 34)
-                .addComponent(btnAgregarDemerito)
-                .addGap(34, 34, 34))
-        );
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jLabel2.setText("SECCION");
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jLabel1.setText("AÑO ");
-
-        txtBuscarNombres.setBorder(javax.swing.BorderFactory.createTitledBorder("NOMBRE"));
-        txtBuscarNombres.addActionListener(this::txtBuscarNombresActionPerformed);
-
-        txtBuscarNie2.setBorder(javax.swing.BorderFactory.createTitledBorder("NIE"));
-        txtBuscarNie2.addActionListener(this::txtBuscarNie2ActionPerformed);
-
-        brnBuscar.setText("Buscar");
-        brnBuscar.addActionListener(this::brnBuscarActionPerformed);
-
-        txtBuscarApellido.setBorder(javax.swing.BorderFactory.createTitledBorder("APELLIDO"));
-        txtBuscarApellido.addActionListener(this::txtBuscarApellidoActionPerformed);
-
-        tablaAlumnos.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "NIE", "Nombre Completo", "Descripcion de Merito", "Observaciones"
-            }
-        ));
-        jScrollPane2.setViewportView(tablaAlumnos);
-
-        btnAgrgarDemerito.setText("Agregar Demerito ");
-        btnAgrgarDemerito.addActionListener(this::btnAgrgarDemeritoActionPerformed);
-
-        btnVerEstados.setText("Ver Estado");
-
-        btnCerrarsesion.setText("Cerrar Sesion");
+        btnVerEstado.setText("Ver Estado");
+        btnVerEstado.addActionListener(this::btnVerEstadoActionPerformed);
 
         btnAgregarMerito.setText("Agregar Merito");
+        btnAgregarMerito.addActionListener(this::btnAgregarMeritoActionPerformed);
+
+        btnCerrarsesion.setText("Cerrar Sesion");
+        btnCerrarsesion.addActionListener(this::btnCerrarsesionActionPerformed);
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(49, 49, 49)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(comboGrado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel1)))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(txtBuscarNie, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(30, 30, 30)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(comboSeccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txtBuscarNombres, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(77, 77, 77)))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(brnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtBuscarApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addContainerGap())
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addComponent(btnAgregarMerito)
+                .addGap(26, 26, 26)
+                .addComponent(btnAgregarDemerito)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnVerEstado)
+                .addGap(18, 18, 18)
+                .addComponent(btnCerrarsesion)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(29, 29, 29)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(comboGrado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(comboSeccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(brnBuscar))
+                .addGap(26, 26, 26)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtBuscarNombres, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtBuscarNie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtBuscarApellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(33, 33, 33)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAgregarMerito)
+                    .addComponent(btnAgregarDemerito)
+                    .addComponent(btnVerEstado)
+                    .addComponent(btnCerrarsesion))
+                .addContainerGap(38, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(41, 41, 41)
-                .addComponent(txtBuscarNie2, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(88, 88, 88)
-                .addComponent(txtBuscarNombres, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(txtBuscarApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(44, 44, 44))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(brnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(82, 82, 82))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane2)
-                .addContainerGap())
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(97, 97, 97)
-                        .addComponent(jLabel1)
-                        .addGap(207, 207, 207)
-                        .addComponent(jLabel2))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(76, 76, 76)
-                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(168, 168, 168)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(328, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(43, 43, 43)
-                .addComponent(btnAgregarMerito, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(59, 59, 59)
-                .addComponent(btnAgrgarDemerito)
-                .addGap(55, 55, 55)
-                .addComponent(btnVerEstados)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnCerrarsesion)
-                .addGap(24, 24, 24))
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(jLabel2)
-                        .addGap(12, 12, 12))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtBuscarApellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtBuscarNombres, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtBuscarNie2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(brnBuscar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 306, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnCerrarsesion)
-                    .addComponent(btnVerEstados)
-                    .addComponent(btnAgrgarDemerito)
-                    .addComponent(btnAgregarMerito))
-                .addGap(41, 41, 41))
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -239,29 +188,37 @@ public class VistaPrincipalMaestros extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtBuscarNieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscarNieActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtBuscarNieActionPerformed
-
     private void txtBuscarNombresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscarNombresActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtBuscarNombresActionPerformed
 
-    private void txtBuscarNie2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscarNie2ActionPerformed
+    private void txtBuscarNieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscarNieActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtBuscarNie2ActionPerformed
-
-    private void brnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_brnBuscarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_brnBuscarActionPerformed
+    }//GEN-LAST:event_txtBuscarNieActionPerformed
 
     private void txtBuscarApellidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscarApellidoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtBuscarApellidoActionPerformed
 
-    private void btnAgrgarDemeritoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgrgarDemeritoActionPerformed
+    private void brnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_brnBuscarActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnAgrgarDemeritoActionPerformed
+    }//GEN-LAST:event_brnBuscarActionPerformed
+
+    private void btnAgregarDemeritoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarDemeritoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnAgregarDemeritoActionPerformed
+
+    private void btnVerEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerEstadoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnVerEstadoActionPerformed
+
+    private void btnAgregarMeritoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarMeritoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnAgregarMeritoActionPerformed
+
+    private void btnCerrarsesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarsesionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCerrarsesionActionPerformed
 
     /**
      * @param args the command line arguments
@@ -289,25 +246,21 @@ public class VistaPrincipalMaestros extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    public javax.swing.JDesktopPane DesttopPaneAgrgarDemeritos;
     public javax.swing.JButton brnBuscar;
     public javax.swing.JButton btnAgregarDemerito;
     public javax.swing.JButton btnAgregarMerito;
-    public javax.swing.JButton btnAgrgarDemerito;
     public javax.swing.JButton btnCerrarsesion;
-    public javax.swing.JButton btnVerEstados;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
+    public javax.swing.JButton btnVerEstado;
+    public javax.swing.JComboBox<String> comboGrado;
+    public javax.swing.JComboBox<String> comboSeccion;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
-    public javax.swing.JTable tablaAlumnos;
     public javax.swing.JTextField txtBuscarApellido;
     public javax.swing.JTextField txtBuscarNie;
-    public javax.swing.JTextField txtBuscarNie2;
     public javax.swing.JTextField txtBuscarNombres;
     // End of variables declaration//GEN-END:variables
 }

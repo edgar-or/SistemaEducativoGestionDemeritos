@@ -18,6 +18,10 @@ public class ModeloGrado {
         this.grado = grado;
     }
 
+    public ModeloGrado() {
+    }
+    
+
     public int getIdGrado() {
         return idGrado;
     }

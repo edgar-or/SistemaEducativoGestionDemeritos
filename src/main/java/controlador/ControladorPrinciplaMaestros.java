@@ -4,6 +4,9 @@
  */
 package controlador;
 
+import DAO.AñoSeccionDao;
+import dto.SeccionGradoDto;
+import java.util.List;
 import javax.swing.JFrame;
 import modelo.Login;
 import vista.VistaAgregarDemerito;
@@ -25,6 +28,7 @@ public class ControladorPrinciplaMaestros {
     public ControladorPrinciplaMaestros(VistaPrincipalMaestros visPrincipalMaaestros) {
 
         this.visPrincipalMaaestros = visPrincipalMaaestros;
+        
 
 
         eventos();
@@ -36,12 +40,27 @@ public class ControladorPrinciplaMaestros {
         visPrincipalMaaestros.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         visPrincipalMaaestros.setExtendedState(JFrame.MAXIMIZED_BOTH);
         visPrincipalMaaestros.setVisible(true);
+        
+        llenarComboSeccion(); 
 
     }
+    
+    public void llenarComboSeccion(){
+        AñoSeccionDao dao = new AñoSeccionDao();
+List<SeccionGradoDto> lista = dao.listarSeccionGrado();
 
+for (SeccionGradoDto obj : lista) {
+    visPrincipalMaaestros.comboSeccion.addItem(obj.getSeccion().getSeccion());
+    visPrincipalMaaestros.comboGrado.addItem(obj.getGrado().getGrado());
+}
+    }
+    
+    
+    
+    
     private void eventos() {
 
-        visPrincipalMaaestros.btnAgrgarDemerito.addActionListener(e -> {
+        visPrincipalMaaestros.btnAgregarDemerito.addActionListener(e -> {
 
             VistaAgregarDemerito vista = new VistaAgregarDemerito();
             new ControladorAgregarDemerito(vista);
@@ -52,7 +71,7 @@ public class ControladorPrinciplaMaestros {
             new ControladorAgregarMerito(vista);
         });
 
-        visPrincipalMaaestros.btnVerEstados.addActionListener(e -> {
+        visPrincipalMaaestros.btnVerEstado.addActionListener(e -> {
 
             VistaVerEstado vista = new VistaVerEstado();
             new ControladorVerEstado(vista);
@@ -74,6 +93,5 @@ public class ControladorPrinciplaMaestros {
         });
 
     }
-
 
 }

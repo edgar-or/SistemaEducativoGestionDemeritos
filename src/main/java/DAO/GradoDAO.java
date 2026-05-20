@@ -10,15 +10,35 @@ import modelo.ModeloGrado;
 import DAO.conexion.Conexion;
 
 public class GradoDAO {
+    
+   public String obtenerCodigoCE() throws SQLException {
 
-    public void insertarGrado(String nombreGrado) throws SQLException {
-        String sql = "INSERT INTO grado (grado) VALUES (?)";
-        try (Connection con = Conexion.getConexion();
-             PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setString(1, nombreGrado);
-            ps.executeUpdate();
+    String sql = "SELECT codigo_CE FROM centro_escolar";
+
+    try (Connection con = Conexion.getConexion();
+         PreparedStatement ps = con.prepareStatement(sql);
+         ResultSet rs = ps.executeQuery()) {
+
+        if (rs.next()) {
+            return rs.getString("codigo_CE");
         }
     }
+
+    return null;
+}
+   public void insertarGrado(String nombreGrado) throws SQLException {
+
+    String sql = "INSERT INTO grado(grado, cod_CE) VALUES (?, ?)";
+
+    try (Connection con = Conexion.getConexion();
+         PreparedStatement ps = con.prepareStatement(sql)) {
+
+        ps.setString(1, nombreGrado);
+        ps.setString(2, obtenerCodigoCE());
+
+        ps.executeUpdate();
+    }
+}
 
     public List<ModeloGrado> listarGrados() throws SQLException {
         List<ModeloGrado> lista = new ArrayList<>();

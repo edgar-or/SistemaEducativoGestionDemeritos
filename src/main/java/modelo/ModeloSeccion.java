@@ -11,27 +11,30 @@ package modelo;
 public class ModeloSeccion {
 
     private int idSeccion;
-    private String grado;
+    private String seccion;
 
-    public ModeloSeccion(int idSeccion, String grado) {
+    public ModeloSeccion(int idSeccion, String seccion) {
         this.idSeccion = idSeccion;
-        this.grado = grado;
+        this.seccion = seccion;
+    }
+
+    public ModeloSeccion() {
     }
 
     public int getIdSeccion() {
         return idSeccion;
     }
 
-    public String getGrado() {
-        return grado;
+    public String getSeccion() {
+        return seccion;
     }
 
     public void setIdSeccion(int idSeccion) {
         this.idSeccion = idSeccion;
     }
 
-    public void setGrado(String grado) {
-        this.grado = grado;
+    public void setSeccion(String grado) {
+        this.seccion = seccion;
     }
 
 }

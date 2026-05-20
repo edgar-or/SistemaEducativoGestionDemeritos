@@ -57,7 +57,7 @@ public class ControladorGrado {
 
     private void cargarComboGrados() {
         verGrado.comboGrados.removeAllItems();
-        for (String g : new String[]{"1°","2°","3°","4°","5°","6°","7°","8°","9°","1° Bachillerato","2° Bachillerato"})
+        for (String g : new String[]{"Primero","Segundo","Tercero","Cuarto","Quinto","Sexto","Septimo","Octavo","Noveno","1° Bachillerato","2° Bachillerato"})
             verGrado.comboGrados.addItem(g);
     }
 
