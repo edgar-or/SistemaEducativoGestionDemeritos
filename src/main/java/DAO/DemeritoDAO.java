@@ -22,10 +22,10 @@ public class DemeritoDAO {
 
     public static List<ModeloConducta> obtenerTiposConducta() {
         List<ModeloConducta> lista = new ArrayList<>();
-        String sql = "SELECT id_tipo_conducta, tipo, descripcion, puntos FROM tipo_conducta";
-
-        try (Connection con = Conexion.getConexion(); 
-                 PreparedStatement ps = con.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+        //String sql = "SELECT id_tipo_conducta, tipo, descripcion, puntos FROM tipo_conducta where puntos < 0";
+        String sql = "SELECT id_tipo_conducta, tipo, descripcion, puntos FROM tipo_conducta WHERE tipo = 'demerito'";
+        
+        try (Connection con = Conexion.getConexion(); PreparedStatement ps = con.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
                 ModeloConducta conducta = new ModeloConducta(
