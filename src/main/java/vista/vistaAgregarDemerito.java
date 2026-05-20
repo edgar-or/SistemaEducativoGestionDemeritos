@@ -8,7 +8,7 @@ package vista;
  *
  * @author javie
  */
-public class VistaAgregarDemerito extends javax.swing.JInternalFrame {
+public class VistaAgregarDemerito extends javax.swing.JFrame{
 
     /**
      * Creates new form vistaAgregarDemerito

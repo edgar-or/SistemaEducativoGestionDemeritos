@@ -19,6 +19,10 @@ public class Login {
         } else if (usuario.equals("admin") && password.equals("12345")) {
             return "ADMIN";
 
+        }else if(usuario.equals("maestro") && password.endsWith("1234")){
+        }else if(usuario.equals("admin2") && password.endsWith("1234")){
+        return "USER";
+
         } else if (usuario.equals("admin2") && password.endsWith("1234")) {
             return "USER";
         }

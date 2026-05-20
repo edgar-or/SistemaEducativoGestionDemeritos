@@ -61,22 +61,54 @@ public class ControladorLogin {
          if (res!= null) {
              
              if (cargo.getCargo().equalsIgnoreCase("Director")) {
+                 loginVista.dispose();
                  VistaPrincipalDirector vista = new VistaPrincipalDirector(); 
                  ControladorPrincipal ctrlDirec = new ControladorPrincipal(vista); 
                  ctrlDirec.iniciar();
              }else if(cargo.getCargo().equalsIgnoreCase("Docente")){
                  
                  VistaPrincipalMaestros visMaestros = new VistaPrincipalMaestros(); 
-                 ControladorPrinciplaMaestros ctrlnMaestros = new ControladorPrinciplaMaestros(visMaestros); 
+                 ControladorPrinciplaMaestros ctrlnMaestros = new ControladorPrinciplaMaestros(vistaPrincipalMaestros); 
                  ctrlnMaestros.iniciar();
                  
              }
          }
 
+<<<<<<< HEAD
 
        
 
         
+=======
+        String tipo = loginModelo.validarCredenciales();
+        if (tipo.equals("ADMIN")) {
+
+            vista = new VistaPrincipalDirector();
+
+            controladorPrincipal = new ControladorPrincipal(vista);
+            controladorPrincipal.iniciar();
+
+            // Registrar listener DESPUÉS de crear la vista
+            vista.btnCerrarSesion.addActionListener(e -> cerrarSesion());
+
+            cerrar();
+        } else if (tipo.equals("USER")) {
+            VistaPrincipalMaestros visMaestros = new VistaPrincipalMaestros();
+            ControladorPrinciplaMaestros controladorMaestros = new ControladorPrinciplaMaestros(visMaestros);
+            controladorMaestros.iniciar();
+
+            visMaestros.btnCerrarsesion.addActionListener(e -> {
+                visMaestros.dispose();
+                iniciar();
+
+            });
+            cerrar();
+
+        } else {
+            mostrarError("Usuario o contraseña incorrectos");
+        }
+
+>>>>>>> 57594b350bf720ac7a17dbe289a949182d0110cb
     }
 
     private void mostrarError(String mensaje) {
