@@ -9,6 +9,7 @@ package modelo;
  * @author renec
  */
 public class ModeloSeccion {
+
     private int idSeccion;
     private String seccion;
 
@@ -35,6 +36,5 @@ public class ModeloSeccion {
     public void setSeccion(String grado) {
         this.seccion = seccion;
     }
-    
-    
+
 }

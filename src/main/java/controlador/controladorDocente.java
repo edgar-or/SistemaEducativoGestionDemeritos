@@ -13,6 +13,7 @@ import vista.VistaPrincipalDirector;
  * @author estud
  */
 public class ControladorDocente {
+
     private VerDocente vistaDocente;
     private VistaPrincipalDirector vistaPrincipal;
 
@@ -21,13 +22,12 @@ public class ControladorDocente {
         this.vistaPrincipal = vistaPrincipal;
         eventos();
     }
+
     private void eventos() {
         vistaPrincipal.menuDocente.addActionListener(e -> mostrarVista());
         vistaDocente.btnCerrar.addActionListener(e -> vistaDocente.dispose());
     }
 
-    
-    
     public void mostrarVista() {
 
         vistaDocente.setVisible(true);

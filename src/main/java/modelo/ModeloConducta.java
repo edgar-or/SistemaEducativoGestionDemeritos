@@ -9,11 +9,11 @@ package modelo;
  * @author renec
  */
 public class ModeloConducta {
-    
-private String tipo;
-private String descripcion;
-private int idTipoConducta;
-private int puntos;
+
+    private String tipo;
+    private String descripcion;
+    private int idTipoConducta;
+    private int puntos;
 
     public ModeloConducta(String tipo, String descripcion, int idTipoConducta, int puntos) {
         this.tipo = tipo;
@@ -53,5 +53,5 @@ private int puntos;
     public void setPuntos(int puntos) {
         this.puntos = puntos;
     }
-    
+
 }

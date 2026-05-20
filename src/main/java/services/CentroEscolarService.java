@@ -12,11 +12,11 @@ import modelo.ModeloCentroEscolar;
  * @author ayala
  */
 public class CentroEscolarService {
-    
+
     private CentroEscolarDAO daoCE = new CentroEscolarDAO();
 
     public void insertarCE(ModeloCentroEscolar c) throws Exception {
         daoCE.insertarCentroEscolar(c);
     }
-    
+
 }

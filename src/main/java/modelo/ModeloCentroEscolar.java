@@ -10,7 +10,7 @@ package modelo;
  */
 public class ModeloCentroEscolar {
 
-    private String codigoCE; 
+    private String codigoCE;
     private String nombreCentroEscolar;
     private String numeroTel;
     private String departamento;
@@ -23,7 +23,6 @@ public class ModeloCentroEscolar {
     public ModeloCentroEscolar() {
     }
 
-    
     public ModeloCentroEscolar(String codigoCE, String nombreCentroEscolar, String numeroTel, String departamento, String municipio, String caserio, String calle, String distrito, String correoElectronico) {
         this.codigoCE = codigoCE;
         this.nombreCentroEscolar = nombreCentroEscolar;
@@ -107,9 +106,5 @@ public class ModeloCentroEscolar {
     public void setCorreoElectronico(String correoElectronico) {
         this.correoElectronico = correoElectronico;
     }
-    
-    
-
- 
 
 }

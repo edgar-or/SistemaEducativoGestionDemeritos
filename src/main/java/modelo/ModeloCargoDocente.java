@@ -9,6 +9,7 @@ package modelo;
  * @author renec
  */
 public class ModeloCargoDocente {
+
     private int idCargo;
     private String cargo;
 
@@ -37,7 +38,5 @@ public class ModeloCargoDocente {
     public void setCargo(String cargo) {
         this.cargo = cargo;
     }
-    
-    
-    
+
 }

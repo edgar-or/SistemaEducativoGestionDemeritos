@@ -9,6 +9,7 @@ package modelo;
  * @author renec
  */
 public class ModeloEncardoAlumno {
+
     private String nombre;
     private String apelllido;
     private int dui;
@@ -20,7 +21,7 @@ public class ModeloEncardoAlumno {
     private String distrito;
 
     public ModeloEncardoAlumno(String nombre, String apelllido,
-            int dui, int telefono, String departamento, String municipio, 
+            int dui, int telefono, String departamento, String municipio,
             String caserio, String calle, String distrito) {
         this.nombre = nombre;
         this.apelllido = apelllido;
@@ -31,7 +32,7 @@ public class ModeloEncardoAlumno {
         this.caserio = caserio;
         this.calle = calle;
         this.distrito = distrito;
-  
+
     }
 
     public String getNombre() {
@@ -105,6 +106,5 @@ public class ModeloEncardoAlumno {
     public void setDistrito(String distrito) {
         this.distrito = distrito;
     }
-    
-    
+
 }

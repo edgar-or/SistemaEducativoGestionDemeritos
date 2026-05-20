@@ -23,7 +23,7 @@ public class ModeloDocente {
 
     public ModeloDocente(String nombre, String apellido, int idDocente,
             int telefonoDocente, String correo, String departamento,
-                String municipio, String caserio, String calle, String distrito) {
+            String municipio, String caserio, String calle, String distrito) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.idDocente = idDocente;
@@ -115,6 +115,5 @@ public class ModeloDocente {
     public void setDistrito(String distrito) {
         this.distrito = distrito;
     }
-    
 
 }

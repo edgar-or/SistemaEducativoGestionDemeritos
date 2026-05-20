@@ -172,7 +172,6 @@ public class VistaAgregarDemerito extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnCerrarActionPerformed
 
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JComboBox<String> ComboDescripcion;
     private javax.swing.JButton btnAgregar;

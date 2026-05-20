@@ -9,7 +9,7 @@ package modelo;
  * @author renec
  */
 public class ModeloGrado {
-    
+
     private int idGrado;
     private String grado;
 
@@ -37,7 +37,5 @@ public class ModeloGrado {
     public void setGrado(String grado) {
         this.grado = grado;
     }
-    
-    
-    
+
 }

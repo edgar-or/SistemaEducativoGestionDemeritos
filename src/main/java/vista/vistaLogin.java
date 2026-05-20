@@ -9,7 +9,7 @@ package vista;
  * @author javie
  */
 public class VistaLogin extends javax.swing.JFrame {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VistaLogin.class.getName());
 
     /**
@@ -142,8 +142,6 @@ public class VistaLogin extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel aaaa;
     private javax.swing.JLabel aaaaa;
