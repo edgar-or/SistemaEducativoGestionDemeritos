@@ -16,6 +16,8 @@ public class ControladorGrado {
     private GradoDAO dao = new GradoDAO();
     private int idGradoSeleccionado = -1;
 
+    private ControladorAgregarSeccion controlAgregarSeccion;
+
     public ControladorGrado(VistaPrincipalDirector vistaPrincipal) {
         this.verGrado = new VerGrado();
         this.vistaPrincipal = vistaPrincipal;
@@ -29,6 +31,8 @@ public class ControladorGrado {
         verGrado.btnModificar.addActionListener(e -> modificarGrado());
         verGrado.btnEliminar.addActionListener(e -> eliminarGrado());
 
+        verGrado.btnAgregarSeccion.addActionListener(e -> mostrarVistaAgregarSeccion());
+
         verGrado.tablaGrados.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
                 int fila = verGrado.tablaGrados.getSelectedRow();
@@ -40,13 +44,35 @@ public class ControladorGrado {
         });
     }
 
+    public int obtenerIdGradoDeTabla() {
+
+        int fila = verGrado.tablaGrados.getSelectedRow();
+
+        if (fila >= 0) {
+            return (int) verGrado.tablaGrados.getValueAt(fila, 0);
+        }
+
+        return -1;
+    }
+
+    public void mostrarVistaAgregarSeccion() {
+
+        if (obtenerIdGradoDeTabla() != -1) {
+            controlAgregarSeccion = new ControladorAgregarSeccion(this);
+            controlAgregarSeccion.iniciar();
+        }else{
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un grado de la tabla");
+        }
+
+    }
+
     public void mostrarVista() {
         verGrado.setVisible(true);
         Dimension desktopSize = vistaPrincipal.escritorio.getSize();
         Dimension internal = verGrado.getSize();
         verGrado.setLocation(
-            (desktopSize.width - internal.width) / 2,
-            (desktopSize.height - internal.height) / 2
+                (desktopSize.width - internal.width) / 2,
+                (desktopSize.height - internal.height) / 2
         );
         vistaPrincipal.escritorio.remove(verGrado);
         vistaPrincipal.escritorio.add(verGrado);
@@ -57,18 +83,23 @@ public class ControladorGrado {
 
     private void cargarComboGrados() {
         verGrado.comboGrados.removeAllItems();
-        for (String g : new String[]{"Primero","Segundo","Tercero","Cuarto","Quinto","Sexto","Septimo","Octavo","Noveno","1° Bachillerato","2° Bachillerato"})
+        for (String g : new String[]{"Primero", "Segundo", "Tercero", "Cuarto", "Quinto", "Sexto", "Septimo", "Octavo", "Noveno", "1° Bachillerato", "2° Bachillerato"}) {
             verGrado.comboGrados.addItem(g);
+        }
     }
 
     private void cargarTabla() {
         DefaultTableModel modelo = new DefaultTableModel(new String[]{"ID", "Grado"}, 0) {
-            @Override public boolean isCellEditable(int r, int c) { return false; }
+            @Override
+            public boolean isCellEditable(int r, int c) {
+                return false;
+            }
         };
         try {
             List<ModeloGrado> lista = dao.listarGrados();
-            for (ModeloGrado g : lista)
+            for (ModeloGrado g : lista) {
                 modelo.addRow(new Object[]{g.getIdGrado(), g.getGrado()});
+            }
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(verGrado, "Error al cargar: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
