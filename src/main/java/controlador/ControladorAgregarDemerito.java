@@ -14,23 +14,23 @@ import vista.VistaPrincipalMaestros;
  */
 public class ControladorAgregarDemerito {
     
-    private VistaAgregarDemerito visAgrgarDemerito;
+    private VistaAgregarDemerito visAgregarDemerito;
 
-    public ControladorAgregarDemerito(VistaAgregarDemerito visAgrgarDemeritos) {
-        this.visAgrgarDemerito = visAgrgarDemeritos;
+    public ControladorAgregarDemerito(VistaAgregarDemerito visAgregarDemeritos) {
+        this.visAgregarDemerito = visAgregarDemeritos;
         iniciarVista();
         onEvento();
 
     }
 
     private void iniciarVista() {
-      visAgrgarDemerito.setLocationRelativeTo(null);
-      visAgrgarDemerito.setVisible(true);
+      visAgregarDemerito.setLocationRelativeTo(null);
+      visAgregarDemerito.setVisible(true);
     }
 
     private void onEvento() {
-        visAgrgarDemerito.btnCerrar.addActionListener(e->{
-        visAgrgarDemerito.dispose();
+        visAgregarDemerito.btnCerrar.addActionListener(e->{
+        visAgregarDemerito.dispose();
         });
     }
 

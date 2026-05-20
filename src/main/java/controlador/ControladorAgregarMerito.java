@@ -11,13 +11,14 @@ import vista.VistaAgregarMerito;
  * @author renec
  */
 public class ControladorAgregarMerito {
+
     private VistaAgregarMerito visAgregarMerito;
 
     public ControladorAgregarMerito(VistaAgregarMerito visAgregarMerito) {
         this.visAgregarMerito = visAgregarMerito;
         iniciarVista();
-        onEvento();
-       
+        //onEvento();
+
     }
 
     private void iniciarVista() {
@@ -26,16 +27,10 @@ public class ControladorAgregarMerito {
     }
 
     private void onEvento() {
-        visAgregarMerito.btnCerrar.addActionListener(e->{
-        visAgregarMerito.dispose();
-        
+        visAgregarMerito.btnCerrar.addActionListener(e -> {
+            visAgregarMerito.dispose();
+
         });
     }
 
-    
-    
-
-    
-    
-    
 }

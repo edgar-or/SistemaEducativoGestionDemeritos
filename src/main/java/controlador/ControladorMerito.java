@@ -26,7 +26,6 @@ public class ControladorMerito {
     public ControladorMerito(VistaPrincipalMaestros vistaPrincipalMaestros) {
         this.vistaPrincipalMaestros = vistaPrincipalMaestros;
         this.vistaMerito = new VistaAgregarMerito();
-        onEventosMaestros();
     }
 
     private void onEventosDirector() {
@@ -39,16 +38,7 @@ public class ControladorMerito {
         vistaMerito.btnAgregar.addActionListener(e -> agregarMerito());
     }
 
-    private void onEventosMaestros() {
-        // Limpiar listener previo de NetBeans
-        for (java.awt.event.ActionListener al : vistaPrincipalMaestros.btnAgregarMerito.getActionListeners()) {
-            vistaPrincipalMaestros.btnAgregarMerito.removeActionListener(al);
-        }
-        // VistaPrincipalMaestros no tiene JDesktopPane, se muestra en JDialog
-        vistaPrincipalMaestros.btnAgregarMerito.addActionListener(e -> mostrarVistaComoDialogo());
-        vistaMerito.btnCerrar.addActionListener(e -> cerrarDialogo());
-        vistaMerito.btnAgregar.addActionListener(e -> agregarMerito());
-    }
+  
 
     // ─── Para Director: muestra el JInternalFrame dentro del JDesktopPane ───
     private void mostrarVistaEnDesktop(JDesktopPane escritorio) {
