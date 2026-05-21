@@ -4,6 +4,9 @@
  */
 package controlador;
 
+import DAO.DemeritoDAO;
+import java.util.List;
+import modelo.ModeloConducta;
 import vista.VistaAgregarMerito;
 
 /**
@@ -17,8 +20,8 @@ public class ControladorAgregarMerito {
     public ControladorAgregarMerito(VistaAgregarMerito visAgregarMerito) {
         this.visAgregarMerito = visAgregarMerito;
         iniciarVista();
-        //onEvento();
-
+        onEvento();
+        llenarCombo();
     }
 
     private void iniciarVista() {
@@ -31,6 +34,24 @@ public class ControladorAgregarMerito {
             visAgregarMerito.dispose();
 
         });
+        visAgregarMerito.ComboDescripcion.addActionListener(e -> {
+            ModeloConducta seleccionado = (ModeloConducta) visAgregarMerito.ComboDescripcion.getSelectedItem();
+            if (seleccionado != null) {
+                int id = seleccionado.getIdTipoConducta();
+                System.out.println("ID seleccionado: " + id);
+            }
+        });
+         
     }
+    
 
+
+    private void llenarCombo() {
+
+        List<ModeloConducta> listaConductas = DemeritoDAO.obtenerTiposConducta();
+
+        for (ModeloConducta con : listaConductas) {
+            visAgregarMerito.ComboDescripcion.addItem(con);
+        }
+    }
 }

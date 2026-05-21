@@ -8,24 +8,21 @@ import DAO.conexion.Conexion;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JOptionPane;
 import modelo.ModeloConducta;
 
 /**
  *
- * @author estud
+ * @author renec
  */
-public class DemeritoDAO {
-
-    public static List<ModeloConducta> obtenerTiposConducta() {
+public class MeritoDAO {
+     public static List<ModeloConducta> obtenerTiposConducta() {
         List<ModeloConducta> lista = new ArrayList<>();
-        //String sql = "SELECT id_tipo_conducta, tipo, descripcion, puntos FROM tipo_conducta where puntos < 0";
-        String sql = "SELECT id_tipo_conducta, tipo, descripcion, puntos FROM tipo_conducta WHERE tipo = 'demerito'";
-        
-        try (Connection con = Conexion.getConexion(); PreparedStatement ps = con.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+        String sql = "SELECT id_tipo_conducta, tipo, descripcion, puntos FROM tipo_conducta WHERE tipo= 'merito';";
+
+        try (Connection con = Conexion.getConexion(); 
+                 PreparedStatement ps = con.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
                 ModeloConducta conducta = new ModeloConducta(

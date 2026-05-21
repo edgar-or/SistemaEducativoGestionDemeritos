@@ -27,7 +27,7 @@ public class ControladorDocente {
         vistaPrincipal.menuDocente.addActionListener(e -> mostrarVista());
         vistaDocente.btnCerrar.addActionListener(e -> vistaDocente.dispose());
         vistaDocente.btnagregarDocente.addActionListener(e -> agregarDocente());
-        vistaDocente.btnModificar.addActionListener(e -> modificarDocente());
+//        vistaDocente.btnModificar.addActionListener(e -> modificarDocente());
         vistaDocente.btnEliminar.addActionListener(e -> eliminarDocente());
         vistaDocente.btnBuscar.addActionListener(e -> buscar());
 
@@ -97,7 +97,7 @@ public class ControladorDocente {
         if (JOptionPane.showConfirmDialog(vistaDocente, campos, "Agregar Docente", JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
             try {
                 ModeloDocente d = new ModeloDocente(fNombre.getText().trim(), fApellido.getText().trim(),
-                    0, Integer.parseInt(fTelefono.getText().trim()), fCorreo.getText().trim(),
+                    "", Integer.parseInt(fTelefono.getText().trim()), fCorreo.getText().trim(),
                     fDepartamento.getText().trim(), fMunicipio.getText().trim(),
                     fCaserio.getText().trim(), fCalle.getText().trim(), fDistrito.getText().trim());
                 dao.insertarDocente(d);
@@ -111,40 +111,40 @@ public class ControladorDocente {
         }
     }
 
-    private void modificarDocente() {
-        if (idDocenteSeleccionado < 0) {
-            JOptionPane.showMessageDialog(vistaDocente, "Seleccione un docente de la tabla.", "Aviso", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-        int fila = vistaDocente.tablaDocentes.getSelectedRow();
-        JTextField fNombre = new JTextField((String) vistaDocente.tablaDocentes.getValueAt(fila, 1));
-        JTextField fApellido = new JTextField((String) vistaDocente.tablaDocentes.getValueAt(fila, 2));
-        JTextField fTelefono = new JTextField(String.valueOf(vistaDocente.tablaDocentes.getValueAt(fila, 3)));
-        JTextField fCorreo = new JTextField((String) vistaDocente.tablaDocentes.getValueAt(fila, 4));
-        JTextField fDepartamento = new JTextField((String) vistaDocente.tablaDocentes.getValueAt(fila, 5));
-        JTextField fMunicipio = new JTextField(), fCaserio = new JTextField(),
-            fCalle = new JTextField(), fDistrito = new JTextField();
-
-        Object[] campos = {"Nombre:", fNombre, "Apellido:", fApellido,
-            "Teléfono:", fTelefono, "Correo:", fCorreo, "Departamento:", fDepartamento,
-            "Municipio:", fMunicipio, "Caserío:", fCaserio, "Calle:", fCalle, "Distrito:", fDistrito};
-
-        if (JOptionPane.showConfirmDialog(vistaDocente, campos, "Modificar Docente", JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
-            try {
-                ModeloDocente d = new ModeloDocente(fNombre.getText().trim(), fApellido.getText().trim(),
-                    idDocenteSeleccionado, Integer.parseInt(fTelefono.getText().trim()),
-                    fCorreo.getText().trim(), fDepartamento.getText().trim(),
-                    fMunicipio.getText().trim(), fCaserio.getText().trim(),
-                    fCalle.getText().trim(), fDistrito.getText().trim());
-                dao.modificarDocente(d);
-                JOptionPane.showMessageDialog(vistaDocente, "Docente modificado.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                idDocenteSeleccionado = -1;
-                cargarTabla(null);
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(vistaDocente, "Error al modificar: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        }
-    }
+//    private void modificarDocente() {
+//        if (idDocenteSeleccionado < 0) {
+//            JOptionPane.showMessageDialog(vistaDocente, "Seleccione un docente de la tabla.", "Aviso", JOptionPane.WARNING_MESSAGE);
+//            return;
+//        }
+//        int fila = vistaDocente.tablaDocentes.getSelectedRow();
+//        JTextField fNombre = new JTextField((String) vistaDocente.tablaDocentes.getValueAt(fila, 1));
+//        JTextField fApellido = new JTextField((String) vistaDocente.tablaDocentes.getValueAt(fila, 2));
+//        JTextField fTelefono = new JTextField(String.valueOf(vistaDocente.tablaDocentes.getValueAt(fila, 3)));
+//        JTextField fCorreo = new JTextField((String) vistaDocente.tablaDocentes.getValueAt(fila, 4));
+//        JTextField fDepartamento = new JTextField((String) vistaDocente.tablaDocentes.getValueAt(fila, 5));
+//        JTextField fMunicipio = new JTextField(), fCaserio = new JTextField(),
+//            fCalle = new JTextField(), fDistrito = new JTextField();
+//
+//        Object[] campos = {"Nombre:", fNombre, "Apellido:", fApellido,
+//            "Teléfono:", fTelefono, "Correo:", fCorreo, "Departamento:", fDepartamento,
+//            "Municipio:", fMunicipio, "Caserío:", fCaserio, "Calle:", fCalle, "Distrito:", fDistrito};
+//
+//        if (JOptionPane.showConfirmDialog(vistaDocente, campos, "Modificar Docente", JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
+//            try {
+//                ModeloDocente d = new ModeloDocente(fNombre.getText().trim(), fApellido.getText().trim(),
+//                    idDocenteSeleccionado, Integer.parseInt(fTelefono.getText().trim()),
+//                    fCorreo.getText().trim(), fDepartamento.getText().trim(),
+//                    fMunicipio.getText().trim(), fCaserio.getText().trim(),
+//                    fCalle.getText().trim(), fDistrito.getText().trim());
+//                dao.modificarDocente(d);
+//                JOptionPane.showMessageDialog(vistaDocente, "Docente modificado.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+//                idDocenteSeleccionado = -1;
+//                cargarTabla(null);
+//            } catch (Exception ex) {
+//                JOptionPane.showMessageDialog(vistaDocente, "Error al modificar: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+//            }
+//        }
+//    }
 
     private void eliminarDocente() {
         if (idDocenteSeleccionado < 0) {
