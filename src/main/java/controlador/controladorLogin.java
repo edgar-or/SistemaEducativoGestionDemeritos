@@ -1,6 +1,9 @@
 package controlador;
 
+
 import DAO.UsuarioDao;
+import controlador.ControladorPrincipal;
+import controlador.ControladorPrinciplaMaestros;
 import dto.LoginResultadoDto;
 import javax.swing.JOptionPane;
 import modelo.Login;
@@ -73,39 +76,10 @@ public class ControladorLogin {
              }
          }
 
-<<<<<<< HEAD
-        String tipo = loginModelo.validarCredenciales();
-        if (tipo.equals("ADMIN")) {
 
-            vista = new VistaPrincipalDirector();
-
-            controladorPrincipal = new ControladorPrincipal(vista);
-            controladorPrincipal.iniciar();
-
-            // Registrar listener DESPUÉS de crear la vista
-            vista.btnCerrarSesion.addActionListener(e -> cerrarSesion());
-
-            cerrar();
-        } else if (tipo.equals("USER")) {
-            VistaPrincipalMaestros visMaestros = new VistaPrincipalMaestros();
-            ControladorPrinciplaMaestros controladorMaestros = new ControladorPrinciplaMaestros(visMaestros);
-            controladorMaestros.iniciar();
-
-            visMaestros.btnCerrarsesion.addActionListener(e -> {
-                visMaestros.dispose();
-                iniciar();
-
-            });
-            cerrar();
-
-        } else {
-            mostrarError("Usuario o contraseña incorrectos");
-        }
-=======
        
 
         
->>>>>>> 1e73b612836ac47ba382f5cb677cfe525a2ec1dd
     }
 
     private void mostrarError(String mensaje) {
