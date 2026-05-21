@@ -4,11 +4,13 @@
  */
 package vista;
 
+import modelo.ModeloConducta;
+
 /**
  *
  * @author javie
  */
-public class VistaAgregarMerito extends javax.swing.JInternalFrame {
+public class VistaAgregarMerito extends javax.swing.JFrame {
 
     /**
      * Creates new form vistaAgregarMerito
@@ -61,8 +63,6 @@ public class VistaAgregarMerito extends javax.swing.JInternalFrame {
             }
         });
 
-        ComboDescripcion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         btnCerrar.setText("Cerrar");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -85,7 +85,7 @@ public class VistaAgregarMerito extends javax.swing.JInternalFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(btnAgregar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 157, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 163, Short.MAX_VALUE)
                                 .addComponent(btnCerrar))
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addComponent(txtNombreCompleto)
@@ -133,8 +133,7 @@ public class VistaAgregarMerito extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -151,7 +150,7 @@ public class VistaAgregarMerito extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    public javax.swing.JComboBox<String> ComboDescripcion;
+    public javax.swing.JComboBox<ModeloConducta> ComboDescripcion;
     public javax.swing.JButton btnAgregar;
     public javax.swing.JButton btnCerrar;
     private javax.swing.JLabel jLabel1;

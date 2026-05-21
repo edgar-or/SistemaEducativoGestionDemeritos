@@ -54,4 +54,8 @@ public class ModeloConducta {
         this.puntos = puntos;
     }
 
+    @Override
+    public String toString() {
+        return this.descripcion;
+    }
 }

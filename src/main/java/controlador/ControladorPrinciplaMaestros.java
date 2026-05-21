@@ -4,6 +4,7 @@
  */
 package controlador;
 
+<<<<<<< HEAD
 import DAO.AlumnoDAO;
 import DAO.gradoProfesorDAO;
 import DAO.seccionProfesorDAO;
@@ -14,7 +15,19 @@ import javax.swing.table.DefaultTableModel;
 import modelo.ModeloAlumno;
 import modelo.ModeloGrado;
 import modelo.ModeloSeccion;
+=======
+import DAO.AñoSeccionDao;
+import dto.SeccionGradoDto;
+import java.util.List;
+import javax.swing.JFrame;
+import modelo.Login;
+import vista.VistaAgregarDemerito;
+import vista.VistaAgregarMerito;
+import vista.VistaLogin;
+>>>>>>> 0d18ed142cb5075dba1ccf9fd7fe192f8993b176
 import vista.VistaPrincipalMaestros;
+import vista.VistaPrincipalMaestros;
+import vista.VistaVerEstado;
 
 /**
  *
@@ -23,15 +36,75 @@ import vista.VistaPrincipalMaestros;
 /*public class ControladorPrinciplaMaestros {
 
     private VistaPrincipalMaestros visPrincipalMaaestros;
+    private ControladorMerito controladorMerito;
 
     public ControladorPrinciplaMaestros(VistaPrincipalMaestros visPrincipalMaaestros) {
+
         this.visPrincipalMaaestros = visPrincipalMaaestros;
+        
+
+
+        eventos();
+        this.controladorMerito = new ControladorMerito(visPrincipalMaaestros);
     }
 
     public void iniciar() {
+
         visPrincipalMaaestros.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         visPrincipalMaaestros.setExtendedState(JFrame.MAXIMIZED_BOTH);
         visPrincipalMaaestros.setVisible(true);
+        
+        llenarComboSeccion(); 
+
+    }
+    
+    public void llenarComboSeccion(){
+        AñoSeccionDao dao = new AñoSeccionDao();
+List<SeccionGradoDto> lista = dao.listarSeccionGrado();
+
+for (SeccionGradoDto obj : lista) {
+    visPrincipalMaaestros.comboSeccion.addItem(obj.getSeccion().getSeccion());
+    visPrincipalMaaestros.comboGrado.addItem(obj.getGrado().getGrado());
+}
+    }
+    
+    
+    
+    
+    private void eventos() {
+
+        visPrincipalMaaestros.btnAgregarDemerito.addActionListener(e -> {
+
+            VistaAgregarDemerito vista = new VistaAgregarDemerito();
+            new ControladorAgregarDemerito(vista);
+        });
+        visPrincipalMaaestros.btnAgregarMerito.addActionListener(e -> {
+
+            VistaAgregarMerito vista = new VistaAgregarMerito();
+            new ControladorAgregarMerito(vista);
+        });
+
+        visPrincipalMaaestros.btnVerEstado.addActionListener(e -> {
+
+            VistaVerEstado vista = new VistaVerEstado();
+            new ControladorVerEstado(vista);
+
+        });
+        visPrincipalMaaestros.btnCerrarsesion.addActionListener(e -> {
+            // crear vista y modelo
+            VistaLogin login = new VistaLogin();
+            Login modelo = new Login();
+
+            // crear controlador correctamente
+            new ControladorLogin(login, modelo);
+
+            login.setLocationRelativeTo(null);
+            login.setVisible(true);
+
+            // cerrar la ventana actual
+            visPrincipalMaaestros.dispose();
+        });
+
     }
 
 }*/

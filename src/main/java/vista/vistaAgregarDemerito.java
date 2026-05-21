@@ -4,11 +4,13 @@
  */
 package vista;
 
+import modelo.ModeloConducta;
+
 /**
  *
  * @author javie
  */
-public class VistaAgregarDemerito extends javax.swing.JInternalFrame {
+public class VistaAgregarDemerito extends javax.swing.JFrame{
 
     /**
      * Creates new form vistaAgregarDemerito
@@ -59,7 +61,6 @@ public class VistaAgregarDemerito extends javax.swing.JInternalFrame {
             }
         });
 
-        ComboDescripcion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         ComboDescripcion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ComboDescripcionActionPerformed(evt);
@@ -173,7 +174,7 @@ public class VistaAgregarDemerito extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnCerrarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    public javax.swing.JComboBox<String> ComboDescripcion;
+    public javax.swing.JComboBox<ModeloConducta> ComboDescripcion;
     private javax.swing.JButton btnAgregar;
     public javax.swing.JButton btnCerrar;
     private javax.swing.JComboBox<String> jComboBox1;

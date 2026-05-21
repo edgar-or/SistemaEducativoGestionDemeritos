@@ -64,22 +64,26 @@ public class ControladorLogin {
          if (res!= null) {
              
              if (cargo.getCargo().equalsIgnoreCase("Director")) {
+                 loginVista.dispose();
                  VistaPrincipalDirector vista = new VistaPrincipalDirector(); 
                  ControladorPrincipal ctrlDirec = new ControladorPrincipal(vista); 
                  ctrlDirec.iniciar();
              }else if(cargo.getCargo().equalsIgnoreCase("Docente")){
                  
                  VistaPrincipalMaestros visMaestros = new VistaPrincipalMaestros(); 
-                 ControladorPrinciplaMaestros ctrlnMaestros = new ControladorPrinciplaMaestros(visMaestros); 
+                 ControladorPrinciplaMaestros ctrlnMaestros = new ControladorPrinciplaMaestros(vistaPrincipalMaestros); 
                  ctrlnMaestros.iniciar();
                  
              }
          }
 
 
+<<<<<<< HEAD
        
 
         
+=======
+>>>>>>> 0d18ed142cb5075dba1ccf9fd7fe192f8993b176
     }
 
     private void mostrarError(String mensaje) {

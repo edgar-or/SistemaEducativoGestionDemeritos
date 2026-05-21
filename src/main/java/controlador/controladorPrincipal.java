@@ -5,6 +5,8 @@
 package controlador;
 
 import javax.swing.JFrame;
+import modelo.Login;
+import vista.VistaLogin;
 import vista.VistaPrincipalDirector;
 
 /**
@@ -29,11 +31,29 @@ public class ControladorPrincipal {
         this.controlGrado = new ControladorGrado(vista);
         this.controlDemerito = new ControladorDemerito(vista);
         this.conrolMerito = new ControladorMerito(vista);
+        onEvento();
     }
 
     public void iniciar() {
         vista.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         vista.setExtendedState(JFrame.MAXIMIZED_BOTH);
         vista.setVisible(true);
+    }
+
+    private void onEvento() {
+        vista.btnCerrarSesion.addActionListener(e -> {
+// crear vista y modelo
+            VistaLogin login = new VistaLogin();
+            Login modelo = new Login();
+
+            // crear controlador correctamente
+            new ControladorLogin(login, modelo);
+
+            login.setLocationRelativeTo(null);
+            login.setVisible(true);
+
+            // cerrar la ventana actual
+            vista.dispose();
+        });
     }
 }

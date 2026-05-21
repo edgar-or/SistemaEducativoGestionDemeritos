@@ -103,8 +103,13 @@ public class VistaPrincipalMaestros extends javax.swing.JFrame {
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(49, 49, 49)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+<<<<<<< HEAD
                                     .addComponent(comboGrado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel1)))
+=======
+                                    .addComponent(jLabel1)
+                                    .addComponent(comboGrado, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)))
+>>>>>>> 0d18ed142cb5075dba1ccf9fd7fe192f8993b176
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(18, 18, 18)
                                 .addComponent(txtBuscarNie, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -253,8 +258,13 @@ public class VistaPrincipalMaestros extends javax.swing.JFrame {
     public javax.swing.JButton btnVerEstado;
     public javax.swing.JComboBox<String> comboGrado;
     public javax.swing.JComboBox<String> comboSeccion;
+<<<<<<< HEAD
     public javax.swing.JLabel jLabel1;
     public javax.swing.JLabel jLabel2;
+=======
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+>>>>>>> 0d18ed142cb5075dba1ccf9fd7fe192f8993b176
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
