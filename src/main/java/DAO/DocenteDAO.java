@@ -8,11 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 import modelo.ModeloDocente;
 import DAO.conexion.Conexion;
+import java.util.HashSet;
 
 public class DocenteDAO {
 
     public void insertarDocente(ModeloDocente d) throws SQLException {
-        String sql = "INSERT INTO docente (nombre, apellido, telefono_docente, correo, departamento, municipio, caserio, calle, distrito) "
+        String sql = "INSERT INTO personal_docente (nombre, apellido, telefono_docente, correo, departamento, municipio, caserio, calle, distrito) "
                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -31,29 +32,44 @@ public class DocenteDAO {
 
     public List<ModeloDocente> listarDocentes() throws SQLException {
         List<ModeloDocente> lista = new ArrayList<>();
-        String sql = "SELECT id_docente, nombre, apellido, telefono_docente, correo, departamento, municipio, caserio, calle, distrito FROM docente";
+        ModeloDocente docente = new ModeloDocente(); 
+
+        String sql = "SELECT dui_personal, primer_nombre, primer_apellido, departamento, municipio, caserio, calle, distrito FROM personal_docente";
         try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
             while (rs.next())
-                lista.add(new ModeloDocente(rs.getString("nombre"), rs.getString("apellido"),
-                    rs.getInt("id_docente"), rs.getInt("telefono_docente"), rs.getString("correo"),
-                    rs.getString("departamento"), rs.getString("municipio"),
-                    rs.getString("caserio"), rs.getString("calle"), rs.getString("distrito")));
+                
+                docente.setIdDocente(rs.getString("dui_personal"));
+                docente.setNombre(rs.getString("primer_nombre"));
+                docente.setApellido(rs.getString("priemr_apellido"));
+                docente.setDepartamento(rs.getString("departamento"));
+                docente.setTelefonoDocente(23);
+                docente.setCorreo("asdsa@gmail.com");
+                
+                docente.setMunicipio(rs.getString("municipio"));
+            
+                docente.setCaserio(rs.getString("caserio"));
+                docente.setCalle(rs.getString("calle"));
+                docente.setDistrito(rs.getString("distrito"));
+                
+            
+                
+           lista.add(docente); 
         }
         return lista;
     }
 
     public List<ModeloDocente> buscarPorId(int idDocente) throws SQLException {
         List<ModeloDocente> lista = new ArrayList<>();
-        String sql = "SELECT id_docente, nombre, apellido, telefono_docente, correo, departamento, municipio, caserio, calle, distrito FROM docente WHERE id_docente = ?";
+        String sql = "SELECT dui_personal, nombre, apellido, telefono_docente, correo, departamento, municipio, caserio, calle, distrito FROM personal_docente WHERE id_docente = ?";
         try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, idDocente);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next())
                     lista.add(new ModeloDocente(rs.getString("nombre"), rs.getString("apellido"),
-                        rs.getInt("id_docente"), rs.getInt("telefono_docente"), rs.getString("correo"),
+                        rs.getString("id_docente"), rs.getInt("telefono_docente"), rs.getString("correo"),
                         rs.getString("departamento"), rs.getString("municipio"),
                         rs.getString("caserio"), rs.getString("calle"), rs.getString("distrito")));
             }
@@ -63,7 +79,7 @@ public class DocenteDAO {
 
     public List<ModeloDocente> buscarPorNombre(String nombre) throws SQLException {
         List<ModeloDocente> lista = new ArrayList<>();
-        String sql = "SELECT id_docente, nombre, apellido, telefono_docente, correo, departamento, municipio, caserio, calle, distrito FROM docente WHERE nombre LIKE ? OR apellido LIKE ?";
+        String sql = "SELECT id_docente, nombre, apellido, departamento, municipio, caserio, calle, distrito FROM personal_docente WHERE nombre LIKE ? OR apellido LIKE ?";
         try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setString(1, "%" + nombre + "%");
@@ -71,7 +87,7 @@ public class DocenteDAO {
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next())
                     lista.add(new ModeloDocente(rs.getString("nombre"), rs.getString("apellido"),
-                        rs.getInt("id_docente"), rs.getInt("telefono_docente"), rs.getString("correo"),
+                        rs.getString("id_docente"), rs.getInt("telefono_docente"), rs.getString("correo"),
                         rs.getString("departamento"), rs.getString("municipio"),
                         rs.getString("caserio"), rs.getString("calle"), rs.getString("distrito")));
             }
@@ -80,7 +96,7 @@ public class DocenteDAO {
     }
 
     public void modificarDocente(ModeloDocente d) throws SQLException {
-        String sql = "UPDATE docente SET nombre=?, apellido=?, telefono_docente=?, correo=?, departamento=?, municipio=?, caserio=?, calle=?, distrito=? WHERE id_docente=?";
+        String sql = "UPDATE personal_docente SET nombre=?, apellido=?, telefono_docente=?, correo=?, departamento=?, municipio=?, caserio=?, calle=?, distrito=? WHERE id_docente=?";
         try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setString(1, d.getNombre());
@@ -92,13 +108,13 @@ public class DocenteDAO {
             ps.setString(7, d.getCaserio());
             ps.setString(8, d.getCalle());
             ps.setString(9, d.getDistrito());
-            ps.setInt(10, d.getIdDocente());
+            ps.setString(10, d.getIdDocente());
             ps.executeUpdate();
         }
     }
 
     public void eliminarDocente(int idDocente) throws SQLException {
-        String sql = "DELETE FROM docente WHERE id_docente = ?";
+        String sql = "DELETE FROM personal_docente WHERE id_docente = ?";
         try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, idDocente);
