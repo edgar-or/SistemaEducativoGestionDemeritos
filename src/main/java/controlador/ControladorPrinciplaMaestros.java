@@ -4,11 +4,14 @@
  */
 package controlador;
 
+import DAO.AlumnoDAO;
 import DAO.AñoSeccionDao;
 import dto.SeccionGradoDto;
 import java.util.List;
 import javax.swing.JFrame;
+import javax.swing.table.DefaultTableModel;
 import modelo.Login;
+import modelo.ModeloAlumno;
 import vista.VistaAgregarDemerito;
 import vista.VistaAgregarMerito;
 import vista.VistaLogin;
@@ -28,8 +31,6 @@ public class ControladorPrinciplaMaestros {
     public ControladorPrinciplaMaestros(VistaPrincipalMaestros visPrincipalMaaestros) {
 
         this.visPrincipalMaaestros = visPrincipalMaaestros;
-        
-
 
         eventos();
         this.controladorMerito = new ControladorMerito(visPrincipalMaaestros);
@@ -40,24 +41,22 @@ public class ControladorPrinciplaMaestros {
         visPrincipalMaaestros.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         visPrincipalMaaestros.setExtendedState(JFrame.MAXIMIZED_BOTH);
         visPrincipalMaaestros.setVisible(true);
-        
-        llenarComboSeccion(); 
+
+        llenarComboSeccion();
+        cargarTabla();
 
     }
-    
-    public void llenarComboSeccion(){
+
+    public void llenarComboSeccion() {
         AñoSeccionDao dao = new AñoSeccionDao();
-List<SeccionGradoDto> lista = dao.listarSeccionGrado();
+        List<SeccionGradoDto> lista = dao.listarSeccionGrado();
 
-for (SeccionGradoDto obj : lista) {
-    visPrincipalMaaestros.comboSeccion.addItem(obj.getSeccion().getSeccion());
-    visPrincipalMaaestros.comboGrado.addItem(obj.getGrado().getGrado());
-}
+        for (SeccionGradoDto obj : lista) {
+            visPrincipalMaaestros.comboSeccion.addItem(obj.getSeccion().getSeccion());
+            visPrincipalMaaestros.comboGrado.addItem(obj.getGrado().getGrado());
+        }
     }
-    
-    
-    
-    
+
     private void eventos() {
 
         visPrincipalMaaestros.btnAgregarDemerito.addActionListener(e -> {
@@ -87,11 +86,43 @@ for (SeccionGradoDto obj : lista) {
 
             login.setLocationRelativeTo(null);
             login.setVisible(true);
+            
 
             // cerrar la ventana actual
             visPrincipalMaaestros.dispose();
         });
 
+    }
+
+    private void cargarTabla() {
+
+        try {
+            AlumnoDAO dao = new AlumnoDAO();
+            List<ModeloAlumno> lista = dao.listarEstudiantes();
+
+            DefaultTableModel modelo = new DefaultTableModel();
+
+            // columnas
+            modelo.addColumn("NIE");
+            modelo.addColumn("Nombre");
+            modelo.addColumn("Apellido");
+            modelo.addColumn("Puntos Totales");
+
+            // filas
+            for (ModeloAlumno e : lista) {
+                modelo.addRow(new Object[]{
+                    e.getNie(),
+                    e.getNombre(),
+                    e.getApelliddos(),
+                    e.getTotalPuntos()
+                });
+            }
+
+            visPrincipalMaaestros.tablaEstudiantes.setModel(modelo);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

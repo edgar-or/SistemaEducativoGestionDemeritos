@@ -39,7 +39,7 @@ public class VistaPrincipalMaestros extends javax.swing.JFrame {
         txtBuscarApellido = new javax.swing.JTextField();
         brnBuscar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tablaEstudiantes = new javax.swing.JTable();
         btnAgregarDemerito = new javax.swing.JButton();
         btnVerEstado = new javax.swing.JButton();
         btnAgregarMerito = new javax.swing.JButton();
@@ -67,7 +67,7 @@ public class VistaPrincipalMaestros extends javax.swing.JFrame {
         brnBuscar.setText("Buscar");
         brnBuscar.addActionListener(this::brnBuscarActionPerformed);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tablaEstudiantes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -78,7 +78,7 @@ public class VistaPrincipalMaestros extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tablaEstudiantes);
 
         btnAgregarDemerito.setText("Agregar Demerito");
         btnAgregarDemerito.addActionListener(this::btnAgregarDemeritoActionPerformed);
@@ -258,7 +258,7 @@ public class VistaPrincipalMaestros extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    public javax.swing.JTable tablaEstudiantes;
     public javax.swing.JTextField txtBuscarApellido;
     public javax.swing.JTextField txtBuscarNie;
     public javax.swing.JTextField txtBuscarNombres;
