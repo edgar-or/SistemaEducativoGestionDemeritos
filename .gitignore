@@ -1,2 +1,3 @@
 /target/
-\src\main\java\DAO\conexion
+src/main/java/vista/
+src/main/java/DAO/conexion/
