@@ -5,6 +5,7 @@ import DAO.UsuarioDao;
 import controlador.ControladorPrincipal;
 import controlador.ControladorPrinciplaMaestros;
 import dto.LoginResultadoDto;
+import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import modelo.Login;
 import modelo.ModeloCargoDocente;
@@ -36,11 +37,17 @@ public class ControladorLogin {
         //Para boton Enter
         this.loginVista.getRootPane().setDefaultButton(this.loginVista.btnLogin);
 
-        this.loginVista.btnLogin.addActionListener(e -> login());
+        this.loginVista.btnLogin.addActionListener(e -> {
+            try {
+                login();
+            } catch (SQLException ex) {
+                System.getLogger(ControladorLogin.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+            }
+        });
 
     }
 
-    private void login() {
+    private void login() throws SQLException {
 
         String usuario = loginVista.txtUsuario.getText();
         String password = new String(loginVista.txtContraseña.getText());
@@ -77,13 +84,6 @@ public class ControladorLogin {
              }
          }
 
-
-<<<<<<< HEAD
-       
-
-        
-=======
->>>>>>> 0d18ed142cb5075dba1ccf9fd7fe192f8993b176
     }
 
     private void mostrarError(String mensaje) {

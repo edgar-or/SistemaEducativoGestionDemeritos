@@ -67,13 +67,8 @@
                                   <Group type="102" attributes="0">
                                       <EmptySpace min="-2" pref="49" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
-<<<<<<< HEAD
-                                          <Component id="comboGrado" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
-=======
                                           <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                                           <Component id="comboGrado" min="-2" pref="97" max="-2" attributes="0"/>
->>>>>>> 0d18ed142cb5075dba1ccf9fd7fe192f8993b176
                                       </Group>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
@@ -157,10 +152,6 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="SECCION"/>
               </Properties>
-<<<<<<< HEAD
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
-              </AuxValues>
             </Component>
             <Component class="javax.swing.JComboBox" name="comboSeccion">
               <Properties>
@@ -176,23 +167,6 @@
             <Component class="javax.swing.JComboBox" name="comboGrado">
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-=======
-            </Component>
-            <Component class="javax.swing.JComboBox" name="comboSeccion">
-              <Properties>
-                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="0"/>
-                </Property>
-              </Properties>
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-                <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
-              </AuxValues>
-            </Component>
-            <Component class="javax.swing.JComboBox" name="comboGrado">
-              <Properties>
-                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
->>>>>>> 0d18ed142cb5075dba1ccf9fd7fe192f8993b176
                   <StringArray count="1">
                     <StringItem index="0" value=" "/>
                   </StringArray>
@@ -207,9 +181,6 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="A&#xd1;O "/>
               </Properties>
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
-              </AuxValues>
             </Component>
             <Component class="javax.swing.JTextField" name="txtBuscarNombres">
               <Properties>
@@ -274,7 +245,7 @@
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
               <SubComponents>
-                <Component class="javax.swing.JTable" name="jTable1">
+                <Component class="javax.swing.JTable" name="tablaEstudiantes">
                   <Properties>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                       <Table columnCount="4" rowCount="4">

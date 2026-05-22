@@ -39,7 +39,7 @@ public class VistaPrincipalMaestros extends javax.swing.JFrame {
         txtBuscarApellido = new javax.swing.JTextField();
         brnBuscar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tablaEstudiantes = new javax.swing.JTable();
         btnAgregarDemerito = new javax.swing.JButton();
         btnVerEstado = new javax.swing.JButton();
         btnAgregarMerito = new javax.swing.JButton();
@@ -67,7 +67,7 @@ public class VistaPrincipalMaestros extends javax.swing.JFrame {
         brnBuscar.setText("Buscar");
         brnBuscar.addActionListener(this::brnBuscarActionPerformed);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tablaEstudiantes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -78,7 +78,7 @@ public class VistaPrincipalMaestros extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tablaEstudiantes);
 
         btnAgregarDemerito.setText("Agregar Demerito");
         btnAgregarDemerito.addActionListener(this::btnAgregarDemeritoActionPerformed);
@@ -103,13 +103,8 @@ public class VistaPrincipalMaestros extends javax.swing.JFrame {
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(49, 49, 49)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-<<<<<<< HEAD
-                                    .addComponent(comboGrado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel1)))
-=======
                                     .addComponent(jLabel1)
                                     .addComponent(comboGrado, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)))
->>>>>>> 0d18ed142cb5075dba1ccf9fd7fe192f8993b176
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(18, 18, 18)
                                 .addComponent(txtBuscarNie, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -258,23 +253,14 @@ public class VistaPrincipalMaestros extends javax.swing.JFrame {
     public javax.swing.JButton btnVerEstado;
     public javax.swing.JComboBox<String> comboGrado;
     public javax.swing.JComboBox<String> comboSeccion;
-<<<<<<< HEAD
-    public javax.swing.JLabel jLabel1;
-    public javax.swing.JLabel jLabel2;
-=======
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
->>>>>>> 0d18ed142cb5075dba1ccf9fd7fe192f8993b176
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    public javax.swing.JTable jTable1;
+    public javax.swing.JTable tablaEstudiantes;
     public javax.swing.JTextField txtBuscarApellido;
     public javax.swing.JTextField txtBuscarNie;
     public javax.swing.JTextField txtBuscarNombres;
     // End of variables declaration//GEN-END:variables
-
-    public Object getTabla() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
 }

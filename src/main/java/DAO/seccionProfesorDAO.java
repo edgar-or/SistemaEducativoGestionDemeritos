@@ -21,7 +21,7 @@ public class seccionProfesorDAO {
  
     public List<ModeloSeccion> obtenerSeccionesPorGrado(int idGrado) {
         List<ModeloSeccion> lista = new ArrayList<>();
-        String sql = "SELECT id_seccion, seccion FROM secciones WHERE id_grado = ?";
+        String sql = "SELECT id_seccion, seccion FROM seccion WHERE id_grado = ?";
  
         try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -30,7 +30,7 @@ public class seccionProfesorDAO {
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     int    idSeccion = rs.getInt("id_seccion");
-                    String seccion   = rs.getString("seccion");
+                    String seccion   = rs.getString("seccion"); 
                     lista.add(new ModeloSeccion(idSeccion, seccion));
                 }
             }
@@ -41,3 +41,4 @@ public class seccionProfesorDAO {
         return lista;
     }
 }
+ 
