@@ -18,7 +18,7 @@ import modelo.ModeloSeccion;
  *
  * @author ayala
  */
-public class AñoSeccionDao {
+public class AnioSeccionDao {
     
     public List<SeccionGradoDto> listarSeccionGrado() {
         List<SeccionGradoDto> lista = new ArrayList<>();
@@ -33,22 +33,22 @@ public class AñoSeccionDao {
                         ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                SeccionGradoDto dto = new SeccionGradoDto();
-                
-                ModeloGrado grado = new ModeloGrado(); 
+                int idSeccion = rs.getInt("id_seccion");
+                String seccionNombre = rs.getString("seccion");
 
-                ModeloSeccion seccion = new ModeloSeccion();
-                seccion.setIdSeccion(rs.getInt("id_seccion"));
-                seccion.setSeccion(rs.getString("seccion"));
+                ModeloSeccion seccion = new ModeloSeccion(idSeccion, seccionNombre);
+
+                ModeloGrado grado = new ModeloGrado();
                 grado.setIdGrado(rs.getInt("id_grado"));
                 grado.setGrado(rs.getString("grado"));
-                
+
+                SeccionGradoDto dto = new SeccionGradoDto();
                 dto.setGrado(grado);
                 dto.setSeccion(seccion);
 
                 lista.add(dto);
             }
-
+            
         } catch (Exception e) {
             e.printStackTrace();
         }

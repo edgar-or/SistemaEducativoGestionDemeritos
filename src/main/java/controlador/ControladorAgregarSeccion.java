@@ -55,7 +55,7 @@ public class ControladorAgregarSeccion {
 
         int idGrado = controladorGrado.obtenerIdGradoDeTabla();
 
-        ModeloSeccion seccion = new ModeloSeccion();
+        ModeloSeccion seccion = new ModeloSeccion(idGrado, seccionSelect);
         ModeloGrado grado = new ModeloGrado();
 
         grado.setIdGrado(idGrado);
