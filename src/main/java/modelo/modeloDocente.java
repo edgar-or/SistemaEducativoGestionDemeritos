@@ -12,7 +12,7 @@ public class ModeloDocente {
 
     private String nombre;
     private String apellido;
-    private int idDocente;
+    private String idDocente;
     private int telefonoDocente;
     private String correo;
     private String departamento;
@@ -21,7 +21,7 @@ public class ModeloDocente {
     private String calle;
     private String distrito;
 
-    public ModeloDocente(String nombre, String apellido, int idDocente,
+    public ModeloDocente(String nombre, String apellido, String idDocente,
             int telefonoDocente, String correo, String departamento,
             String municipio, String caserio, String calle, String distrito) {
         this.nombre = nombre;
@@ -36,6 +36,11 @@ public class ModeloDocente {
         this.distrito = distrito;
     }
 
+    public ModeloDocente() {
+    }
+    
+    
+
     public String getNombre() {
         return nombre;
     }
@@ -44,7 +49,7 @@ public class ModeloDocente {
         return apellido;
     }
 
-    public int getIdDocente() {
+    public String getIdDocente() {
         return idDocente;
     }
 
@@ -84,7 +89,7 @@ public class ModeloDocente {
         this.apellido = apellido;
     }
 
-    public void setIdDocente(int idDocente) {
+    public void setIdDocente(String idDocente) {
         this.idDocente = idDocente;
     }
 
