@@ -110,14 +110,14 @@ public class ControladorPrinciplaMaestros {
  
     private VistaPrincipalMaestros vista;
     private GradoDAO gradoDAO = new GradoDAO();
-    private seccionProfesorDAO seccionProfesorDAO = new seccionProfesorDAO(); 
+    private seccionProfesorDAO seccionProfesorDAO = new seccionProfesorDAO();
     private AlumnoDAO alumnoDAO = new AlumnoDAO();
  
     public ControladorPrinciplaMaestros(VistaPrincipalMaestros vista) {
         this.vista = vista;
     }
  
-    public void iniciar() throws SQLException {
+    public void iniciar() {
         vista.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         vista.setExtendedState(JFrame.MAXIMIZED_BOTH);
         vista.comboSeccion.setEnabled(false);
@@ -126,29 +126,31 @@ public class ControladorPrinciplaMaestros {
         vista.setVisible(true);
     }
  
-    private void cargarGrados() throws SQLException {
+    private void cargarGrados() {
         vista.comboGrado.removeAllItems();
         vista.comboGrado.addItem("-- Seleccione grado --");
  
-        List<ModeloGrado> grados = gradoDAO.listarGrados();
-        for (ModeloGrado g : grados) {
-            vista.comboGrado.addItem(g.getGrado());
+        try {
+            List<ModeloGrado> grados = gradoDAO.listarGrados();
+            for (ModeloGrado g : grados) {
+                vista.comboGrado.addItem(g.getGrado());
+            }
+            vista.comboGrado.putClientProperty("listaGrados", grados);
+        } catch (Exception e) {
+            System.out.println("Error al cargar grados: " + e.getMessage());
         }
-        vista.comboGrado.putClientProperty("listaGrados", grados);
     }
  
     private void cargarSecciones(int idGrado) {
         vista.comboSeccion.removeAllItems();
         vista.comboSeccion.addItem("-- Seleccione sección --");
-
-        List<ModeloSeccion> listaSecciones = seccionProfesorDAO.obtenerSeccionesPorGrado(idGrado);
-
-        for (ModeloSeccion s : listaSecciones) {
+ 
+        List<ModeloSeccion> secciones = seccionProfesorDAO.obtenerSeccionesPorGrado(idGrado);
+        for (ModeloSeccion s : secciones) {
             vista.comboSeccion.addItem(s.getSeccion());
         }
-
-        vista.comboSeccion.putClientProperty("listaSecciones", listaSecciones);
-        vista.comboSeccion.setEnabled(!listaSecciones.isEmpty());
+        vista.comboSeccion.putClientProperty("listaSecciones", secciones);
+        vista.comboSeccion.setEnabled(!secciones.isEmpty());
     }
  
     private void cargarAlumnos(int idSeccion) {
@@ -180,18 +182,10 @@ public class ControladorPrinciplaMaestros {
     private int getIdSeccionSeleccionada() {
         int idx = vista.comboSeccion.getSelectedIndex();
         if (idx <= 0) return -1;
-        
         List<ModeloSeccion> lista = (List<ModeloSeccion>)
                 vista.comboSeccion.getClientProperty("listaSecciones");
-                
         if (lista == null || idx - 1 >= lista.size()) return -1;
-        
-        ModeloSeccion seccionSeleccionada = lista.get(idx - 1);
-        
-        int idSeccion = seccionSeleccionada.getIdSeccion();
-        String nombreSeccion = seccionSeleccionada.getSeccion(); 
-        
-        return idSeccion;
+        return lista.get(idx - 1).getIdSeccion();
     }
  
     private void llenarTabla(List<ModeloAlumno> alumnos) {
@@ -232,3 +226,4 @@ public class ControladorPrinciplaMaestros {
         vista.brnBuscar.addActionListener(e -> buscarAlumnos());
     }
 }
+ 

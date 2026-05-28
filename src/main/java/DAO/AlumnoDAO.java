@@ -54,15 +54,15 @@ public class AlumnoDAO {
     public List<ModeloAlumno> obtenerAlumnosPorSeccion(int idSeccion) {
         List<ModeloAlumno> lista = new ArrayList<>();
  
-        String sql = "SELECT a.nie, " +
-                     "CONCAT(a.primer_nombre, ' ', IFNULL(a.segundo_nombre,'')) AS nombre, " +
-                     "CONCAT(a.primer_apellido, ' ', IFNULL(a.segundo_apellido,'')) AS apellidos, " +
+        String sql = "SELECT e.nie, " +
+                     "CONCAT(e.primer_nombre, ' ', IFNULL(e.segundo_nombre,'')) AS nombre, " +
+                     "CONCAT(e.primer_apellido, ' ', IFNULL(e.segundo_apellido,'')) AS apellidos, " +
                      "s.id_grado, " +
-                     "a.dui_encargado, " +
-                     "a.total_puntos " +
-                     "FROM alumnos a " +
-                     "INNER JOIN secciones s ON a.id_seccion = s.id_seccion " +
-                     "WHERE a.id_seccion = ?";
+                     "e.dui_encargado, " +
+                     "IFNULL(e.total_puntos, 0) AS total_puntos " +
+                     "FROM estudiante e " +
+                     "INNER JOIN seccion s ON e.id_seccion = s.id_seccion " +
+                     "WHERE e.id_seccion = ?";
  
         try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -70,14 +70,17 @@ public class AlumnoDAO {
             ps.setInt(1, idSeccion);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    int    nie          = rs.getInt("nie");
+                    String nie          = rs.getString("nie");
                     String nombre       = rs.getString("nombre").trim();
                     String apellidos    = rs.getString("apellidos").trim();
                     int    idGrado      = rs.getInt("id_grado");
                     String duiEncargado = rs.getString("dui_encargado");
                     int    totalPuntos  = rs.getInt("total_puntos");
  
-                    lista.add(new ModeloAlumno(nie, nombre, apellidos,
+                    int nieInt = 0;
+                    try { nieInt = Integer.parseInt(nie); } catch (NumberFormatException ex) {}
+ 
+                    lista.add(new ModeloAlumno(nieInt, nombre, apellidos,
                                                idGrado, duiEncargado, totalPuntos));
                 }
             }
@@ -91,18 +94,18 @@ public class AlumnoDAO {
     public List<ModeloAlumno> buscarAlumnos(int idSeccion, String nie,
                                              String nombre, String apellido) {
         List<ModeloAlumno> lista = new ArrayList<>();
-        String sql = "SELECT a.nie, " +
-                     "CONCAT(a.primer_nombre, ' ', IFNULL(a.segundo_nombre,'')) AS nombre, " +
-                     "CONCAT(a.primer_apellido, ' ', IFNULL(a.segundo_apellido,'')) AS apellidos, " +
+        String sql = "SELECT e.nie, " +
+                     "CONCAT(e.primer_nombre, ' ', IFNULL(e.segundo_nombre,'')) AS nombre, " +
+                     "CONCAT(e.primer_apellido, ' ', IFNULL(e.segundo_apellido,'')) AS apellidos, " +
                      "s.id_grado, " +
-                     "a.dui_encargado, " +
-                     "a.total_puntos " +
-                     "FROM alumnos a " +
-                     "INNER JOIN secciones s ON a.id_seccion = s.id_seccion " +
-                     "WHERE a.id_seccion = ? " +
-                     "AND CAST(a.nie AS CHAR)    LIKE ? " +
-                     "AND a.primer_nombre        LIKE ? " +
-                     "AND a.primer_apellido      LIKE ?";
+                     "e.dui_encargado, " +
+                     "IFNULL(e.total_puntos, 0) AS total_puntos " +
+                     "FROM estudiante e " +
+                     "INNER JOIN seccion s ON e.id_seccion = s.id_seccion " +
+                     "WHERE e.id_seccion = ? " +
+                     "AND e.nie            LIKE ? " +
+                     "AND e.primer_nombre  LIKE ? " +
+                     "AND e.primer_apellido LIKE ?";
  
         try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -114,14 +117,17 @@ public class AlumnoDAO {
  
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    int    rNie         = rs.getInt("nie");
+                    String rNie         = rs.getString("nie");
                     String rNombre      = rs.getString("nombre").trim();
                     String rApellidos   = rs.getString("apellidos").trim();
                     int    idGrado      = rs.getInt("id_grado");
                     String duiEncargado = rs.getString("dui_encargado");
                     int    totalPuntos  = rs.getInt("total_puntos");
  
-                    lista.add(new ModeloAlumno(rNie, rNombre, rApellidos,
+                    int nieInt = 0;
+                    try { nieInt = Integer.parseInt(rNie); } catch (NumberFormatException ex) {}
+ 
+                    lista.add(new ModeloAlumno(nieInt, rNombre, rApellidos,
                                                idGrado, duiEncargado, totalPuntos));
                 }
             }
@@ -132,4 +138,3 @@ public class AlumnoDAO {
         return lista;
     }
 }
- 
