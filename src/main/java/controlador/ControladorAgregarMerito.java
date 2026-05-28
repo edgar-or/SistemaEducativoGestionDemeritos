@@ -5,6 +5,7 @@
 package controlador;
 
 import DAO.DemeritoDAO;
+import DAO.MeritoDAO;
 import java.util.List;
 import modelo.ModeloConducta;
 import vista.VistaAgregarMerito;
@@ -48,7 +49,7 @@ public class ControladorAgregarMerito {
 
     private void llenarCombo() {
 
-        List<ModeloConducta> listaConductas = DemeritoDAO.obtenerTiposConducta();
+        List<ModeloConducta> listaConductas = MeritoDAO.obtenerTiposConducta();
 
         for (ModeloConducta con : listaConductas) {
             visAgregarMerito.ComboDescripcion.addItem(con);
