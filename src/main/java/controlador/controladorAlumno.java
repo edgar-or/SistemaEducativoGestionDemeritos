@@ -8,6 +8,7 @@ import java.awt.Dimension;
 import modelo.ModeloAlumno;
 import services.AlumnoService;
 import vista.VistaAgregarAlumno;
+import vista.VistaAlumno;
 import vista.VistaPrincipalDirector;
 
 /**
@@ -16,26 +17,26 @@ import vista.VistaPrincipalDirector;
  */
 public class ControladorAlumno {
 
-    private VistaAgregarAlumno vistaAlumno;
+    private VistaAlumno vistaAlumno;
     private VistaPrincipalDirector vistaPrincipal;
     private AlumnoService service = new AlumnoService();
 
     public ControladorAlumno(VistaPrincipalDirector vistaPrincipal) {
-        this.vistaAlumno = new VistaAgregarAlumno();
+        this.vistaAlumno = new VistaAlumno();
         this.vistaPrincipal = vistaPrincipal;
         onEventos();
     }
 
     private void onEventos() {
         vistaPrincipal.menuAlumno.addActionListener(e -> mostrarVista());
-        vistaAlumno.btnCerrar.addActionListener(e -> vistaAlumno.dispose());
+        vistaAlumno.Salir.addActionListener(e -> vistaAlumno.dispose());
     }
 
     public void mostrarVista() {
 
         vistaAlumno.setVisible(true);
 
-        // 2️⃣ Centrar la vista
+        
         Dimension desktopSize = vistaPrincipal.escritorio.getSize();
         Dimension internal = vistaAlumno.getSize();
         int x = (desktopSize.width - internal.width) / 2;
@@ -44,7 +45,7 @@ public class ControladorAlumno {
         vistaPrincipal.escritorio.remove(vistaAlumno);
         vistaPrincipal.escritorio.add(vistaAlumno);
 
-        // 3️⃣ Mostrar y traer al frente
+      //⃣ Mostrar y traer al frente
         vistaAlumno.toFront();
         //mostrarRutasTabla(base.getRutas());
         //formaAgregarDepartamentos();

@@ -4,7 +4,6 @@
  */
 package controlador;
 
-
 import DAO.AlumnoDAO;
 import DAO.AnioSeccionDao;
 import DAO.GradoDAO;
@@ -16,6 +15,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modelo.Login;
 import modelo.ModeloAlumno;
@@ -31,9 +31,79 @@ import vista.VistaVerEstado;
  *
  * @author renec
  */
+/*
+    private VistaPrincipalMaestros visPrincipalMaaestros;
+    private ControladorMerito controladorMerito;
 
+    public ControladorPrinciplaMaestros(VistaPrincipalMaestros visPrincipalMaaestros) {
+
+        this.visPrincipalMaaestros = visPrincipalMaaestros;
+
+        eventos();
+        this.controladorMerito = new ControladorMerito(visPrincipalMaaestros);
+    }
+
+    public void iniciar() {
+
+        visPrincipalMaaestros.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        visPrincipalMaaestros.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        visPrincipalMaaestros.setVisible(true);
+
+        llenarComboSeccion();
+
+    }
+
+    public void llenarComboSeccion() {
+        AnioSeccionDao dao = new AnioSeccionDao();
+        List<SeccionGradoDto> lista = dao.listarSeccionGrado();
+
+        for (SeccionGradoDto obj : lista) {
+            visPrincipalMaaestros.comboSeccion.addItem(obj.getSeccion().getSeccion());
+            visPrincipalMaaestros.comboGrado.addItem(obj.getGrado().getGrado());
+        }
+    }
+
+    private void eventos() {
+
+        visPrincipalMaaestros.btnAgregarDemerito.addActionListener(e -> {
+
+            VistaAgregarDemerito vista = new VistaAgregarDemerito();
+            new ControladorAgregarDemerito(vista);
+        });
+        visPrincipalMaaestros.btnAgregarMerito.addActionListener(e -> {
+
+            VistaAgregarMerito vista = new VistaAgregarMerito();
+            new ControladorAgregarMerito(vista);
+        });
+
+        visPrincipalMaaestros.btnVerEstado.addActionListener(e -> {
+
+            VistaVerEstado vista = new VistaVerEstado();
+            new ControladorVerEstado(vista);
+
+        });
+        visPrincipalMaaestros.btnCerrarsesion.addActionListener(e -> {
+            // crear vista y modelo
+            VistaLogin login = new VistaLogin();
+            Login modelo = new Login();
+
+            // crear controlador correctamente
+            new ControladorLogin(login, modelo);
+
+            login.setLocationRelativeTo(null);
+            login.setVisible(true);
+
+            // cerrar la ventana actual
+            visPrincipalMaaestros.dispose();
+        });
+
+    }
+
+}*/
 public class ControladorPrinciplaMaestros {
 
+    private ControladorAgregarDemerito controladorAgregarDemerito;
+    private ControladorAgregarMerito controladorAgregarMerito;
     private VistaPrincipalMaestros vista;
     private GradoDAO gradoDAO = new GradoDAO();
     private seccionProfesorDAO seccionProfesorDAO = new seccionProfesorDAO();
@@ -41,9 +111,12 @@ public class ControladorPrinciplaMaestros {
 
     public ControladorPrinciplaMaestros(VistaPrincipalMaestros vista) {
         this.vista = vista;
+        evento();
+
     }
 
     public void iniciar() {
+
         vista.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         vista.setExtendedState(JFrame.MAXIMIZED_BOTH);
         vista.comboSeccion.setEnabled(false);
@@ -51,6 +124,7 @@ public class ControladorPrinciplaMaestros {
         configurarEventos();
         vista.setVisible(true);
     }
+
 
     private void cargarGrados() {
         vista.comboGrado.removeAllItems();
@@ -69,6 +143,7 @@ public class ControladorPrinciplaMaestros {
     private void cargarSecciones(int idGrado) {
         vista.comboSeccion.removeAllItems();
         vista.comboSeccion.addItem("-- Seleccione sección --");
+
         List<ModeloSeccion> secciones = seccionProfesorDAO.obtenerSeccionesPorGrado(idGrado);
         for (ModeloSeccion s : secciones) {
             vista.comboSeccion.addItem(s.getSeccion());
@@ -86,6 +161,7 @@ public class ControladorPrinciplaMaestros {
         if (idSeccion == -1) {
             return;
         }
+
         String nie = vista.txtBuscarNie.getText().trim();
         String nombre = vista.txtBuscarNombres.getText().trim();
         String apellido = vista.txtBuscarApellido.getText().trim();
@@ -133,6 +209,7 @@ public class ControladorPrinciplaMaestros {
         vista.tablaEstudiantes.setModel(modelo);
     }
 
+
     // ── Eventos 
     private void configurarEventos() {
 
@@ -158,14 +235,46 @@ public class ControladorPrinciplaMaestros {
         vista.brnBuscar.addActionListener(e -> buscarAlumnos());
 
         vista.btnAgregarDemerito.addActionListener(e -> {
-            VistaAgregarDemerito v = new VistaAgregarDemerito();
-            new ControladorAgregarDemerito(v);
-        });
+        int filaSeleccionada = vista.tablaEstudiantes.getSelectedRow();
+        
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(vista, 
+                "Por favor, seleccione un estudiante de la tabla primero.", 
+                "Atención", 
+                JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        
+        String nie = vista.tablaEstudiantes.getValueAt(filaSeleccionada, 0).toString();
+        String nombreCompleto = vista.tablaEstudiantes.getValueAt(filaSeleccionada, 1).toString() + " " + 
+                                vista.tablaEstudiantes.getValueAt(filaSeleccionada, 2).toString();
+
+        // 3. Instanciar la vista de destino y pasarle los datos al constructor del controlador
+        VistaAgregarDemerito vistaDemerito = new VistaAgregarDemerito();
+        new ControladorAgregarDemerito(vistaDemerito, nie, nombreCompleto);
+    });
 
         vista.btnAgregarMerito.addActionListener(e -> {
-            VistaAgregarMerito v = new VistaAgregarMerito();
-            new ControladorAgregarMerito(v);
-        });
+            
+        int filaSeleccionada = vista.tablaEstudiantes.getSelectedRow();
+        
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(vista, 
+                "Por favor, seleccione un estudiante de la tabla primero.", 
+                "Atención", 
+                JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+      
+        String nie = vista.tablaEstudiantes.getValueAt(filaSeleccionada, 0).toString();
+        String nombreCompleto = vista.tablaEstudiantes.getValueAt(filaSeleccionada, 1).toString() + " " + 
+                                vista.tablaEstudiantes.getValueAt(filaSeleccionada, 2).toString();
+
+        VistaAgregarMerito vistaDemerito = new VistaAgregarMerito();
+        new ControladorAgregarMerito(vistaDemerito, nie, nombreCompleto);
+    });
 
         vista.btnVerEstado.addActionListener(e -> {
             VistaVerEstado v = new VistaVerEstado();
@@ -180,5 +289,75 @@ public class ControladorPrinciplaMaestros {
             login.setVisible(true);
             vista.dispose();
         });
+    }   //FINNNNN EVENTO 1
+
+    private void evento() {
+        //levanta la vista merito
+        vista.btnAgregarMerito.addActionListener(e -> {
+
+            //para selecionar
+            int filaSeleccionada = vista.tablaEstudiantes.getSelectedRow();
+
+            if (filaSeleccionada == -1) {
+                JOptionPane.showMessageDialog(vista,
+                        "Por favor, seleccione un estudiante de la tabla primero.",
+                        "Atención",
+                        JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            String nie = vista.tablaEstudiantes.getValueAt(filaSeleccionada, 0).toString();
+            String nombreCompleto = vista.tablaEstudiantes.getValueAt(filaSeleccionada, 1).toString() + " "
+                    + vista.tablaEstudiantes.getValueAt(filaSeleccionada, 2).toString();
+
+            // Instancia la vista de destino y pasarle los datos al constructor del controlador
+            VistaAgregarMerito vistaDemerito = new VistaAgregarMerito();
+            new ControladorAgregarMerito(vistaDemerito, nie, nombreCompleto);
+        });
+
+        //levanta la vista Demerito
+        vista.btnAgregarDemerito.addActionListener(e -> {
+
+            //para selecionar
+            int filaSeleccionada = vista.tablaEstudiantes.getSelectedRow();
+
+            if (filaSeleccionada == -1) {
+                JOptionPane.showMessageDialog(vista,
+                        "Por favor, seleccione un estudiante de la tabla primero.",
+                        "Atención",
+                        JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            String nie = vista.tablaEstudiantes.getValueAt(filaSeleccionada, 0).toString();
+            String nombreCompleto = vista.tablaEstudiantes.getValueAt(filaSeleccionada, 1).toString() + " "
+                    + vista.tablaEstudiantes.getValueAt(filaSeleccionada, 2).toString();
+
+            // Instancia la vista de destino y pasarle los datos al constructor del controlador
+            VistaAgregarDemerito vistaDemerito = new VistaAgregarDemerito();
+            new ControladorAgregarDemerito(vistaDemerito, nie, nombreCompleto);
+        });
+
+        vista.btnVerEstado.addActionListener(e -> {
+
+            VistaVerEstado vista = new VistaVerEstado();
+            new ControladorVerEstado(vista);
+
+        });
+        vista.btnCerrarsesion.addActionListener(e -> {
+            // crea vista y modelo
+            VistaLogin login = new VistaLogin();
+            Login modelo = new Login();
+
+            // crear controlador
+            new ControladorLogin(login, modelo);
+
+            login.setLocationRelativeTo(null);
+            login.setVisible(true);
+
+            // cerrar la ventana 
+            vista.dispose();
+        });
+
     }
 }

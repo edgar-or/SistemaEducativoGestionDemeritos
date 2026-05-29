@@ -1,6 +1,5 @@
 package controlador;
 
-
 import DAO.UsuarioDao;
 import controlador.ControladorPrincipal;
 import controlador.ControladorPrinciplaMaestros;
@@ -10,6 +9,7 @@ import javax.swing.JOptionPane;
 import modelo.Login;
 import modelo.ModeloCargoDocente;
 import modelo.ModeloDocente;
+import sesion.Sesion;
 import vista.VistaLogin;
 import vista.VistaPrincipalDirector;
 import vista.VistaPrincipalMaestros;
@@ -25,7 +25,7 @@ public class ControladorLogin {
     private VistaPrincipalDirector vista;
     private ControladorPrincipal controladorPrincipal;
     private VistaPrincipalMaestros vistaPrincipalMaestros;
-    private UsuarioDao usuarioDao; 
+    private UsuarioDao usuarioDao;
     private LoginResultadoDto loginResultDto;
 
     public ControladorLogin(VistaLogin vistaLogin, Login Login) {
@@ -51,38 +51,38 @@ public class ControladorLogin {
 
         String usuario = loginVista.txtUsuario.getText();
         String password = new String(loginVista.txtContraseña.getText());
-        
-        
 
         if (usuario.isEmpty() || password.isEmpty()) {
             mostrarError("El usuario y la contraseña no pueden estar vacíos.");
             return;
         }
-        
+
         UsuarioDao dao = new UsuarioDao();
 
         LoginResultadoDto res = dao.validar(usuario, password);
-        
-        ModeloCargoDocente cargo = res.getCargoDocente(); 
-        ModeloDocente docente = res.getModeloDocente(); 
-        
-        
-        
-         if (res!= null) {
-             
-             if (cargo.getCargo().equalsIgnoreCase("Director")) {
-                 loginVista.dispose();
-                 VistaPrincipalDirector vista = new VistaPrincipalDirector(); 
-                 ControladorPrincipal ctrlDirec = new ControladorPrincipal(vista); 
-                 ctrlDirec.iniciar();
-             }else if(cargo.getCargo().equalsIgnoreCase("Docente")){
-                 
-                 VistaPrincipalMaestros visMaestros = new VistaPrincipalMaestros(); 
-                 ControladorPrinciplaMaestros ctrlnMaestros = new ControladorPrinciplaMaestros(vistaPrincipalMaestros); 
-                 ctrlnMaestros.iniciar();
-                 
-             }
-         }
+
+        if (res != null) {
+            ModeloCargoDocente cargo = res.getCargoDocente();
+            ModeloDocente docente = res.getModeloDocente();
+            
+            System.out.println(docente);
+System.out.println(docente.getIdDocente());
+
+            Sesion.setDuiPersonal(docente.getIdDocente());
+
+            if (cargo.getCargo().equalsIgnoreCase("Director")) {
+                loginVista.dispose();
+                VistaPrincipalDirector vista = new VistaPrincipalDirector();
+                ControladorPrincipal ctrlDirec = new ControladorPrincipal(vista);
+                ctrlDirec.iniciar();
+            } else if (cargo.getCargo().equalsIgnoreCase("Docente")) {
+
+                VistaPrincipalMaestros visMaestros = new VistaPrincipalMaestros();
+                ControladorPrinciplaMaestros ctrlnMaestros = new ControladorPrinciplaMaestros(vistaPrincipalMaestros);
+                ctrlnMaestros.iniciar();
+
+            }
+        }
 
     }
 

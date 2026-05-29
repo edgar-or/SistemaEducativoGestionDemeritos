@@ -7,6 +7,7 @@ package controlador;
 import DAO.DemeritoDAO;
 import DAO.MeritoDAO;
 import java.util.List;
+import javax.swing.JOptionPane;
 import modelo.ModeloConducta;
 import vista.VistaAgregarMerito;
 
@@ -18,11 +19,13 @@ public class ControladorAgregarMerito {
 
     private VistaAgregarMerito visAgregarMerito;
 
-    public ControladorAgregarMerito(VistaAgregarMerito visAgregarMerito) {
+    public ControladorAgregarMerito(VistaAgregarMerito visAgregarMerito, String nie, String nombreCompleto) {
         this.visAgregarMerito = visAgregarMerito;
         iniciarVista();
         onEvento();
         llenarCombo();
+        cargarDatosEstudiante(nie, nombreCompleto);
+
     }
 
     private void iniciarVista() {
@@ -42,10 +45,37 @@ public class ControladorAgregarMerito {
                 System.out.println("ID seleccionado: " + id);
             }
         });
-         
-    }
-    
+        visAgregarMerito.btnAgregar.addActionListener(e->{
+         // 1️⃣ Obtener datos de la vista
+    String nie = visAgregarMerito.txtNie.getText();
+    String observacion = visAgregarMerito.txtObservaciones.getText();
 
+    ModeloConducta tipo = (ModeloConducta) visAgregarMerito.ComboDescripcion.getSelectedItem();
+
+    // 2️⃣ Validaciones
+    if (tipo == null) {
+        JOptionPane.showMessageDialog(null, "Seleccione un tipo de mérito");
+        return;
+    }
+
+    if (observacion.isEmpty()) {
+        JOptionPane.showMessageDialog(null, "Ingrese una observación");
+        return;
+    }
+
+    try {
+        MeritoDAO.insertarMerito(nie, tipo.getIdTipoConducta(), observacion);
+        MeritoDAO.actualizarPuntos(nie);
+        JOptionPane.showMessageDialog(null, "Mérito guardado correctamente");
+
+        visAgregarMerito.dispose();
+
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(null, "Error: " + ex.getMessage());
+    }
+ });
+
+    }
 
     private void llenarCombo() {
 
@@ -54,5 +84,13 @@ public class ControladorAgregarMerito {
         for (ModeloConducta con : listaConductas) {
             visAgregarMerito.ComboDescripcion.addItem(con);
         }
+    }
+
+    private void cargarDatosEstudiante(String nie, String nombreCompleto) {
+        visAgregarMerito.txtNie.setText(nie);
+        visAgregarMerito.txtNombreCompleto.setText(nombreCompleto);
+
+        visAgregarMerito.txtNie.setEditable(false);
+        visAgregarMerito.txtNombreCompleto.setEditable(false);
     }
 }

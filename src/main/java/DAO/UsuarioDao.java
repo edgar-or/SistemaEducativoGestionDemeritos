@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import modelo.Login;
 import modelo.ModeloCargoDocente;
+import modelo.ModeloDocente;
 
 /**
  *
@@ -34,6 +35,10 @@ public class UsuarioDao {
 
             if (rs.next()) {
                 resultado = new LoginResultadoDto();
+                
+                ModeloDocente docente = new ModeloDocente();
+
+                docente.setIdDocente(rs.getString("dui_personal"));
 
                 u = new Login();
                 u.setUsuario(rs.getString("usuario"));
@@ -47,6 +52,7 @@ public class UsuarioDao {
                 
                 resultado.setUsuario(u);
                 resultado.setCargoDocente(cargo);
+                resultado.setModeloDocente(docente);
 
             }
 

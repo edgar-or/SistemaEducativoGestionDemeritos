@@ -5,9 +5,13 @@
 package controlador;
 
 import DAO.DemeritoDAO;
+import dto.LoginResultadoDto;
 import java.util.List;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import modelo.ModeloConducta;
+import modelo.ModeloDocente;
+import sesion.Sesion;
 import vista.VistaAgregarDemerito;
 import vista.VistaPrincipalMaestros;
 
@@ -19,12 +23,14 @@ public class ControladorAgregarDemerito {
 
     private VistaAgregarDemerito visAgregarDemerito;
 
-    public ControladorAgregarDemerito(VistaAgregarDemerito visAgregarDemeritos) {
+    LoginResultadoDto res = new LoginResultadoDto();
+
+    public ControladorAgregarDemerito(VistaAgregarDemerito visAgregarDemeritos, String nie, String nombreCompleto) {
         this.visAgregarDemerito = visAgregarDemeritos;
         iniciarVista();
-        
         onEvento();
         llenarCombo();
+        cargarDatosEstudiante(nie, nombreCompleto);
 
     }
 
@@ -34,11 +40,11 @@ public class ControladorAgregarDemerito {
     }
 
     private void onEvento() {
-        
+
         visAgregarDemerito.btnCerrar.addActionListener(e -> {
             visAgregarDemerito.dispose();
         });
-        
+
         visAgregarDemerito.ComboDescripcion.addActionListener(e -> {
             ModeloConducta seleccionado = (ModeloConducta) visAgregarDemerito.ComboDescripcion.getSelectedItem();
             if (seleccionado != null) {
@@ -46,8 +52,42 @@ public class ControladorAgregarDemerito {
                 System.out.println("ID seleccionado: " + id);
             }
         });
-         
-        
+
+        visAgregarDemerito.btnAgregar.addActionListener(e -> {
+
+            String nie = visAgregarDemerito.txtNie.getText();
+            String observacion = visAgregarDemerito.txtObservaciones.getText();
+
+            ModeloConducta tipo = (ModeloConducta) visAgregarDemerito.ComboDescripcion.getSelectedItem();
+
+            //Validaciones
+            if (tipo == null) {
+                JOptionPane.showMessageDialog(null, "Seleccione un tipo de demérito");
+                return;
+            }
+
+            if (observacion.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Ingrese una observación");
+                return;
+            }
+            String duiSesion = Sesion.getDuiPersonal();
+
+
+            if (duiSesion == null) {
+                JOptionPane.showMessageDialog(null, "Error: sesión no encontrada");
+                return;
+            }
+
+
+            DemeritoDAO.insertarDemerito(nie, observacion, duiSesion, tipo.getIdTipoConducta());
+
+            DemeritoDAO.actualizarPuntos(nie);
+
+            JOptionPane.showMessageDialog(null, "Demérito guardado correctamente");
+
+            visAgregarDemerito.dispose();
+        });
+
     }
 
     private void llenarCombo() {
@@ -59,5 +99,12 @@ public class ControladorAgregarDemerito {
         }
     }
 
-   
+    private void cargarDatosEstudiante(String nie, String nombreCompleto) {
+        this.visAgregarDemerito.txtNie.setText(nie);
+        this.visAgregarDemerito.txtNombreCompleto.setText(nombreCompleto);
+
+        this.visAgregarDemerito.txtNie.setEditable(false);
+        this.visAgregarDemerito.txtNombreCompleto.setEditable(false);
+    }
+
 }

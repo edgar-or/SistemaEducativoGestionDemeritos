@@ -42,7 +42,6 @@ public class ControladorPrincipal {
 
     private void onEvento() {
         vista.btnCerrarSesion.addActionListener(e -> {
-// crear vista y modelo
             VistaLogin login = new VistaLogin();
             Login modelo = new Login();
 

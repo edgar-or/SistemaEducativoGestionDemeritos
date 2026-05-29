@@ -8,34 +8,35 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import modelo.ModeloDocente;
 import vista.VerDocente;
+import vista.VistaDocente;
 import vista.VistaPrincipalDirector;
 
 public class ControladorDocente {
 
-    private VerDocente vistaDocente;
+    private VistaDocente vistaDocente;
     private VistaPrincipalDirector vistaPrincipal;
     private DocenteDAO dao = new DocenteDAO();
     private int idDocenteSeleccionado = -1;
 
     public ControladorDocente(VistaPrincipalDirector vistaPrincipal) {
-        this.vistaDocente = new VerDocente();
+        this.vistaDocente = new VistaDocente();
         this.vistaPrincipal = vistaPrincipal;
         eventos();
     }
 
     private void eventos() {
         vistaPrincipal.menuDocente.addActionListener(e -> mostrarVista());
-        vistaDocente.btnCerrar.addActionListener(e -> vistaDocente.dispose());
-        vistaDocente.btnagregarDocente.addActionListener(e -> agregarDocente());
+        vistaDocente.btnSalir.addActionListener(e -> vistaDocente.dispose());
+        vistaDocente.btnGuardar.addActionListener(e -> agregarDocente());
 //        vistaDocente.btnModificar.addActionListener(e -> modificarDocente());
         vistaDocente.btnEliminar.addActionListener(e -> eliminarDocente());
-        vistaDocente.btnBuscar.addActionListener(e -> buscar());
+     //   vistaDocente.btnBuscar.addActionListener(e -> buscar());
 
-        vistaDocente.tablaDocentes.getSelectionModel().addListSelectionListener(e -> {
+        vistaDocente.tablaDocente.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
-                int fila = vistaDocente.tablaDocentes.getSelectedRow();
+                int fila = vistaDocente.tablaDocente.getSelectedRow();
                 if (fila >= 0)
-                    idDocenteSeleccionado = (int) vistaDocente.tablaDocentes.getValueAt(fila, 0);
+                    idDocenteSeleccionado = (int) vistaDocente.tablaDocente.getValueAt(fila, 0);
             }
         });
     }
@@ -64,25 +65,25 @@ public class ControladorDocente {
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(vistaDocente, "Error al cargar: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
-        vistaDocente.tablaDocentes.setModel(modelo);
+        vistaDocente.tablaDocente.setModel(modelo);
     }
 
-    private void buscar() {
-        String dui = vistaDocente.txtDUI.getText().trim();
-        String nombre = vistaDocente.txtNombre.getText().trim();
-        try {
-            if (!dui.isEmpty())
-                cargarTabla(dao.buscarPorId(Integer.parseInt(dui)));
-            else if (!nombre.isEmpty())
-                cargarTabla(dao.buscarPorNombre(nombre));
-            else
-                cargarTabla(null);
-        } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(vistaDocente, "El ID debe ser numérico.", "Aviso", JOptionPane.WARNING_MESSAGE);
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(vistaDocente, "Error en búsqueda: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }
+//    private void buscar() {
+//        String dui = vistaDocente.txtDUI.getText().trim();
+//        String nombre = vistaDocente.txtNombre.getText().trim();
+//        try {
+//            if (!dui.isEmpty())
+//                cargarTabla(dao.buscarPorId(Integer.parseInt(dui)));
+//            else if (!nombre.isEmpty())
+//                cargarTabla(dao.buscarPorNombre(nombre));
+//            else
+//                cargarTabla(null);
+//        } catch (NumberFormatException ex) {
+//            JOptionPane.showMessageDialog(vistaDocente, "El ID debe ser numérico.", "Aviso", JOptionPane.WARNING_MESSAGE);
+//        } catch (Exception ex) {
+//            JOptionPane.showMessageDialog(vistaDocente, "Error en búsqueda: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+//        }
+//    }
 
     private void agregarDocente() {
         JTextField fNombre = new JTextField(), fApellido = new JTextField(),
