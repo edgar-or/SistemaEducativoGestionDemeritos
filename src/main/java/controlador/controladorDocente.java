@@ -6,7 +6,9 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+import modelo.ArbolBinarioBusqueda;
 import modelo.ModeloDocente;
+import modelo.Nodo;
 import vista.VerDocente;
 import vista.VistaPrincipalDirector;
 
@@ -16,6 +18,7 @@ public class ControladorDocente {
     private VistaPrincipalDirector vistaPrincipal;
     private DocenteDAO dao = new DocenteDAO();
     private int idDocenteSeleccionado = -1;
+    private ArbolBinarioBusqueda<ModeloDocente> arbolDocentes;
 
     public ControladorDocente(VistaPrincipalDirector vistaPrincipal) {
         this.vistaDocente = new VerDocente();
@@ -34,8 +37,9 @@ public class ControladorDocente {
         vistaDocente.tablaDocentes.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
                 int fila = vistaDocente.tablaDocentes.getSelectedRow();
-                if (fila >= 0)
+                if (fila >= 0) {
                     idDocenteSeleccionado = (int) vistaDocente.tablaDocentes.getValueAt(fila, 0);
+                }
             }
         });
     }
@@ -53,14 +57,35 @@ public class ControladorDocente {
 
     private void cargarTabla(List<ModeloDocente> lista) {
         DefaultTableModel modelo = new DefaultTableModel(
-            new String[]{"ID", "Nombre", "Apellido", "Teléfono", "Correo", "Departamento"}, 0) {
-            @Override public boolean isCellEditable(int r, int c) { return false; }
+                new String[]{"ID", "Nombre", "Apellido", "Teléfono", "Correo", "Departamento"}, 0) {
+            @Override
+            public boolean isCellEditable(int r, int c) {
+                return false;
+            }
         };
         try {
-            if (lista == null) lista = dao.listarDocentes();
-            for (ModeloDocente d : lista)
-                modelo.addRow(new Object[]{d.getIdDocente(), d.getNombre(), d.getApellido(),
-                    d.getTelefonoDocente(), d.getCorreo(), d.getDepartamento()});
+
+            if (lista == null) {
+                lista = dao.listarDocentes();
+            }
+
+            // CREAR ÁRBOL
+            arbolDocentes = new ArbolBinarioBusqueda<>();
+
+            // INSERTAR EN ÁRBOL
+            for (ModeloDocente d : lista) {
+
+                arbolDocentes.insertar(d);
+
+                modelo.addRow(new Object[]{
+                    d.getIdDocente(),
+                    d.getNombre(),
+                    d.getApellido(),
+                    d.getTelefonoDocente(),
+                    d.getCorreo(),
+                    d.getDepartamento()
+                });
+            }
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(vistaDocente, "Error al cargar: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -68,27 +93,69 @@ public class ControladorDocente {
     }
 
     private void buscar() {
-        String dui = vistaDocente.txtDUI.getText().trim();
+
+        String id = vistaDocente.txtDUI.getText().trim();
         String nombre = vistaDocente.txtNombre.getText().trim();
+
         try {
-            if (!dui.isEmpty())
-                cargarTabla(dao.buscarPorId(Integer.parseInt(dui)));
-            else if (!nombre.isEmpty())
+
+            // BUSCAR CON ÁRBOL
+            if (!id.isEmpty()) {
+
+                ModeloDocente buscar
+                        = new ModeloDocente();
+
+                buscar.setIdDocente(id);
+
+                Nodo nodo = arbolDocentes.buscar(buscar);
+
+                DefaultTableModel modelo = new DefaultTableModel(
+                        new String[]{"ID", "Nombre", "Apellido", "Teléfono", "Correo", "Departamento"}, 0
+                );
+
+                if (nodo != null) {
+
+                    ModeloDocente d
+                            = (ModeloDocente) nodo.getDato();
+
+                    modelo.addRow(new Object[]{
+                        d.getIdDocente(),
+                        d.getNombre(),
+                        d.getApellido(),
+                        d.getTelefonoDocente(),
+                        d.getCorreo(),
+                        d.getDepartamento()
+                    });
+                }
+
+                vistaDocente.tablaDocentes.setModel(modelo);
+
+            } else if (!nombre.isEmpty()) {
+
+                // NOMBRE SIGUE CON SQL
                 cargarTabla(dao.buscarPorNombre(nombre));
-            else
+
+            } else {
+
                 cargarTabla(null);
-        } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(vistaDocente, "El ID debe ser numérico.", "Aviso", JOptionPane.WARNING_MESSAGE);
+            }
+
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(vistaDocente, "Error en búsqueda: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+
+            JOptionPane.showMessageDialog(
+                    vistaDocente,
+                    "Error en búsqueda: " + ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+            );
         }
     }
 
     private void agregarDocente() {
         JTextField fNombre = new JTextField(), fApellido = new JTextField(),
-            fTelefono = new JTextField(), fCorreo = new JTextField(),
-            fDepartamento = new JTextField(), fMunicipio = new JTextField(),
-            fCaserio = new JTextField(), fCalle = new JTextField(), fDistrito = new JTextField();
+                fTelefono = new JTextField(), fCorreo = new JTextField(),
+                fDepartamento = new JTextField(), fMunicipio = new JTextField(),
+                fCaserio = new JTextField(), fCalle = new JTextField(), fDistrito = new JTextField();
 
         Object[] campos = {"Nombre:", fNombre, "Apellido:", fApellido,
             "Teléfono:", fTelefono, "Correo:", fCorreo, "Departamento:", fDepartamento,
@@ -97,9 +164,9 @@ public class ControladorDocente {
         if (JOptionPane.showConfirmDialog(vistaDocente, campos, "Agregar Docente", JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
             try {
                 ModeloDocente d = new ModeloDocente(fNombre.getText().trim(), fApellido.getText().trim(),
-                    "", Integer.parseInt(fTelefono.getText().trim()), fCorreo.getText().trim(),
-                    fDepartamento.getText().trim(), fMunicipio.getText().trim(),
-                    fCaserio.getText().trim(), fCalle.getText().trim(), fDistrito.getText().trim());
+                        "", Integer.parseInt(fTelefono.getText().trim()), fCorreo.getText().trim(),
+                        fDepartamento.getText().trim(), fMunicipio.getText().trim(),
+                        fCaserio.getText().trim(), fCalle.getText().trim(), fDistrito.getText().trim());
                 dao.insertarDocente(d);
                 JOptionPane.showMessageDialog(vistaDocente, "Docente agregado.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
                 cargarTabla(null);
@@ -145,7 +212,6 @@ public class ControladorDocente {
 //            }
 //        }
 //    }
-
     private void eliminarDocente() {
         if (idDocenteSeleccionado < 0) {
             JOptionPane.showMessageDialog(vistaDocente, "Seleccione un docente de la tabla.", "Aviso", JOptionPane.WARNING_MESSAGE);

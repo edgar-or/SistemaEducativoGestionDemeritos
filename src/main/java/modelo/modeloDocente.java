@@ -8,7 +8,7 @@ package modelo;
  *
  * @author renec
  */
-public class ModeloDocente {
+public class ModeloDocente implements Comparable<ModeloDocente>{
 
     private String nombre;
     private String apellido;
@@ -119,6 +119,12 @@ public class ModeloDocente {
 
     public void setDistrito(String distrito) {
         this.distrito = distrito;
+    }
+
+    @Override
+    public int compareTo(ModeloDocente o) {
+    return this.idDocente.compareTo(o.idDocente);
+
     }
 
 }

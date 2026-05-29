@@ -86,7 +86,7 @@ public class DocenteDAO {
 
     public List<ModeloDocente> buscarPorNombre(String nombre) throws SQLException {
         List<ModeloDocente> lista = new ArrayList<>();
-        String sql = "SELECT id_docente, nombre, apellido, departamento, municipio, caserio, calle, distrito FROM personal_docente WHERE nombre LIKE ? OR apellido LIKE ?";
+        String sql = "SELECT dui_personal, concat(primer_nombre, ' ', segundo_nombre) as nombre, concat(primer_apellido, ' ', segundo_apellido) as apellido, departamento, municipio, caserio, calle, distrito FROM personal_docente WHERE primer_nombre LIKE ? OR segundo_nombre LIKE ?";
         try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setString(1, "%" + nombre + "%");
@@ -94,7 +94,7 @@ public class DocenteDAO {
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next())
                     lista.add(new ModeloDocente(rs.getString("nombre"), rs.getString("apellido"),
-                        rs.getString("id_docente"), rs.getInt("telefono_docente"), rs.getString("correo"),
+                        rs.getString("dui_personal"), rs.getInt("telefono_docente"), rs.getString("correo"),
                         rs.getString("departamento"), rs.getString("municipio"),
                         rs.getString("caserio"), rs.getString("calle"), rs.getString("distrito")));
             }

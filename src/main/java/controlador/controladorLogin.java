@@ -47,44 +47,61 @@ public class ControladorLogin {
 
     }
 
-    private void login() throws SQLException {
+   private void login() throws SQLException {
 
-        String usuario = loginVista.txtUsuario.getText();
-        String password = new String(loginVista.txtContraseña.getText());
-        
-        
+    String usuario = loginVista.txtUsuario.getText();
+    String password = new String(loginVista.txtContrasenia.getText());
 
-        if (usuario.isEmpty() || password.isEmpty()) {
-            mostrarError("El usuario y la contraseña no pueden estar vacíos.");
-            return;
-        }
-        
-        UsuarioDao dao = new UsuarioDao();
-
-        LoginResultadoDto res = dao.validar(usuario, password);
-        
-        ModeloCargoDocente cargo = res.getCargoDocente(); 
-        ModeloDocente docente = res.getModeloDocente(); 
-        
-        
-        
-         if (res!= null) {
-             
-             if (cargo.getCargo().equalsIgnoreCase("Director")) {
-                 loginVista.dispose();
-                 VistaPrincipalDirector vista = new VistaPrincipalDirector(); 
-                 ControladorPrincipal ctrlDirec = new ControladorPrincipal(vista); 
-                 ctrlDirec.iniciar();
-             }else if(cargo.getCargo().equalsIgnoreCase("Docente")){
-                 
-                 VistaPrincipalMaestros visMaestros = new VistaPrincipalMaestros(); 
-                 ControladorPrinciplaMaestros ctrlnMaestros = new ControladorPrinciplaMaestros(vistaPrincipalMaestros); 
-                 ctrlnMaestros.iniciar();
-                 
-             }
-         }
-
+    if (usuario.isEmpty() || password.isEmpty()) {
+        JOptionPane.showMessageDialog(
+                null,
+                "El usuario y la contraseña no pueden estar vacíos.",
+                "Error",
+                JOptionPane.ERROR_MESSAGE
+        );
+        return;
     }
+
+    UsuarioDao dao = new UsuarioDao();
+
+    LoginResultadoDto res = dao.validar(usuario, password);
+
+    // VALIDAR SI EL LOGIN FALLÓ
+    if (res == null) {
+
+        JOptionPane.showMessageDialog(
+                null,
+                "Usuario o contraseña incorrectos.",
+                "Inicio de sesión",
+                JOptionPane.ERROR_MESSAGE
+        );
+
+        return;
+    }
+
+    ModeloCargoDocente cargo = res.getCargoDocente();
+    ModeloDocente docente = res.getModeloDocente();
+
+    if (cargo.getCargo().equalsIgnoreCase("Director")) {
+
+        loginVista.dispose();
+
+        VistaPrincipalDirector vista = new VistaPrincipalDirector();
+        ControladorPrincipal ctrlDirec = new ControladorPrincipal(vista);
+
+        ctrlDirec.iniciar();
+
+    } else if (cargo.getCargo().equalsIgnoreCase("Docente")) {
+
+        loginVista.dispose();
+
+        VistaPrincipalMaestros visMaestros = new VistaPrincipalMaestros();
+        ControladorPrinciplaMaestros ctrlnMaestros =
+                new ControladorPrinciplaMaestros(visMaestros);
+
+        ctrlnMaestros.iniciar();
+    }
+}
 
     private void mostrarError(String mensaje) {
         JOptionPane.showMessageDialog(loginVista, mensaje, "Error", JOptionPane.ERROR_MESSAGE);
@@ -107,7 +124,7 @@ public class ControladorLogin {
         iniciar();
 
         loginVista.txtUsuario.setText("");
-        loginVista.txtContraseña.setText("");
+        loginVista.txtContrasenia.setText("");
         loginVista.txtUsuario.requestFocus();
     }
 

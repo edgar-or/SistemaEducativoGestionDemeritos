@@ -6,7 +6,7 @@ package modelo;
 
 import DAO.AlumnoDAO;
 
-public class ModeloAlumno {
+public class ModeloAlumno implements Comparable<ModeloAlumno>{
 
     private int nie;
     private String nombre;
@@ -70,6 +70,12 @@ public class ModeloAlumno {
 
     public void setTotalPuntos(int totalPuntos) {
         this.totalPuntos = totalPuntos;
+    }
+
+    @Override
+    public int compareTo(ModeloAlumno o) {
+            return Integer.compare(this.nie, o.nie);
+
     }
 
 }

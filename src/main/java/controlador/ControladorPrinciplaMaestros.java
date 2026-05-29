@@ -17,101 +17,29 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
+import modelo.ArbolBinarioBusqueda;
 import modelo.Login;
 import modelo.ModeloAlumno;
 import modelo.ModeloGrado;
 import modelo.ModeloSeccion;
+import modelo.Nodo;
 import vista.VistaAgregarDemerito;
 import vista.VistaAgregarMerito;
 import vista.VistaLogin;
 import vista.VistaPrincipalMaestros;
 import vista.VistaVerEstado;
 
-/**
- *
- * @author renec
- */
-/*public class ControladorPrinciplaMaestros {
-
-    private VistaPrincipalMaestros visPrincipalMaaestros;
-    private ControladorMerito controladorMerito;
-
-    public ControladorPrinciplaMaestros(VistaPrincipalMaestros visPrincipalMaaestros) {
-
-        this.visPrincipalMaaestros = visPrincipalMaaestros;
-        
 
 
-        eventos();
-        this.controladorMerito = new ControladorMerito(visPrincipalMaaestros);
-    }
 
-    public void iniciar() {
-
-        visPrincipalMaaestros.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        visPrincipalMaaestros.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        visPrincipalMaaestros.setVisible(true);
-        
-        llenarComboSeccion(); 
-
-    }
-    
-    public void llenarComboSeccion(){
-        AñoSeccionDao dao = new AñoSeccionDao();
-List<SeccionGradoDto> lista = dao.listarSeccionGrado();
-
-for (SeccionGradoDto obj : lista) {
-    visPrincipalMaaestros.comboSeccion.addItem(obj.getSeccion().getSeccion());
-    visPrincipalMaaestros.comboGrado.addItem(obj.getGrado().getGrado());
-}
-    }
-    
-    
-    
-    
-    private void eventos() {
-
-        visPrincipalMaaestros.btnAgregarDemerito.addActionListener(e -> {
-
-            VistaAgregarDemerito vista = new VistaAgregarDemerito();
-            new ControladorAgregarDemerito(vista);
-        });
-        visPrincipalMaaestros.btnAgregarMerito.addActionListener(e -> {
-
-            VistaAgregarMerito vista = new VistaAgregarMerito();
-            new ControladorAgregarMerito(vista);
-        });
-
-        visPrincipalMaaestros.btnVerEstado.addActionListener(e -> {
-
-            VistaVerEstado vista = new VistaVerEstado();
-            new ControladorVerEstado(vista);
-
-        });
-        visPrincipalMaaestros.btnCerrarsesion.addActionListener(e -> {
-            // crear vista y modelo
-            VistaLogin login = new VistaLogin();
-            Login modelo = new Login();
-
-            // crear controlador correctamente
-            new ControladorLogin(login, modelo);
-
-            login.setLocationRelativeTo(null);
-            login.setVisible(true);
-
-            // cerrar la ventana actual
-            visPrincipalMaaestros.dispose();
-        });
-
-    }
-
-}*/
 public class ControladorPrinciplaMaestros {
  
     private VistaPrincipalMaestros vista;
     private GradoDAO gradoDAO = new GradoDAO();
     private seccionProfesorDAO seccionProfesorDAO = new seccionProfesorDAO();
     private AlumnoDAO alumnoDAO = new AlumnoDAO();
+    
+    private ArbolBinarioBusqueda<ModeloAlumno> arbolAlumnos;
  
     public ControladorPrinciplaMaestros(VistaPrincipalMaestros vista) {
         this.vista = vista;
@@ -153,20 +81,84 @@ public class ControladorPrinciplaMaestros {
         vista.comboSeccion.setEnabled(!secciones.isEmpty());
     }
  
-    private void cargarAlumnos(int idSeccion) {
-        llenarTabla(alumnoDAO.obtenerAlumnosPorSeccion(idSeccion));
+  private void cargarAlumnos(int idSeccion) {
+
+    List<ModeloAlumno> lista =
+            alumnoDAO.obtenerAlumnosPorSeccion(idSeccion);
+
+    // crea arbol
+    arbolAlumnos = new ArbolBinarioBusqueda<>();
+
+    // insertar alumno
+    for (ModeloAlumno a : lista) {
+        arbolAlumnos.insertar(a);
     }
+
+    llenarTabla(lista);
+}
  
     private void buscarAlumnos() {
+
+    String textoNie = vista.txtBuscarNie.getText().trim();
+
+    // BUSQUEDA CON ÁRBOL
+    if (!textoNie.isEmpty()) {
+
+        try {
+
+            int nie = Integer.parseInt(textoNie);
+
+            ModeloAlumno alumnoBuscar =
+                    new ModeloAlumno(nie, "", "", 0, "", 0);
+
+            Nodo nodo = arbolAlumnos.buscar(alumnoBuscar);
+
+            DefaultTableModel modelo = new DefaultTableModel(
+                    new String[]{"NIE", "Nombre", "Apellidos", "Puntos"}, 0
+            );
+
+            if (nodo != null) {
+
+                ModeloAlumno encontrado =
+                        (ModeloAlumno) nodo.getDato();
+
+                modelo.addRow(new Object[]{
+                    encontrado.getNie(),
+                    encontrado.getNombre(),
+                    encontrado.getApelliddos(),
+                    encontrado.getTotalPuntos()
+                });
+
+            }
+
+            vista.tablaEstudiantes.setModel(modelo);
+
+        } catch (NumberFormatException e) {
+
+            System.out.println("NIE inválido");
+        }
+
+    } else {
+
+        // SI NO BUSCA POR NIE USA SQL NORMAL
+
         int idSeccion = getIdSeccionSeleccionada();
+
         if (idSeccion == -1) return;
- 
-        String nie      = vista.txtBuscarNie.getText().trim();
-        String nombre   = vista.txtBuscarNombres.getText().trim();
+
+        String nombre = vista.txtBuscarNombres.getText().trim();
         String apellido = vista.txtBuscarApellido.getText().trim();
- 
-        llenarTabla(alumnoDAO.buscarAlumnos(idSeccion, nie, nombre, apellido));
+
+        llenarTabla(
+                alumnoDAO.buscarAlumnos(
+                        idSeccion,
+                        "",
+                        nombre,
+                        apellido
+                )
+        );
     }
+}
  
     @SuppressWarnings("unchecked")
     private int getIdGradoSeleccionado() {
