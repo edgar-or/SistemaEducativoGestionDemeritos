@@ -12,20 +12,15 @@ import DAO.conexion.Conexion;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
-<<<<<<< HEAD
-=======
 import javax.swing.table.DefaultTableModel;
->>>>>>> 449e241f3923a750b837c0e2d070ac9f78a4071b
 
 /**
  *
  * @author ayala
  */
-<<<<<<< HEAD
 public class AlumnoDAO {
 
     // ✅ INSERTAR
-=======
 /*public class AlumnoDAO {
     
      // ✅ INSERTAR
@@ -78,16 +73,9 @@ public class AlumnoDAO {
         }
 
         return listar;
-=======
 }*/
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.List;
-import modelo.ModeloAlumno;
 
-public class AlumnoDAO {
+
  
     public List<ModeloAlumno> obtenerAlumnosPorSeccion(int idSeccion) {
         List<ModeloAlumno> lista = new ArrayList<>();
@@ -168,7 +156,6 @@ public class AlumnoDAO {
             System.out.println("Error al buscar alumnos: " + e.getMessage());
         }
         return lista;
->>>>>>> 449e241f3923a750b837c0e2d070ac9f78a4071b
     }
 }
  

@@ -4,10 +4,7 @@
  */
 package controlador;
 
-<<<<<<< HEAD
 import DAO.AlumnoDAO;
-import DAO.AñoSeccionDao;
-=======
 
 import DAO.AlumnoDAO;
 import DAO.AnioSeccionDao;
@@ -15,7 +12,6 @@ import DAO.GradoDAO;
 import DAO.SeccionDAO;
 import DAO.gradoProfesorDAO;
 import DAO.seccionProfesorDAO;
->>>>>>> 449e241f3923a750b837c0e2d070ac9f78a4071b
 import dto.SeccionGradoDto;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -24,11 +20,9 @@ import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
 import modelo.Login;
 import modelo.ModeloAlumno;
-<<<<<<< HEAD
-=======
+
 import modelo.ModeloGrado;
 import modelo.ModeloSeccion;
->>>>>>> 449e241f3923a750b837c0e2d070ac9f78a4071b
 import vista.VistaAgregarDemerito;
 import vista.VistaAgregarMerito;
 import vista.VistaLogin;
@@ -110,7 +104,6 @@ import vista.VistaVerEstado;
 
     }
 
-<<<<<<< HEAD
     private void cargarTabla() {
 
         try {
@@ -143,7 +136,6 @@ import vista.VistaVerEstado;
     }
 
 }
-=======
 }*/
 public class ControladorPrinciplaMaestros {
  
@@ -271,4 +263,3 @@ public class ControladorPrinciplaMaestros {
         vista.brnBuscar.addActionListener(e -> buscarAlumnos());
     }
 }
->>>>>>> 449e241f3923a750b837c0e2d070ac9f78a4071b
