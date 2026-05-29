@@ -4,6 +4,11 @@
  */
 package controlador;
 
+<<<<<<< HEAD
+=======
+import DAO.AlumnoDAO;
+
+>>>>>>> 07c08db5957cb1a3c865cbca81868fba2cc82e37
 import DAO.AlumnoDAO;
 import DAO.AnioSeccionDao;
 import DAO.GradoDAO;
@@ -19,6 +24,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modelo.Login;
 import modelo.ModeloAlumno;
+
 import modelo.ModeloGrado;
 import modelo.ModeloSeccion;
 import vista.VistaAgregarDemerito;
@@ -35,6 +41,13 @@ import vista.VistaVerEstado;
     private VistaPrincipalMaestros visPrincipalMaaestros;
     private ControladorMerito controladorMerito;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+    private VistaPrincipalMaestros visPrincipalMaaestros;
+    private ControladorMerito controladorMerito;
+
+>>>>>>> 07c08db5957cb1a3c865cbca81868fba2cc82e37
     public ControladorPrinciplaMaestros(VistaPrincipalMaestros visPrincipalMaaestros) {
 
         this.visPrincipalMaaestros = visPrincipalMaaestros;
@@ -50,11 +63,19 @@ import vista.VistaVerEstado;
         visPrincipalMaaestros.setVisible(true);
 
         llenarComboSeccion();
+<<<<<<< HEAD
+=======
+        cargarTabla();
+>>>>>>> 07c08db5957cb1a3c865cbca81868fba2cc82e37
 
     }
 
     public void llenarComboSeccion() {
+<<<<<<< HEAD
         AnioSeccionDao dao = new AnioSeccionDao();
+=======
+        AñoSeccionDao dao = new AñoSeccionDao();
+>>>>>>> 07c08db5957cb1a3c865cbca81868fba2cc82e37
         List<SeccionGradoDto> lista = dao.listarSeccionGrado();
 
         for (SeccionGradoDto obj : lista) {
@@ -92,6 +113,10 @@ import vista.VistaVerEstado;
 
             login.setLocationRelativeTo(null);
             login.setVisible(true);
+<<<<<<< HEAD
+=======
+            
+>>>>>>> 07c08db5957cb1a3c865cbca81868fba2cc82e37
 
             // cerrar la ventana actual
             visPrincipalMaaestros.dispose();
@@ -99,7 +124,45 @@ import vista.VistaVerEstado;
 
     }
 
+<<<<<<< HEAD
 }*/
+=======
+    private void cargarTabla() {
+
+        try {
+            AlumnoDAO dao = new AlumnoDAO();
+            List<ModeloAlumno> lista = dao.listarEstudiantes();
+
+            DefaultTableModel modelo = new DefaultTableModel();
+
+            // columnas
+            modelo.addColumn("NIE");
+            modelo.addColumn("Nombre");
+            modelo.addColumn("Apellido");
+            modelo.addColumn("Puntos Totales");
+
+            // filas
+            for (ModeloAlumno e : lista) {
+                modelo.addRow(new Object[]{
+                    e.getNie(),
+                    e.getNombre(),
+                    e.getApelliddos(),
+                    e.getTotalPuntos()
+                });
+            }
+
+            visPrincipalMaaestros.tablaEstudiantes.setModel(modelo);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+}
+}*/
+=======
+>>>>>>> 69a903998824232400918a4bcc321fd31e98711c
+>>>>>>> 07c08db5957cb1a3c865cbca81868fba2cc82e37
 public class ControladorPrinciplaMaestros {
 
     private ControladorAgregarDemerito controladorAgregarDemerito;
