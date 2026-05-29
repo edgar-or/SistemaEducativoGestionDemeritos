@@ -23,6 +23,10 @@ import modelo.ModeloAlumno;
 
 public class AlumnoDAO {
 
+
+
+
+ 
     public List<ModeloAlumno> obtenerAlumnosPorSeccion(int idSeccion) {
         List<ModeloAlumno> lista = new ArrayList<>();
 

@@ -14,16 +14,41 @@ public class ModeloAlumno implements Comparable<ModeloAlumno>{
     private int idGrado;
     private String duiEncargado;
     private int totalPuntos;
+    private int idSeccion; 
 
-    public ModeloAlumno(int nie, String nombre, String apelliddos, int idGrado, String duiEncargado, int totalPuntos) {
+    public ModeloAlumno() {
+    }
+    
+    
+
+    public int getIdSeccion() {
+        return idSeccion;
+    }
+
+    public void setIdSeccion(int idSeccion) {
+        this.idSeccion = idSeccion;
+    }
+
+    public ModeloAlumno(int nie, String nombre, String apelliddos, int idGrado, String duiEncargado, int totalPuntos, int idSeccion) {
         this.nie = nie;
         this.nombre = nombre;
         this.apelliddos = apelliddos;
         this.idGrado = idGrado;
         this.duiEncargado = duiEncargado;
         this.totalPuntos = totalPuntos;
+        this.idSeccion = idSeccion;
     }
 
+     public ModeloAlumno(int nie, String nombre, String apelliddos, int idGrado, String duiEncargado, int totalPuntos) {
+        this.nie = nie;
+        this.nombre = nombre;
+        this.apelliddos = apelliddos;
+        this.idGrado = idGrado;
+        this.duiEncargado = duiEncargado;
+        this.totalPuntos = totalPuntos;
+        this.idSeccion = idSeccion;
+    }
+    
     public int getNie() {
         return nie;
     }
@@ -72,10 +97,21 @@ public class ModeloAlumno implements Comparable<ModeloAlumno>{
         this.totalPuntos = totalPuntos;
     }
 
+    
+   
     @Override
     public int compareTo(ModeloAlumno o) {
-            return Integer.compare(this.nie, o.nie);
+            return Integer.compare(this.getNie(), o.nie);
 
     }
+    
+    
+//      @Override
+//    public int compareTo(ModeloAlumno o) {
+//            return this.nombre.compareToIgnoreCase(o.nombre);
+//
+//    }
+
+  
 
 }

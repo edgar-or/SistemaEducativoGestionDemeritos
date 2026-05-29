@@ -1,15 +1,14 @@
 package controlador;
 
-
 import DAO.UsuarioDao;
 import controlador.ControladorPrincipal;
-import controlador.ControladorPrinciplaMaestros;
 import dto.LoginResultadoDto;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import modelo.Login;
 import modelo.ModeloCargoDocente;
 import modelo.ModeloDocente;
+import sesion.Sesion;
 import vista.VistaLogin;
 import vista.VistaPrincipalDirector;
 import vista.VistaPrincipalMaestros;
@@ -25,7 +24,7 @@ public class ControladorLogin {
     private VistaPrincipalDirector vista;
     private ControladorPrincipal controladorPrincipal;
     private VistaPrincipalMaestros vistaPrincipalMaestros;
-    private UsuarioDao usuarioDao; 
+    private UsuarioDao usuarioDao;
     private LoginResultadoDto loginResultDto;
 
     public ControladorLogin(VistaLogin vistaLogin, Login Login) {
@@ -47,18 +46,23 @@ public class ControladorLogin {
 
     }
 
-   private void login() throws SQLException {
+  private void login() throws SQLException {
 
-    String usuario = loginVista.txtUsuario.getText();
-    String password = new String(loginVista.txtContrasenia.getText());
+    String usuario = loginVista.txtUsuario.getText().trim();
 
+    String password =
+            new String(loginVista.txtContrasenia.getPassword());
+
+    // VALIDAR CAMPOS VACIOS
     if (usuario.isEmpty() || password.isEmpty()) {
+
         JOptionPane.showMessageDialog(
-                null,
+                loginVista,
                 "El usuario y la contraseña no pueden estar vacíos.",
                 "Error",
                 JOptionPane.ERROR_MESSAGE
         );
+
         return;
     }
 
@@ -66,11 +70,11 @@ public class ControladorLogin {
 
     LoginResultadoDto res = dao.validar(usuario, password);
 
-    // VALIDAR SI EL LOGIN FALLÓ
+    // VALIDAR LOGIN
     if (res == null) {
 
         JOptionPane.showMessageDialog(
-                null,
+                loginVista,
                 "Usuario o contraseña incorrectos.",
                 "Inicio de sesión",
                 JOptionPane.ERROR_MESSAGE
@@ -80,26 +84,49 @@ public class ControladorLogin {
     }
 
     ModeloCargoDocente cargo = res.getCargoDocente();
+
     ModeloDocente docente = res.getModeloDocente();
 
+    // VALIDAR DOCENTE
+    if (docente == null || cargo == null) {
+
+        JOptionPane.showMessageDialog(
+                loginVista,
+                "Error al obtener datos del usuario.",
+                "Error",
+                JOptionPane.ERROR_MESSAGE
+        );
+
+        return;
+    }
+
+    // GUARDAR SESION
+    Sesion.setDuiPersonal(docente.getIdDocente());
+
+    // ABRIR VENTANA SEGUN CARGO
     if (cargo.getCargo().equalsIgnoreCase("Director")) {
 
         loginVista.dispose();
 
-        VistaPrincipalDirector vista = new VistaPrincipalDirector();
-        ControladorPrincipal ctrlDirec = new ControladorPrincipal(vista);
+        VistaPrincipalDirector vistaDirector =
+                new VistaPrincipalDirector();
 
-        ctrlDirec.iniciar();
+        ControladorPrincipal ctrlDirector =
+                new ControladorPrincipal(vistaDirector);
+
+        ctrlDirector.iniciar();
 
     } else if (cargo.getCargo().equalsIgnoreCase("Docente")) {
 
         loginVista.dispose();
 
-        VistaPrincipalMaestros visMaestros = new VistaPrincipalMaestros();
-        ControladorPrinciplaMaestros ctrlnMaestros =
-                new ControladorPrinciplaMaestros(visMaestros);
+        VistaPrincipalMaestros vistaMaestros =
+                new VistaPrincipalMaestros();
 
-        ctrlnMaestros.iniciar();
+        ControladorPrincipalMaestros ctrlMaestros =
+                new ControladorPrincipalMaestros(vistaMaestros);
+
+        ctrlMaestros.iniciar();
     }
 }
 

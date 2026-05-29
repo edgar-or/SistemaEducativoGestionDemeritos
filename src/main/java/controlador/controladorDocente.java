@@ -10,35 +10,46 @@ import modelo.ArbolBinarioBusqueda;
 import modelo.ModeloDocente;
 import modelo.Nodo;
 import vista.VerDocente;
+import vista.VisDocente;
+import vista.VistaAgregarMaestros;
+import vista.VistaDocente;
 import vista.VistaPrincipalDirector;
 
 public class ControladorDocente {
 
-    private VerDocente vistaDocente;
+    private VisDocente vistaDocente;
     private VistaPrincipalDirector vistaPrincipal;
     private DocenteDAO dao = new DocenteDAO();
     private int idDocenteSeleccionado = -1;
     private ArbolBinarioBusqueda<ModeloDocente> arbolDocentes;
 
     public ControladorDocente(VistaPrincipalDirector vistaPrincipal) {
-        this.vistaDocente = new VerDocente();
+        this.vistaDocente = new VisDocente();
         this.vistaPrincipal = vistaPrincipal;
         eventos();
     }
 
     private void eventos() {
         vistaPrincipal.menuDocente.addActionListener(e -> mostrarVista());
-        vistaDocente.btnCerrar.addActionListener(e -> vistaDocente.dispose());
-        vistaDocente.btnagregarDocente.addActionListener(e -> agregarDocente());
+        vistaDocente.btnSalir.addActionListener(e -> vistaDocente.dispose());
+        //vistaDocente.btnGuardar.addActionListener(e -> agregarDocente());
 //        vistaDocente.btnModificar.addActionListener(e -> modificarDocente());
         vistaDocente.btnEliminar.addActionListener(e -> eliminarDocente());
-        vistaDocente.btnBuscar.addActionListener(e -> buscar());
+     //   vistaDocente.btnBuscar.addActionListener(e -> buscar());
 
-        vistaDocente.tablaDocentes.getSelectionModel().addListSelectionListener(e -> {
+        vistaDocente.btnRegistro.addActionListener(e -> {
+
+            VistaAgregarMaestros vista = new VistaAgregarMaestros();
+     ControladorRegistrarDocentes    ctr=   new ControladorRegistrarDocentes(vista);
+        });
+     
+     
+        vistaDocente.tablaDocente.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
-                int fila = vistaDocente.tablaDocentes.getSelectedRow();
+
+                int fila = vistaDocente.tablaDocente.getSelectedRow();
                 if (fila >= 0) {
-                    idDocenteSeleccionado = (int) vistaDocente.tablaDocentes.getValueAt(fila, 0);
+                    idDocenteSeleccionado = (int) vistaDocente.tablaDocente.getValueAt(fila, 0);
                 }
             }
         });
@@ -57,7 +68,7 @@ public class ControladorDocente {
 
     private void cargarTabla(List<ModeloDocente> lista) {
         DefaultTableModel modelo = new DefaultTableModel(
-                new String[]{"ID", "Nombre", "Apellido", "Teléfono", "Correo", "Departamento"}, 0) {
+                new String[]{"ID", "Nombre", "Apellido", "Departamento", "Municipio", "Distrito", "Caserio", "Calle", "Numero de Casa"}, 0) {
             @Override
             public boolean isCellEditable(int r, int c) {
                 return false;
@@ -89,13 +100,13 @@ public class ControladorDocente {
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(vistaDocente, "Error al cargar: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
-        vistaDocente.tablaDocentes.setModel(modelo);
+        vistaDocente.tablaDocente.setModel(modelo);
     }
 
     private void buscar() {
 
-        String id = vistaDocente.txtDUI.getText().trim();
-        String nombre = vistaDocente.txtNombre.getText().trim();
+        String id = vistaDocente.txtBuscarDUI.getText().trim();
+        String nombre = vistaDocente.txtNombreCompleto.getText().trim();
 
         try {
 
@@ -128,7 +139,7 @@ public class ControladorDocente {
                     });
                 }
 
-                vistaDocente.tablaDocentes.setModel(modelo);
+                vistaDocente.tablaDocente.setModel(modelo);
 
             } else if (!nombre.isEmpty()) {
 
@@ -150,6 +161,23 @@ public class ControladorDocente {
             );
         }
     }
+
+//    private void buscar() {
+//        String dui = vistaDocente.txtDUI.getText().trim();
+//        String nombre = vistaDocente.txtNombre.getText().trim();
+//        try {
+//            if (!dui.isEmpty())
+//                cargarTabla(dao.buscarPorId(Integer.parseInt(dui)));
+//            else if (!nombre.isEmpty())
+//                cargarTabla(dao.buscarPorNombre(nombre));
+//            else
+//                cargarTabla(null);
+//        } catch (NumberFormatException ex) {
+//            JOptionPane.showMessageDialog(vistaDocente, "El ID debe ser numérico.", "Aviso", JOptionPane.WARNING_MESSAGE);
+//        } catch (Exception ex) {
+//            JOptionPane.showMessageDialog(vistaDocente, "Error en búsqueda: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+//        }
+//    }
 
     private void agregarDocente() {
         JTextField fNombre = new JTextField(), fApellido = new JTextField(),
