@@ -13,52 +13,59 @@ import java.util.HashSet;
 public class DocenteDAO {
 
     public void insertarDocente(ModeloDocente d) throws SQLException {
-        String sql = "INSERT INTO personal_docente (nombre, apellido, telefono_docente, correo, departamento, municipio, caserio, calle, distrito) "
-                   + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO personal_docente (dui_personal, primer_nombre, primer_apellido, departamento, municipio, caserio, calle, distrito, id_cargo_docente, id_usuario) "
+                   + "VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setString(1, d.getNombre());
-            ps.setString(2, d.getApellido());
-            ps.setInt(3, d.getTelefonoDocente());
-            ps.setString(4, d.getCorreo());
-            ps.setString(5, d.getDepartamento());
-            ps.setString(6, d.getMunicipio());
-            ps.setString(7, d.getCaserio());
-            ps.setString(8, d.getCalle());
-            ps.setString(9, d.getDistrito());
+            ps.setString(1, "121212");
+            ps.setString(2, d.getNombre());
+            ps.setString(3, d.getApellido());
+
+            ps.setString(4, d.getDepartamento());
+            ps.setString(5, d.getMunicipio());
+            ps.setString(6, d.getCaserio());
+            ps.setString(7, d.getCalle());
+            ps.setString(8, d.getDistrito());
+            ps.setString(9, null);
+                        ps.setString(10, null);
+
             ps.executeUpdate();
         }
     }
 
     public List<ModeloDocente> listarDocentes() throws SQLException {
-        List<ModeloDocente> lista = new ArrayList<>();
-        ModeloDocente docente = new ModeloDocente(); 
 
-        String sql = "SELECT dui_personal, primer_nombre, primer_apellido, departamento, municipio, caserio, calle, distrito FROM personal_docente";
-        try (Connection con = Conexion.getConexion();
-             PreparedStatement ps = con.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
-            while (rs.next())
-                
-                docente.setIdDocente(rs.getString("dui_personal"));
-                docente.setNombre(rs.getString("primer_nombre"));
-                docente.setApellido(rs.getString("priemr_apellido"));
-                docente.setDepartamento(rs.getString("departamento"));
-                docente.setTelefonoDocente(23);
-                docente.setCorreo("asdsa@gmail.com");
-                
-                docente.setMunicipio(rs.getString("municipio"));
-            
-                docente.setCaserio(rs.getString("caserio"));
-                docente.setCalle(rs.getString("calle"));
-                docente.setDistrito(rs.getString("distrito"));
-                
-            
-                
-           lista.add(docente); 
+    List<ModeloDocente> lista = new ArrayList<>();
+
+    String sql = "SELECT dui_personal, primer_nombre, primer_apellido, departamento, municipio, caserio, calle, distrito FROM personal_docente";
+
+    try (Connection con = Conexion.getConexion();
+         PreparedStatement ps = con.prepareStatement(sql);
+         ResultSet rs = ps.executeQuery()) {
+
+        while (rs.next()) {
+
+            ModeloDocente docente = new ModeloDocente();
+
+            docente.setIdDocente(rs.getString("dui_personal"));
+            docente.setNombre(rs.getString("primer_nombre"));
+            docente.setApellido(rs.getString("primer_apellido"));
+            docente.setDepartamento(rs.getString("departamento"));
+
+            docente.setTelefonoDocente(23);
+            docente.setCorreo("asdsa@gmail.com");
+
+            docente.setMunicipio(rs.getString("municipio"));
+            docente.setCaserio(rs.getString("caserio"));
+            docente.setCalle(rs.getString("calle"));
+            docente.setDistrito(rs.getString("distrito"));
+
+            lista.add(docente);
         }
-        return lista;
     }
+
+    return lista;
+}
 
     public List<ModeloDocente> buscarPorId(int idDocente) throws SQLException {
         List<ModeloDocente> lista = new ArrayList<>();

@@ -19,7 +19,7 @@ import modelo.ModeloConducta;
 public class MeritoDAO {
      public static List<ModeloConducta> obtenerTiposConducta() {
         List<ModeloConducta> lista = new ArrayList<>();
-        String sql = "SELECT id_tipo_conducta, tipo, descripcion, puntos FROM tipo_conducta WHERE tipo= 'merito';";
+        String sql = "SELECT id_tipo_conducta, tipo, descripcion, puntos FROM tipo_conducta WHERE tipo= 'merito'";
 
         try (Connection con = Conexion.getConexion(); 
                  PreparedStatement ps = con.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {

@@ -14,13 +14,11 @@ public class ModeloSeccion {
     private String seccion;
     private ModeloGrado grado;
 
-    // Constructor básico (id + nombre de sección)
     public ModeloSeccion(int idSeccion, String seccion) {
         this.idSeccion = idSeccion;
         this.seccion = seccion;
     }
 
-    // Constructor completo (id + sección + grado)
     public ModeloSeccion(int idSeccion, String seccion, ModeloGrado grado) {
         this.idSeccion = idSeccion;
         this.seccion = seccion;
