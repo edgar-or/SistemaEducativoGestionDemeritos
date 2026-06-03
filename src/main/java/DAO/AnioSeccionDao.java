@@ -10,6 +10,7 @@ import java.util.List;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import modelo.ModeloGrado;
 import modelo.ModeloSeccion;
@@ -19,24 +20,23 @@ import modelo.ModeloSeccion;
  * @author ayala
  */
 public class AnioSeccionDao {
-    
-    public List<SeccionGradoDto> listarSeccionGrado() {
+
+    public List<SeccionGradoDto> listarSeccionGrado() throws SQLException {
         List<SeccionGradoDto> lista = new ArrayList<>();
 
-        String sql = "SELECT s.id_seccion, s.seccion, g.id_grado, g.grado " +
-                     "FROM seccion s " +
-                     "INNER JOIN grado g ON s.id_grado = g.id_grado";
+        String sql = "SELECT s.id_seccion, s.seccion, g.id_grado, g.grado "
+                + "FROM seccion s "
+                + "INNER JOIN grado g ON s.id_grado = g.id_grado";
 
-        try {
-            Connection con = Conexion.getConexion();
-            PreparedStatement ps = con.prepareStatement(sql);
-                        ResultSet rs = ps.executeQuery();
+        try (Connection con = Conexion.getConexion();
+                PreparedStatement ps = con.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
-                int idSeccion = rs.getInt("id_seccion");
-                String seccionNombre = rs.getString("seccion");
-
-                ModeloSeccion seccion = new ModeloSeccion(idSeccion, seccionNombre);
+                // Instanciamos usando el constructor vacío y usamos setters
+                ModeloSeccion seccion = new ModeloSeccion();
+                seccion.setIdSeccion(rs.getInt("id_seccion"));
+                seccion.setSeccion(rs.getString("seccion"));
 
                 ModeloGrado grado = new ModeloGrado();
                 grado.setIdGrado(rs.getInt("id_grado"));
@@ -48,13 +48,12 @@ public class AnioSeccionDao {
 
                 lista.add(dto);
             }
-            
-        } catch (Exception e) {
+
+        } catch (SQLException e) {
             e.printStackTrace();
+            throw e; 
         }
 
         return lista;
     }
-    
-    
 }

@@ -23,15 +23,12 @@ public class ControladorAgregarDemerito {
 
     private VistaAgregarDemerito visAgregarDemerito;
 
-    LoginResultadoDto res = new LoginResultadoDto();
-
     public ControladorAgregarDemerito(VistaAgregarDemerito visAgregarDemeritos, String nie, String nombreCompleto) {
         this.visAgregarDemerito = visAgregarDemeritos;
         iniciarVista();
         onEvento();
         llenarCombo();
         cargarDatosEstudiante(nie, nombreCompleto);
-
     }
 
     private void iniciarVista() {
@@ -40,7 +37,6 @@ public class ControladorAgregarDemerito {
     }
 
     private void onEvento() {
-
         visAgregarDemerito.btnCerrar.addActionListener(e -> {
             visAgregarDemerito.dispose();
         });
@@ -48,19 +44,17 @@ public class ControladorAgregarDemerito {
         visAgregarDemerito.ComboDescripcion.addActionListener(e -> {
             ModeloConducta seleccionado = (ModeloConducta) visAgregarDemerito.ComboDescripcion.getSelectedItem();
             if (seleccionado != null) {
-                int id = seleccionado.getIdTipoConducta();
+                int id = seleccionado.getIdTipo();
                 System.out.println("ID seleccionado: " + id);
             }
         });
 
         visAgregarDemerito.btnAgregar.addActionListener(e -> {
-
+            String duiSesion = Sesion.getDuiPersonal();
             String nie = visAgregarDemerito.txtNie.getText();
             String observacion = visAgregarDemerito.txtObservaciones.getText();
-
             ModeloConducta tipo = (ModeloConducta) visAgregarDemerito.ComboDescripcion.getSelectedItem();
 
-            //Validaciones
             if (tipo == null) {
                 JOptionPane.showMessageDialog(null, "Seleccione un tipo de demérito");
                 return;
@@ -70,30 +64,23 @@ public class ControladorAgregarDemerito {
                 JOptionPane.showMessageDialog(null, "Ingrese una observación");
                 return;
             }
-            String duiSesion = Sesion.getDuiPersonal();
 
-
-            if (duiSesion == null) {
+            if (duiSesion == null || duiSesion.trim().isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Error: sesión no encontrada");
                 return;
             }
 
-
-            DemeritoDAO.insertarDemerito(nie, observacion, duiSesion, tipo.getIdTipoConducta());
-
+            DemeritoDAO.insertarDemerito(nie, observacion, duiSesion, tipo.getIdTipo());
             DemeritoDAO.actualizarPuntos(nie);
 
             JOptionPane.showMessageDialog(null, "Demérito guardado correctamente");
-
             visAgregarDemerito.dispose();
         });
-
     }
 
     private void llenarCombo() {
-
         List<ModeloConducta> listaConductas = DemeritoDAO.obtenerTiposConducta();
-
+        visAgregarDemerito.ComboDescripcion.removeAllItems();
         for (ModeloConducta con : listaConductas) {
             visAgregarDemerito.ComboDescripcion.addItem(con);
         }
@@ -102,9 +89,7 @@ public class ControladorAgregarDemerito {
     private void cargarDatosEstudiante(String nie, String nombreCompleto) {
         this.visAgregarDemerito.txtNie.setText(nie);
         this.visAgregarDemerito.txtNombreCompleto.setText(nombreCompleto);
-
         this.visAgregarDemerito.txtNie.setEditable(false);
         this.visAgregarDemerito.txtNombreCompleto.setEditable(false);
     }
-
 }

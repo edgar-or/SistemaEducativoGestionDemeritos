@@ -17,22 +17,26 @@ import modelo.ModeloGrado;
  *
  * @author zair8
  */
+
 public class gradoProfesorDAO {
- 
+
     public List<ModeloGrado> obtenerGrados() {
         List<ModeloGrado> lista = new ArrayList<>();
         String sql = "SELECT id_grado, grado FROM grados";
- 
+
         try (Connection con = Conexion.getConexion();
-             PreparedStatement ps = con.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
- 
+                PreparedStatement ps = con.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery()) {
+
             while (rs.next()) {
-                int idGrado = rs.getInt("id_grado");
-                int grado   = rs.getInt("grado");
-                lista.add(new ModeloGrado(idGrado, String.valueOf(grado)));
+                ModeloGrado grado = new ModeloGrado();
+
+                grado.setIdGrado(rs.getInt("id_grado"));
+                grado.setGrado(rs.getString("grado"));
+
+                lista.add(grado);
             }
- 
+
         } catch (SQLException e) {
             System.out.println("Error al obtener grados: " + e.getMessage());
         }

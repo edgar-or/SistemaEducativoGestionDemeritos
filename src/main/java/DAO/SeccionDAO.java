@@ -15,22 +15,17 @@ import modelo.ModeloSeccion;
  * @author ayala
  */
 public class SeccionDAO {
-   
+
     public void insertarSeccion(ModeloSeccion seccion) throws Exception {
+        String sql = "INSERT INTO seccion(seccion, id_grado) VALUES (?, ?)";
 
-    String sql = "INSERT INTO seccion(seccion, id_grado) VALUES (?, ?)";
+        try (Connection con = Conexion.getConexion();
+             PreparedStatement ps = con.prepareStatement(sql)) {
 
-    try (Connection con = Conexion.getConexion();
-         PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, seccion.getSeccion());
+            ps.setInt(2, seccion.getModeloGrado().getIdGrado());
 
-        ps.setString(1, seccion.getSeccion());
-
-        // obtenemos el id desde el objeto grado
-        ps.setInt(2, seccion.getGrado().getIdGrado());
-
-        ps.executeUpdate();
+            ps.executeUpdate();
+        }
     }
-}
-
-    
 }

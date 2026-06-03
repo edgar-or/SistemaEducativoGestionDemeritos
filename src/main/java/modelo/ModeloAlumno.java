@@ -5,88 +5,60 @@
 package modelo;
 
 import DAO.AlumnoDAO;
+import java.util.ArrayList;
 
-public class ModeloAlumno implements Comparable<ModeloAlumno>{
+public class ModeloAlumno implements Comparable<ModeloAlumno> {
 
     private int nie;
     private String nombre;
     private String apelliddos;
-    private int idGrado;
-    private String duiEncargado;
     private int totalPuntos;
-    private int idSeccion; 
+    private ModeloEncardoAlumno modeloEncargadoAlumno;
+    private ModeloSeccion modeloSeccion;
+    private ArrayList<ModeloConducta> modeloConducta;
 
     public ModeloAlumno() {
     }
-    
-    
 
-    public int getIdSeccion() {
-        return idSeccion;
-    }
-
-    public void setIdSeccion(int idSeccion) {
-        this.idSeccion = idSeccion;
-    }
-
-    public ModeloAlumno(int nie, String nombre, String apelliddos, int idGrado, String duiEncargado, int totalPuntos, int idSeccion) {
+    public ModeloAlumno(int nie, String nombre, String apelliddos, int totalPuntos,
+            ModeloEncardoAlumno modeloEncargadoAlumno, ModeloSeccion modeloSeccion,
+            ArrayList<ModeloConducta> modeloConducta) {
         this.nie = nie;
         this.nombre = nombre;
         this.apelliddos = apelliddos;
-        this.idGrado = idGrado;
-        this.duiEncargado = duiEncargado;
         this.totalPuntos = totalPuntos;
-        this.idSeccion = idSeccion;
+        this.modeloEncargadoAlumno = modeloEncargadoAlumno;
+        this.modeloSeccion = modeloSeccion;
+        this.modeloConducta = modeloConducta;
     }
 
-     public ModeloAlumno(int nie, String nombre, String apelliddos, int idGrado, String duiEncargado, int totalPuntos) {
-        this.nie = nie;
-        this.nombre = nombre;
-        this.apelliddos = apelliddos;
-        this.idGrado = idGrado;
-        this.duiEncargado = duiEncargado;
-        this.totalPuntos = totalPuntos;
-        this.idSeccion = idSeccion;
+    @Override
+    public int compareTo(ModeloAlumno otroAlumno) {
+        return Integer.compare(this.nie, otroAlumno.getNie());
     }
-    
+
     public int getNie() {
         return nie;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public String getApelliddos() {
-        return apelliddos;
-    }
-
-    public int getIdGrado() {
-        return idGrado;
-    }
-
-    public String getDuiEncargado() {
-        return duiEncargado;
     }
 
     public void setNie(int nie) {
         this.nie = nie;
     }
 
+    public String getNombre() {
+        return nombre;
+    }
+
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
 
+    public String getApelliddos() {
+        return apelliddos;
+    }
+
     public void setApelliddos(String apelliddos) {
         this.apelliddos = apelliddos;
-    }
-
-    public void setIdGrado(int idGrado) {
-        this.idGrado = idGrado;
-    }
-
-    public void setDuiEncargado(String duiEncargado) {
-        this.duiEncargado = duiEncargado;
     }
 
     public int getTotalPuntos() {
@@ -97,21 +69,27 @@ public class ModeloAlumno implements Comparable<ModeloAlumno>{
         this.totalPuntos = totalPuntos;
     }
 
-    
-   
-    @Override
-    public int compareTo(ModeloAlumno o) {
-            return Integer.compare(this.getNie(), o.nie);
-
+    public ModeloEncardoAlumno getModeloEncargadoAlumno() {
+        return modeloEncargadoAlumno;
     }
-    
-    
-//      @Override
-//    public int compareTo(ModeloAlumno o) {
-//            return this.nombre.compareToIgnoreCase(o.nombre);
-//
-//    }
 
-  
+    public void setModeloEncargadoAlumno(ModeloEncardoAlumno modeloEncargadoAlumno) {
+        this.modeloEncargadoAlumno = modeloEncargadoAlumno;
+    }
 
+    public ModeloSeccion getModeloSeccion() {
+        return modeloSeccion;
+    }
+
+    public void setModeloSeccion(ModeloSeccion modeloSeccion) {
+        this.modeloSeccion = modeloSeccion;
+    }
+
+    public ArrayList<ModeloConducta> getModeloConducta() {
+        return modeloConducta;
+    }
+
+    public void setModeloConducta(ArrayList<ModeloConducta> modeloConducta) {
+        this.modeloConducta = modeloConducta;
+    }
 }

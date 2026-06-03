@@ -8,11 +8,10 @@ package sesion;
  *
  * @author renec
  */
-
 public class Sesion {
 
-    private static String duiPersonal;
-
+    private static String duiPersonal = null; 
+    
     public static String getDuiPersonal() {
         return duiPersonal;
     }

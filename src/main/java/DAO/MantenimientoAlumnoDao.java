@@ -11,6 +11,8 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import modelo.ModeloAlumno;
+import modelo.ModeloEncardoAlumno;
+import modelo.ModeloSeccion;
 
 /**
  *
@@ -18,309 +20,214 @@ import modelo.ModeloAlumno;
  */
 public class MantenimientoAlumnoDao {
 
-    // insertar 
     public boolean insertarAlumno(ModeloAlumno alumno) {
+        String sql = "INSERT INTO estudiante(nie, primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, total_puntos, id_seccion, dui_encargado) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        try (Connection con = Conexion.getConexion(); PreparedStatement ps = con.prepareStatement(sql)) {
 
-        String sql = "INSERT INTO estudiante( nie, primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, total_puntos, id_seccion, dui_encargado ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-
-        try (
-                Connection con = Conexion.getConexion(); 
-                PreparedStatement ps = con.prepareStatement(sql)) {
-
-            // separa nombre
-            String[] nombres
-                    = alumno.getNombre().trim().split("\\s+", 2);
-
+            String[] nombres = alumno.getNombre().trim().split("\\s+", 2);
             String primerNombre = nombres[0];
+            String segundoNombre = nombres.length > 1 ? nombres[1] : "";
 
-            String segundoNombre
-                    = nombres.length > 1 ? nombres[1] : "";
-
-            // separa apellido
-            String[] apellidos
-                    = alumno.getApelliddos().trim().split("\\s+", 2);
-
+            String[] apellidos = alumno.getApelliddos().trim().split("\\s+", 2);
             String primerApellido = apellidos[0];
+            String segundoApellido = apellidos.length > 1 ? apellidos[1] : "";
 
-            String segundoApellido
-                    = apellidos.length > 1 ? apellidos[1] : "";
+            int idSeccion = (alumno.getModeloSeccion() != null) ? alumno.getModeloSeccion().getIdSeccion() : 0;
 
-            ps.setString(1, String.valueOf(alumno.getNie()));
+            Integer duiEncargado = (alumno.getModeloEncargadoAlumno() != null) ? alumno.getModeloEncargadoAlumno().getDui() : null;
+
+            ps.setInt(1, alumno.getNie());
             ps.setString(2, primerNombre);
             ps.setString(3, segundoNombre);
             ps.setString(4, primerApellido);
             ps.setString(5, segundoApellido);
             ps.setInt(6, alumno.getTotalPuntos());
-            ps.setInt(7, alumno.getIdSeccion());
-            ps.setString(8, alumno.getDuiEncargado());
+            ps.setInt(7, idSeccion);
+
+            if (duiEncargado != null) {
+                ps.setInt(8, duiEncargado);
+            } else {
+                ps.setNull(8, java.sql.Types.INTEGER);
+            }
 
             return ps.executeUpdate() > 0;
-
         } catch (Exception e) {
-
             System.out.println("Error insertarAlumno: " + e.getMessage());
             return false;
         }
     }
 
-    // modificar 
     public boolean actualizarAlumno(ModeloAlumno alumno) {
-
         String sql = "UPDATE estudiante SET primer_nombre = ?, segundo_nombre = ?, primer_apellido = ?, segundo_apellido = ?, total_puntos = ?, id_seccion = ?, dui_encargado = ? WHERE nie = ?";
+        try (Connection con = Conexion.getConexion(); PreparedStatement ps = con.prepareStatement(sql)) {
 
-        try (
-                Connection con = Conexion.getConexion(); PreparedStatement ps = con.prepareStatement(sql)) {
-            
-        // separa
-        String[] nombres =
-                alumno.getNombre().trim().split("\\s+", 2);
+            String[] nombres = alumno.getNombre().trim().split("\\s+", 2);
+            String primerNombre = nombres[0];
+            String segundoNombre = nombres.length > 1 ? nombres[1] : "";
 
-        String primerNombre = nombres[0];
+            String[] apellidos = alumno.getApelliddos().trim().split("\\s+", 2);
+            String primerApellido = apellidos[0];
+            String segundoApellido = apellidos.length > 1 ? apellidos[1] : "";
 
-        String segundoNombre =
-                nombres.length > 1 ? nombres[1] : "";
-
-        // separa
-        String[] apellidos =
-                alumno.getApelliddos().trim().split("\\s+", 2);
-
-        String primerApellido = apellidos[0];
-
-        String segundoApellido =
-                apellidos.length > 1 ? apellidos[1] : "";
+            int idSeccion = (alumno.getModeloSeccion() != null) ? alumno.getModeloSeccion().getIdSeccion() : 0;
+            Integer duiEncargado = (alumno.getModeloEncargadoAlumno() != null) ? alumno.getModeloEncargadoAlumno().getDui() : null;
 
             ps.setString(1, primerNombre);
             ps.setString(2, segundoNombre);
             ps.setString(3, primerApellido);
             ps.setString(4, segundoApellido);
             ps.setInt(5, alumno.getTotalPuntos());
-            ps.setInt(6, alumno.getIdSeccion());
-            ps.setString(7, alumno.getDuiEncargado());
-            ps.setString(8, String.valueOf(alumno.getNie()));
+            ps.setInt(6, idSeccion);
+
+            if (duiEncargado != null) {
+                ps.setInt(7, duiEncargado);
+            } else {
+                ps.setNull(7, java.sql.Types.INTEGER);
+            }
+
+            ps.setInt(8, alumno.getNie());
 
             return ps.executeUpdate() > 0;
-
         } catch (Exception e) {
-
             System.out.println("Error actualizarAlumno: " + e.getMessage());
             return false;
         }
     }
 
-    // eliinar
-    public boolean eliminarAlumno(String nie) {
-
+    public boolean eliminarAlumno(int nie) {
         String sql = "DELETE FROM estudiante WHERE nie = ?";
-
-        try (
-                Connection con = Conexion.getConexion(); PreparedStatement ps = con.prepareStatement(sql)) {
-
-            ps.setString(1, nie);
-
+        try (Connection con = Conexion.getConexion(); PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, nie);
             return ps.executeUpdate() > 0;
-
         } catch (Exception e) {
-
             System.out.println("Error eliminarAlumno: " + e.getMessage());
             return false;
         }
     }
 
-    // listar
     public List<ModeloAlumno> listarAlumnos() {
+        List<ModeloAlumno> lista = new ArrayList<>();
+        String sql = "SELECT * FROM estudiante";
+        try (Connection con = Conexion.getConexion(); PreparedStatement ps = con.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
 
-    List<ModeloAlumno> lista = new ArrayList<>();
+            while (rs.next()) {
+                ModeloAlumno a = new ModeloAlumno();
+                String nombreCompleto = rs.getString("primer_nombre");
+                if (rs.getString("segundo_nombre") != null && !rs.getString("segundo_nombre").isEmpty()) {
+                    nombreCompleto += " " + rs.getString("segundo_nombre");
+                }
 
-    String sql = "SELECT * FROM estudiante";
+                String apellidoCompleto = rs.getString("primer_apellido");
+                if (rs.getString("segundo_apellido") != null && !rs.getString("segundo_apellido").isEmpty()) {
+                    apellidoCompleto += " " + rs.getString("segundo_apellido");
+                }
 
-    try (
-            Connection con = Conexion.getConexion();
-            PreparedStatement ps = con.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery()
-    ) {
+                a.setNie(rs.getInt("nie"));
+                a.setNombre(nombreCompleto);
+                a.setApelliddos(apellidoCompleto);
+                a.setTotalPuntos(rs.getInt("total_puntos"));
 
-        while (rs.next()) {
+                ModeloSeccion seccion = new ModeloSeccion();
+                seccion.setIdSeccion(rs.getInt("id_seccion"));
+                a.setModeloSeccion(seccion);
 
-            ModeloAlumno a = new ModeloAlumno();
+                int duiVal = rs.getInt("dui_encargado");
+                if (!rs.wasNull()) {
+                    ModeloEncardoAlumno encargado = new ModeloEncardoAlumno();
+                    encargado.setDui(duiVal);
+                    a.setModeloEncargadoAlumno(encargado);
+                }
 
-            // UNE NOMBRE
-            String nombreCompleto =
-                    rs.getString("primer_nombre");
-
-            if (rs.getString("segundo_nombre") != null
-                    && !rs.getString("segundo_nombre").isEmpty()) {
-
-                nombreCompleto += " "
-                        + rs.getString("segundo_nombre");
+                lista.add(a);
             }
-
-            // UNE APELLIDOS
-            String apellidoCompleto =
-                    rs.getString("primer_apellido");
-
-            if (rs.getString("segundo_apellido") != null
-                    && !rs.getString("segundo_apellido").isEmpty()) {
-
-                apellidoCompleto += " "
-                        + rs.getString("segundo_apellido");
-            }
-
-            a.setNie(Integer.parseInt(rs.getString("nie")));
-            a.setNombre(nombreCompleto);
-            a.setApelliddos(apellidoCompleto);
-            a.setTotalPuntos(rs.getInt("total_puntos"));
-            a.setIdSeccion(rs.getInt("id_seccion"));
-            a.setDuiEncargado(rs.getString("dui_encargado"));
-
-            lista.add(a);
+        } catch (Exception e) {
+            System.out.println("Error listarAlumnos: " + e.getMessage());
         }
-
-    } catch (Exception e) {
-
-        System.out.println(
-                "Error listarAlumnos: "
-                + e.getMessage()
-        );
+        return lista;
     }
 
-    return lista;
-}
-
-    // BUSCA POR NIE
-    public ModeloAlumno buscarPorNie(String nie) {
-
+    public ModeloAlumno buscarPorNie(int nie) {
         String sql = "SELECT * FROM estudiante WHERE nie = ?";
-
-        try (
-                Connection con = Conexion.getConexion(); 
-                PreparedStatement ps = con.prepareStatement(sql)) {
-
-            ps.setString(1, nie);
-
+        try (Connection con = Conexion.getConexion(); PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, nie);
             try (ResultSet rs = ps.executeQuery()) {
-
                 if (rs.next()) {
-
                     ModeloAlumno a = new ModeloAlumno();
+                    String nombreCompleto = rs.getString("primer_nombre");
+                    if (rs.getString("segundo_nombre") != null && !rs.getString("segundo_nombre").isEmpty()) {
+                        nombreCompleto += " " + rs.getString("segundo_nombre");
+                    }
 
+                    String apellidoCompleto = rs.getString("primer_apellido");
+                    if (rs.getString("segundo_apellido") != null && !rs.getString("segundo_apellido").isEmpty()) {
+                        apellidoCompleto += " " + rs.getString("segundo_apellido");
+                    }
 
-            // UNIR NOMBRES
-            String nombreCompleto =
-                    rs.getString("primer_nombre");
+                    a.setNie(rs.getInt("nie"));
+                    a.setNombre(nombreCompleto);
+                    a.setApelliddos(apellidoCompleto);
+                    a.setTotalPuntos(rs.getInt("total_puntos"));
 
-            if (rs.getString("segundo_nombre") != null
-                    && !rs.getString("segundo_nombre").isEmpty()) {
+                    ModeloSeccion seccion = new ModeloSeccion();
+                    seccion.setIdSeccion(rs.getInt("id_seccion"));
+                    a.setModeloSeccion(seccion);
 
-                nombreCompleto += " "
-                        + rs.getString("segundo_nombre");
-            }
-
-            // UNIR APELLIDOS
-            String apellidoCompleto =
-                    rs.getString("primer_apellido");
-
-            if (rs.getString("segundo_apellido") != null && !rs.getString("segundo_apellido").isEmpty()) {
-
-                apellidoCompleto += " " + rs.getString("segundo_apellido");
-            }
-
-            a.setNie(Integer.parseInt(rs.getString("nie")));
-
-            a.setNombre(nombreCompleto);
-
-            a.setApelliddos(apellidoCompleto);
-
-            a.setTotalPuntos(rs.getInt("total_puntos"));
-
-            a.setIdSeccion(rs.getInt("id_seccion"));
-
-            a.setDuiEncargado(rs.getString("dui_encargado"));
+                    int duiVal = rs.getInt("dui_encargado");
+                    if (!rs.wasNull()) {
+                        ModeloEncardoAlumno encargado = new ModeloEncardoAlumno();
+                        encargado.setDui(duiVal);
+                        a.setModeloEncargadoAlumno(encargado);
+                    }
 
                     return a;
                 }
             }
-
         } catch (Exception e) {
-
             System.out.println("Error buscarPorNie: " + e.getMessage());
         }
-
         return null;
     }
 
-    // BUSCA POR NOMBRE
     public List<ModeloAlumno> buscarPorNombre(String nombre) {
-
         List<ModeloAlumno> lista = new ArrayList<>();
-
         String sql = "SELECT * FROM estudiante WHERE primer_nombre LIKE ?";
-
-        try (
-                Connection con = Conexion.getConexion(); PreparedStatement ps = con.prepareStatement(sql)) {
-
+        try (Connection con = Conexion.getConexion(); PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setString(1, "%" + nombre + "%");
-
             try (ResultSet rs = ps.executeQuery()) {
-
                 while (rs.next()) {
+                    ModeloAlumno a = new ModeloAlumno();
+                    String nombreCompleto = rs.getString("primer_nombre");
+                    if (rs.getString("segundo_nombre") != null && !rs.getString("segundo_nombre").isEmpty()) {
+                        nombreCompleto += " " + rs.getString("segundo_nombre");
+                    }
 
-                     ModeloAlumno a = new ModeloAlumno();
+                    String apellidoCompleto = rs.getString("primer_apellido");
+                    if (rs.getString("segundo_apellido") != null && !rs.getString("segundo_apellido").isEmpty()) {
+                        apellidoCompleto += " " + rs.getString("segundo_apellido");
+                    }
 
-            // UNIR NOMBRES
-            String nombreCompleto =
-                    rs.getString("primer_nombre");
+                    a.setNie(rs.getInt("nie"));
+                    a.setNombre(nombreCompleto);
+                    a.setApelliddos(apellidoCompleto);
+                    a.setTotalPuntos(rs.getInt("total_puntos"));
 
-            if (rs.getString("segundo_nombre") != null
-                    && !rs.getString("segundo_nombre").isEmpty()) {
+                    ModeloSeccion seccion = new ModeloSeccion();
+                    seccion.setIdSeccion(rs.getInt("id_seccion"));
+                    a.setModeloSeccion(seccion);
 
-                nombreCompleto += " "
-                        + rs.getString("segundo_nombre");
-            }
-
-            // UNI APELLIDOS
-            String apellidoCompleto =
-                    rs.getString("primer_apellido");
-
-            if (rs.getString("segundo_apellido") != null
-                    && !rs.getString("segundo_apellido").isEmpty()) {
-
-                apellidoCompleto += " "
-                        + rs.getString("segundo_apellido");
-            }
-
-            // SETTERS
-            a.setNie(
-                    Integer.parseInt(rs.getString("nie"))
-            );
-
-            a.setNombre(nombreCompleto);
-
-            a.setApelliddos(apellidoCompleto);
-
-            a.setTotalPuntos(
-                    rs.getInt("total_puntos")
-            );
-
-            a.setIdSeccion(
-                    rs.getInt("id_seccion")
-            );
-
-            a.setDuiEncargado(
-                    rs.getString("dui_encargado")
-            );
+                    int duiVal = rs.getInt("dui_encargado");
+                    if (!rs.wasNull()) {
+                        ModeloEncardoAlumno encargado = new ModeloEncardoAlumno();
+                        encargado.setDui(duiVal);
+                        a.setModeloEncargadoAlumno(encargado);
+                    }
 
                     lista.add(a);
                 }
             }
-
         } catch (Exception e) {
-
             System.out.println("Error buscarPorNombre: " + e.getMessage());
         }
-
         return lista;
     }
-
-   
-
 }

@@ -18,27 +18,29 @@ import modelo.ModeloSeccion;
  * @author zair8
  */
 public class seccionProfesorDAO {
- 
+
     public List<ModeloSeccion> obtenerSeccionesPorGrado(int idGrado) {
         List<ModeloSeccion> lista = new ArrayList<>();
         String sql = "SELECT id_seccion, seccion FROM seccion WHERE id_grado = ?";
- 
-        try (Connection con = Conexion.getConexion();
-             PreparedStatement ps = con.prepareStatement(sql)) {
- 
+
+        try (Connection con = Conexion.getConexion(); PreparedStatement ps = con.prepareStatement(sql)) {
+
             ps.setInt(1, idGrado);
+
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    int    idSeccion = rs.getInt("id_seccion");
-                    String seccion   = rs.getString("seccion"); 
-                    lista.add(new ModeloSeccion(idSeccion, seccion));
+                    ModeloSeccion seccionObj = new ModeloSeccion();
+
+                    seccionObj.setIdSeccion(rs.getInt("id_seccion"));
+                    seccionObj.setSeccion(rs.getString("seccion"));
+
+                    lista.add(seccionObj);
                 }
             }
- 
+
         } catch (SQLException e) {
             System.out.println("Error al obtener secciones: " + e.getMessage());
         }
         return lista;
     }
 }
- 

@@ -17,21 +17,21 @@ import modelo.ModeloConducta;
  * @author renec
  */
 public class MeritoDAO {
-      public static List<ModeloConducta> obtenerTiposConducta() {
-        List<ModeloConducta> lista = new ArrayList<>();
-        String sql = "SELECT id_tipo_conducta, tipo, descripcion, puntos FROM tipo_conducta WHERE tipo= 'merito'";
 
-        try (Connection con = Conexion.getConexion(); 
-             PreparedStatement ps = con.prepareStatement(sql); 
-             ResultSet rs = ps.executeQuery()) {
+    public static List<ModeloConducta> obtenerTiposConducta() {
+        List<ModeloConducta> lista = new ArrayList<>();
+        String sql = "SELECT id_tipo_conducta, tipo, descripcion, puntos FROM tipo_conducta WHERE tipo = 'merito'";
+
+        try (Connection con = Conexion.getConexion(); PreparedStatement ps = con.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
-                ModeloConducta conducta = new ModeloConducta(
-                        rs.getString("tipo"),
-                        rs.getString("descripcion"),
-                        rs.getInt("id_tipo_conducta"),
-                        rs.getInt("puntos")
-                );
+                ModeloConducta conducta = new ModeloConducta();
+                conducta.setIdTipo(rs.getInt("id_tipo_conducta"));
+                conducta.setTipo(rs.getString("tipo"));
+                conducta.setDescripcion(rs.getString("descripcion"));
+                conducta.setPuntos(rs.getInt("puntos"));
+                conducta.setMovimientoConducta(new ArrayList<>());
+
                 lista.add(conducta);
             }
         } catch (Exception e) {
@@ -40,28 +40,22 @@ public class MeritoDAO {
         return lista;
     }
 
-    // 🔥 ESTE ES EL QUE TE FALTABA
     public static void insertarMerito(String nie, int idTipo, String observacion) {
-
         String sql = "INSERT INTO movimiento_conducta (nie, id_tipo_conducta, observacion, fecha) VALUES (?, ?, ?, NOW())";
 
-        try (Connection con = Conexion.getConexion();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = Conexion.getConexion(); PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setString(1, nie);
             ps.setInt(2, idTipo);
             ps.setString(3, observacion);
 
             ps.executeUpdate();
-
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    // 🔥 Y ESTE PARA ACTUALIZAR PUNTOS
     public static void actualizarPuntos(String nie) {
-
         String sql = """
             UPDATE estudiante e
             SET total_puntos = (
@@ -74,12 +68,10 @@ public class MeritoDAO {
             WHERE e.nie = ?
         """;
 
-        try (Connection con = Conexion.getConexion();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = Conexion.getConexion(); PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setString(1, nie);
             ps.executeUpdate();
-
         } catch (Exception e) {
             e.printStackTrace();
         }

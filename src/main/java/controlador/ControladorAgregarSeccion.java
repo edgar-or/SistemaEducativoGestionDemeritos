@@ -19,26 +19,20 @@ public class ControladorAgregarSeccion {
 
     VistaAgregarSeccion visAgregarSeccion;
     ControladorGrado controladorGrado;
-
     private SeccionDAO secDao = new SeccionDAO();
 
     public ControladorAgregarSeccion(ControladorGrado controlGrado) {
         visAgregarSeccion = new VistaAgregarSeccion();
         this.controladorGrado = controlGrado;
-
         eventos();
     }
 
     private void eventos() {
         visAgregarSeccion.btnCerrar.addActionListener(e -> cerrarVista());
-        
-        visAgregarSeccion.btnAgregarSeccion.addActionListener(e-> registrarSeccion());
-        
-
+        visAgregarSeccion.btnAgregarSeccion.addActionListener(e -> registrarSeccion());
     }
 
     public void iniciar() {
-
         visAgregarSeccion.setVisible(true);
         visAgregarSeccion.setLocationRelativeTo(null);
     }
@@ -48,40 +42,28 @@ public class ControladorAgregarSeccion {
     }
 
     public void registrarSeccion() {
-
-        
         try {
-           String seccionSelect = (String) visAgregarSeccion.comboSeccion.getSelectedItem();
+            String seccionSelect = (String) visAgregarSeccion.comboSeccion.getSelectedItem();
+            int idGrado = controladorGrado.obtenerIdGradoDeTabla();
 
-        int idGrado = controladorGrado.obtenerIdGradoDeTabla();
+            ModeloSeccion seccion = new ModeloSeccion();
+            ModeloGrado grado = new ModeloGrado();
 
-        ModeloSeccion seccion = new ModeloSeccion(idGrado, seccionSelect);
-        ModeloGrado grado = new ModeloGrado();
+            grado.setIdGrado(idGrado);
+            seccion.setSeccion(seccionSelect);
+            seccion.setModeloGrado(grado);
 
-        grado.setIdGrado(idGrado);
+            secDao.insertarSeccion(seccion);
 
-        seccion.setSeccion(seccionSelect);
-        seccion.setGrado(grado);
-
-        secDao.insertarSeccion(seccion);
-        
-             JOptionPane.showMessageDialog(
-                null,
-                "Sección asignada correctamente"
-        );
-
-    } catch (Exception ex) {
-
-        JOptionPane.showMessageDialog(
-                null,
-                "No se pudo asignar sección al grado seleccionado\n"
-                + ex.getMessage(),
-                "Error",
-                JOptionPane.ERROR_MESSAGE
-        );
+            JOptionPane.showMessageDialog(null, "Sección asignada correctamente");
+            cerrarVista();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    "No se pudo asignar sección al grado seleccionado\n" + ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+            );
         }
-        
-
     }
-
 }

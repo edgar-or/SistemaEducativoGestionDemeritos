@@ -4,6 +4,8 @@
  */
 package modelo;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author renec
@@ -19,11 +21,13 @@ public class ModeloCentroEscolar {
     private String calle;
     private String distrito;
     private String correoElectronico;
+    private ArrayList<ModeloGrado> modeloGrado;
+    
 
     public ModeloCentroEscolar() {
     }
 
-    public ModeloCentroEscolar(String codigoCE, String nombreCentroEscolar, String numeroTel, String departamento, String municipio, String caserio, String calle, String distrito, String correoElectronico) {
+    public ModeloCentroEscolar(String codigoCE, String nombreCentroEscolar, String numeroTel, String departamento, String municipio, String caserio, String calle, String distrito, String correoElectronico, ArrayList<ModeloGrado> modeloGrado) {
         this.codigoCE = codigoCE;
         this.nombreCentroEscolar = nombreCentroEscolar;
         this.numeroTel = numeroTel;
@@ -33,8 +37,11 @@ public class ModeloCentroEscolar {
         this.calle = calle;
         this.distrito = distrito;
         this.correoElectronico = correoElectronico;
+        this.modeloGrado = modeloGrado;
     }
-
+    
+    
+   
     public String getCodigoCE() {
         return codigoCE;
     }
@@ -107,4 +114,13 @@ public class ModeloCentroEscolar {
         this.correoElectronico = correoElectronico;
     }
 
+    public ArrayList<ModeloGrado> getModeloGrado() {
+        return modeloGrado;
+    }
+
+    public void setModeloGrado(ArrayList<ModeloGrado> modeloGrado) {
+        this.modeloGrado = modeloGrado;
+    }
+
+    
 }

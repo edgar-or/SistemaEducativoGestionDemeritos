@@ -4,6 +4,8 @@
  */
 package modelo;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author renec
@@ -12,30 +14,52 @@ public class ModeloGrado {
 
     private int idGrado;
     private String grado;
-
-    public ModeloGrado(int idGrado, String grado) {
-        this.idGrado = idGrado;
-        this.grado = grado;
-    }
+    private ModeloCentroEscolar centroEscolar;    
+    private ArrayList<ModeloSeccion> modeloSecion;
 
     public ModeloGrado() {
     }
+
     
+    public ModeloGrado(int idGrado, String grado, ModeloCentroEscolar centroEscolar, ArrayList<ModeloSeccion> modeloSecion) {
+        this.idGrado = idGrado;
+        this.grado = grado;
+        this.centroEscolar = centroEscolar;
+        this.modeloSecion = modeloSecion;
+    }
 
     public int getIdGrado() {
         return idGrado;
-    }
-
-    public String getGrado() {
-        return grado;
     }
 
     public void setIdGrado(int idGrado) {
         this.idGrado = idGrado;
     }
 
+    public String getGrado() {
+        return grado;
+    }
+
     public void setGrado(String grado) {
         this.grado = grado;
     }
 
+    public ModeloCentroEscolar getCentroEscolar() {
+        return centroEscolar;
+    }
+
+    public void setCentroEscolar(ModeloCentroEscolar centroEscolar) {
+        this.centroEscolar = centroEscolar;
+    }
+
+    public ArrayList<ModeloSeccion> getModeloSecion() {
+        return modeloSecion;
+    }
+
+    public void setModeloSecion(ArrayList<ModeloSeccion> modeloSecion) {
+        this.modeloSecion = modeloSecion;
+    }
+    
+    
+    
 }

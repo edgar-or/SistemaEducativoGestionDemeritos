@@ -1,18 +1,13 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package modelo;
 
-/**
- *
- * @author renec
- */
-public class ModeloDocente implements Comparable<ModeloDocente>{
 
+import java.util.ArrayList;
+
+public class ModeloDocente implements Comparable<ModeloDocente> {
+
+    private String duiDocente; // Mantenido como String para soportar el guión de la BD
     private String nombre;
     private String apellido;
-    private String idDocente;
     private int telefonoDocente;
     private String correo;
     private String departamento;
@@ -20,13 +15,21 @@ public class ModeloDocente implements Comparable<ModeloDocente>{
     private String caserio;
     private String calle;
     private String distrito;
+    private int numeroCasa;
+    private ArrayList<ModeloSeccion> seccion;
+    private ArrayList<ModeloTelefonosDocente> telefonoDocentes;
+    private ArrayList<ModeloCorreoDocente> correoDocentes;
+    private ArrayList<ModeloMovimientoConducta> movimientoConducta;
+    private ModeloCargoDocente cargoDocente;
+    private Usuario usuario;
 
-    public ModeloDocente(String nombre, String apellido, String idDocente,
-            int telefonoDocente, String correo, String departamento,
-            String municipio, String caserio, String calle, String distrito) {
+    public ModeloDocente() {
+    }
+
+    public ModeloDocente(String duiDocente, String nombre, String apellido, int telefonoDocente, String correo, String departamento, String municipio, String caserio, String calle, String distrito, int numeroCasa, ArrayList<ModeloSeccion> seccion, ArrayList<ModeloTelefonosDocente> telefonoDocentes, ArrayList<ModeloCorreoDocente> correoDocentes, ArrayList<ModeloMovimientoConducta> movimientoConducta, ModeloCargoDocente cargoDocente, Usuario usuario) {
+        this.duiDocente = duiDocente;
         this.nombre = nombre;
         this.apellido = apellido;
-        this.idDocente = idDocente;
         this.telefonoDocente = telefonoDocente;
         this.correo = correo;
         this.departamento = departamento;
@@ -34,97 +37,156 @@ public class ModeloDocente implements Comparable<ModeloDocente>{
         this.caserio = caserio;
         this.calle = calle;
         this.distrito = distrito;
+        this.numeroCasa = numeroCasa;
+        this.seccion = seccion;
+        this.telefonoDocentes = telefonoDocentes;
+        this.correoDocentes = correoDocentes;
+        this.movimientoConducta = movimientoConducta;
+        this.cargoDocente = cargoDocente;
+        this.usuario = usuario;
     }
 
-    public ModeloDocente() {
+    @Override
+    public int compareTo(ModeloDocente otroDocente) {
+        if (this.duiDocente == null || otroDocente.getDuiDocente() == null) {
+            return 0;
+        }
+        return this.duiDocente.compareTo(otroDocente.getDuiDocente());
     }
-    
-    
+
+    public String getDuiDocente() {
+        return duiDocente;
+    }
+
+    public void setDuiDocente(String duiDocente) {
+        this.duiDocente = duiDocente;
+    }
 
     public String getNombre() {
         return nombre;
-    }
-
-    public String getApellido() {
-        return apellido;
-    }
-
-    public String getIdDocente() {
-        return idDocente;
-    }
-
-    public int getTelefonoDocente() {
-        return telefonoDocente;
-    }
-
-    public String getCorreo() {
-        return correo;
-    }
-
-    public String getDepartamento() {
-        return departamento;
-    }
-
-    public String getMunicipio() {
-        return municipio;
-    }
-
-    public String getCaserio() {
-        return caserio;
-    }
-
-    public String getCalle() {
-        return calle;
-    }
-
-    public String getDistrito() {
-        return distrito;
     }
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
 
+    public String getApellido() {
+        return apellido;
+    }
+
     public void setApellido(String apellido) {
         this.apellido = apellido;
     }
 
-    public void setIdDocente(String idDocente) {
-        this.idDocente = idDocente;
+    public int getTelefonoDocente() {
+        return telefonoDocente;
     }
 
     public void setTelefonoDocente(int telefonoDocente) {
         this.telefonoDocente = telefonoDocente;
     }
 
+    public String getCorreo() {
+        return correo;
+    }
+
     public void setCorreo(String correo) {
         this.correo = correo;
+    }
+
+    public String getDepartamento() {
+        return departamento;
     }
 
     public void setDepartamento(String departamento) {
         this.departamento = departamento;
     }
 
+    public String getMunicipio() {
+        return municipio;
+    }
+
     public void setMunicipio(String municipio) {
         this.municipio = municipio;
+    }
+
+    public String getCaserio() {
+        return caserio;
     }
 
     public void setCaserio(String caserio) {
         this.caserio = caserio;
     }
 
+    public String getCalle() {
+        return calle;
+    }
+
     public void setCalle(String calle) {
         this.calle = calle;
+    }
+
+    public String getDistrito() {
+        return distrito;
     }
 
     public void setDistrito(String distrito) {
         this.distrito = distrito;
     }
 
-    @Override
-    public int compareTo(ModeloDocente o) {
-    return this.idDocente.compareTo(o.idDocente);
-
+    public int getNumeroCasa() {
+        return numeroCasa;
     }
 
+    public void setNumeroCasa(int numeroCasa) {
+        this.numeroCasa = numeroCasa;
+    }
+
+    public ArrayList<ModeloSeccion> getSeccion() {
+        return seccion;
+    }
+
+    public void setSeccion(ArrayList<ModeloSeccion> seccion) {
+        this.seccion = seccion;
+    }
+
+    public ArrayList<ModeloTelefonosDocente> getTelefonoDocentes() {
+        return telefonoDocentes;
+    }
+
+    public void setTelefonoDocentes(ArrayList<ModeloTelefonosDocente> telefonoDocentes) {
+        this.telefonoDocentes = telefonoDocentes;
+    }
+
+    public ArrayList<ModeloCorreoDocente> getCorreoDocentes() {
+        return correoDocentes;
+    }
+
+    public void setCorreoDocentes(ArrayList<ModeloCorreoDocente> correoDocentes) {
+        this.correoDocentes = correoDocentes;
+    }
+
+    public ArrayList<ModeloMovimientoConducta> getMovementoConducta() {
+        return movimientoConducta;
+    }
+
+    public void setMovimientoConducta(ArrayList<ModeloMovimientoConducta> movimientoConducta) {
+        this.movimientoConducta = movimientoConducta;
+    }
+
+    public ModeloCargoDocente getCargoDocente() {
+        return cargoDocente;
+    }
+
+    public void setCargoDocente(ModeloCargoDocente cargoDocente) {
+        this.cargoDocente = cargoDocente;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
 }

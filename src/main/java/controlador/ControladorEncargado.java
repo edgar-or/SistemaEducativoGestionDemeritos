@@ -35,8 +35,11 @@ public class ControladorEncargado {
             if (!e.getValueIsAdjusting()) {
                 int fila = verEncargado.tablaEncargados.getSelectedRow();
                 if (fila >= 0) {
-                    try { duiSeleccionado = Integer.parseInt(String.valueOf(verEncargado.tablaEncargados.getValueAt(fila, 2))); }
-                    catch (Exception ex) { duiSeleccionado = -1; }
+                    try {
+                        duiSeleccionado = Integer.parseInt(String.valueOf(verEncargado.tablaEncargados.getValueAt(fila, 2)));
+                    } catch (Exception ex) {
+                        duiSeleccionado = -1;
+                    }
                 }
             }
         });
@@ -55,14 +58,25 @@ public class ControladorEncargado {
 
     private void cargarTabla(List<ModeloEncardoAlumno> lista) {
         DefaultTableModel modelo = new DefaultTableModel(
-            new String[]{"Nombre", "Apellido", "DUI", "Teléfono", "Departamento", "Municipio"}, 0) {
-            @Override public boolean isCellEditable(int r, int c) { return false; }
+                new String[]{"Nombre", "Apellido", "DUI", "Departamento", "Municipio"}, 0) {
+            @Override
+            public boolean isCellEditable(int r, int c) {
+                return false;
+            }
         };
         try {
-            if (lista == null) lista = dao.listarEncargados();
-            for (ModeloEncardoAlumno e : lista)
-                modelo.addRow(new Object[]{e.getNombre(), e.getApelllido(), e.getDui(),
-                    e.getTelefono(), e.getDepartamento(), e.getMunicipio()});
+            if (lista == null) {
+                lista = dao.listarEncargados();
+            }
+            for (ModeloEncardoAlumno e : lista) {
+                modelo.addRow(new Object[]{
+                    e.getNombre(),
+                    e.getApelllido(),
+                    e.getDui(),
+                    e.getDepartamento(),
+                    e.getMunicipio()
+                });
+            }
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(verEncargado, "Error al cargar: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -73,12 +87,13 @@ public class ControladorEncargado {
         String dui = verEncargado.txtDUI.getText().trim();
         String nombre = verEncargado.txtNombre.getText().trim();
         try {
-            if (!dui.isEmpty())
+            if (!dui.isEmpty()) {
                 cargarTabla(dao.buscarPorDui(Integer.parseInt(dui)));
-            else if (!nombre.isEmpty())
+            } else if (!nombre.isEmpty()) {
                 cargarTabla(dao.buscarPorNombre(nombre));
-            else
+            } else {
                 cargarTabla(null);
+            }
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(verEncargado, "El DUI debe ser numérico.", "Aviso", JOptionPane.WARNING_MESSAGE);
         } catch (Exception ex) {
@@ -88,27 +103,34 @@ public class ControladorEncargado {
 
     private void agregarEncargado() {
         JTextField fNombre = new JTextField(), fApellido = new JTextField(),
-            fDUI = new JTextField(), fTelefono = new JTextField(),
-            fDepartamento = new JTextField(), fMunicipio = new JTextField(),
-            fCaserio = new JTextField(), fCalle = new JTextField(), fDistrito = new JTextField();
+                fDUI = new JTextField(), fDepartamento = new JTextField(),
+                fMunicipio = new JTextField(), fCaserio = new JTextField(),
+                fCalle = new JTextField(), fDistrito = new JTextField(), fCanto = new JTextField();
 
-        Object[] campos = {"Nombre:", fNombre, "Apellido:", fApellido,
-            "DUI:", fDUI, "Teléfono:", fTelefono, "Departamento:", fDepartamento,
-            "Municipio:", fMunicipio, "Caserío:", fCaserio, "Calle:", fCalle, "Distrito:", fDistrito};
+        Object[] campos = {
+            "Nombre:", fNombre, "Apellido:", fApellido, "DUI:", fDUI,
+            "Departamento:", fDepartamento, "Municipio:", fMunicipio,
+            "Distrito:", fDistrito, "Caserío:", fCaserio, "Cantón:", fCanto, "Calle:", fCalle
+        };
 
         if (JOptionPane.showConfirmDialog(verEncargado, campos, "Agregar Encargado", JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
             try {
-                ModeloEncardoAlumno enc = new ModeloEncardoAlumno(
-                    fNombre.getText().trim(), fApellido.getText().trim(),
-                    Integer.parseInt(fDUI.getText().trim()),
-                    Integer.parseInt(fTelefono.getText().trim()),
-                    fDepartamento.getText().trim(), fMunicipio.getText().trim(),
-                    fCaserio.getText().trim(), fCalle.getText().trim(), fDistrito.getText().trim());
+                ModeloEncardoAlumno enc = new ModeloEncardoAlumno();
+                enc.setDui(Integer.parseInt(fDUI.getText().trim()));
+                enc.setNombre(fNombre.getText().trim());
+                enc.setApelllido(fApellido.getText().trim());
+                enc.setDepartamento(fDepartamento.getText().trim());
+                enc.setMunicipio(fMunicipio.getText().trim());
+                enc.setDistrito(fDistrito.getText().trim());
+                enc.setCaserio(fCaserio.getText().trim());
+                enc.setCanto(fCanto.getText().trim());
+                enc.setCalle(fCalle.getText().trim());
+
                 dao.insertarEncargado(enc);
                 JOptionPane.showMessageDialog(verEncargado, "Encargado agregado.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
                 cargarTabla(null);
             } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(verEncargado, "DUI y teléfono deben ser numéricos.", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(verEncargado, "El DUI debe ser numérico.", "Error", JOptionPane.ERROR_MESSAGE);
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(verEncargado, "Error al guardar: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
@@ -123,22 +145,29 @@ public class ControladorEncargado {
         int fila = verEncargado.tablaEncargados.getSelectedRow();
         JTextField fNombre = new JTextField((String) verEncargado.tablaEncargados.getValueAt(fila, 0));
         JTextField fApellido = new JTextField((String) verEncargado.tablaEncargados.getValueAt(fila, 1));
-        JTextField fTelefono = new JTextField(String.valueOf(verEncargado.tablaEncargados.getValueAt(fila, 3)));
-        JTextField fDepartamento = new JTextField((String) verEncargado.tablaEncargados.getValueAt(fila, 4));
-        JTextField fMunicipio = new JTextField((String) verEncargado.tablaEncargados.getValueAt(fila, 5));
-        JTextField fCaserio = new JTextField(), fCalle = new JTextField(), fDistrito = new JTextField();
+        JTextField fDepartamento = new JTextField((String) verEncargado.tablaEncargados.getValueAt(fila, 3));
+        JTextField fMunicipio = new JTextField((String) verEncargado.tablaEncargados.getValueAt(fila, 4));
+        JTextField fCaserio = new JTextField(), fCalle = new JTextField(), fDistrito = new JTextField(), fCanto = new JTextField();
 
-        Object[] campos = {"Nombre:", fNombre, "Apellido:", fApellido,
-            "Teléfono:", fTelefono, "Departamento:", fDepartamento,
-            "Municipio:", fMunicipio, "Caserío:", fCaserio, "Calle:", fCalle, "Distrito:", fDistrito};
+        Object[] campos = {
+            "Nombre:", fNombre, "Apellido:", fApellido,
+            "Departamento:", fDepartamento, "Municipio:", fMunicipio,
+            "Distrito:", fDistrito, "Caserío:", fCaserio, "Cantón:", fCanto, "Calle:", fCalle
+        };
 
         if (JOptionPane.showConfirmDialog(verEncargado, campos, "Modificar Encargado", JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
             try {
-                ModeloEncardoAlumno enc = new ModeloEncardoAlumno(
-                    fNombre.getText().trim(), fApellido.getText().trim(), duiSeleccionado,
-                    Integer.parseInt(fTelefono.getText().trim()),
-                    fDepartamento.getText().trim(), fMunicipio.getText().trim(),
-                    fCaserio.getText().trim(), fCalle.getText().trim(), fDistrito.getText().trim());
+                ModeloEncardoAlumno enc = new ModeloEncardoAlumno();
+                enc.setDui(duiSeleccionado);
+                enc.setNombre(fNombre.getText().trim());
+                enc.setApelllido(fApellido.getText().trim());
+                enc.setDepartamento(fDepartamento.getText().trim());
+                enc.setMunicipio(fMunicipio.getText().trim());
+                enc.setDistrito(fDistrito.getText().trim());
+                enc.setCaserio(fCaserio.getText().trim());
+                enc.setCanto(fCanto.getText().trim());
+                enc.setCalle(fCalle.getText().trim());
+
                 dao.modificarEncargado(enc, duiSeleccionado);
                 JOptionPane.showMessageDialog(verEncargado, "Encargado modificado.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
                 duiSeleccionado = -1;
