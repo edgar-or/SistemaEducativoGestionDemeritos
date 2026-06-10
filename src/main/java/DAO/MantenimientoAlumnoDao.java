@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import modelo.ArbolBinarioBusqueda;
 import modelo.ModeloAlumno;
 import modelo.ModeloEncardoAlumno;
 import modelo.ModeloSeccion;
@@ -19,6 +20,8 @@ import modelo.ModeloSeccion;
  * @author ayala
  */
 public class MantenimientoAlumnoDao {
+    
+    private ArbolBinarioBusqueda arbol; 
 
     public boolean insertarAlumno(ModeloAlumno alumno) {
         String sql = "INSERT INTO estudiante(nie, primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, total_puntos, id_seccion, dui_encargado) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
@@ -105,46 +108,48 @@ public class MantenimientoAlumnoDao {
         }
     }
 
-    public List<ModeloAlumno> listarAlumnos() {
-        List<ModeloAlumno> lista = new ArrayList<>();
-        String sql = "SELECT * FROM estudiante";
-        try (Connection con = Conexion.getConexion(); PreparedStatement ps = con.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+   public ArbolBinarioBusqueda<ModeloAlumno>  listarAlumnos() {
 
-            while (rs.next()) {
-                ModeloAlumno a = new ModeloAlumno();
-                String nombreCompleto = rs.getString("primer_nombre");
-                if (rs.getString("segundo_nombre") != null && !rs.getString("segundo_nombre").isEmpty()) {
-                    nombreCompleto += " " + rs.getString("segundo_nombre");
-                }
+    ArbolBinarioBusqueda<ModeloAlumno> arbol = new ArbolBinarioBusqueda<>();
 
-                String apellidoCompleto = rs.getString("primer_apellido");
-                if (rs.getString("segundo_apellido") != null && !rs.getString("segundo_apellido").isEmpty()) {
-                    apellidoCompleto += " " + rs.getString("segundo_apellido");
-                }
+    String sql = "SELECT * FROM estudiante";
 
-                a.setNie(rs.getInt("nie"));
-                a.setNombre(nombreCompleto);
-                a.setApelliddos(apellidoCompleto);
-                a.setTotalPuntos(rs.getInt("total_puntos"));
+    try (Connection con = Conexion.getConexion();
+         PreparedStatement ps = con.prepareStatement(sql);
+         ResultSet rs = ps.executeQuery()) {
 
-                ModeloSeccion seccion = new ModeloSeccion();
-                seccion.setIdSeccion(rs.getInt("id_seccion"));
-                a.setModeloSeccion(seccion);
+        while (rs.next()) {
 
-                int duiVal = rs.getInt("dui_encargado");
-                if (!rs.wasNull()) {
-                    ModeloEncardoAlumno encargado = new ModeloEncardoAlumno();
-                    encargado.setDui(duiVal);
-                    a.setModeloEncargadoAlumno(encargado);
-                }
+            ModeloAlumno a = new ModeloAlumno();
 
-                lista.add(a);
+            String nombreCompleto = rs.getString("primer_nombre");
+
+            if (rs.getString("segundo_nombre") != null
+                    && !rs.getString("segundo_nombre").isEmpty()) {
+                nombreCompleto += " " + rs.getString("segundo_nombre");
             }
-        } catch (Exception e) {
-            System.out.println("Error listarAlumnos: " + e.getMessage());
+
+            String apellidoCompleto = rs.getString("primer_apellido");
+
+            if (rs.getString("segundo_apellido") != null
+                    && !rs.getString("segundo_apellido").isEmpty()) {
+                apellidoCompleto += " " + rs.getString("segundo_apellido");
+            }
+
+            a.setNie(rs.getInt("nie"));
+            a.setNombre(nombreCompleto);
+            a.setApelliddos(apellidoCompleto);
+            a.setTotalPuntos(rs.getInt("total_puntos"));
+
+            arbol.insertar(a);
         }
-        return lista;
+
+    } catch (Exception e) {
+        System.out.println("Error listarAlumnos: " + e.getMessage());
     }
+
+    return arbol;
+}
 
     public ModeloAlumno buscarPorNie(int nie) {
         String sql = "SELECT * FROM estudiante WHERE nie = ?";

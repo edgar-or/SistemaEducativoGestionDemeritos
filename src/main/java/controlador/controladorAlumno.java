@@ -24,10 +24,15 @@ public class ControladorAlumno {
     private MantenimientoAlumnoDao alumnoDAO = new MantenimientoAlumnoDao();
     private GradoDAO gradoDAO = new GradoDAO();
     private seccionProfesorDAO seccionDAO = new seccionProfesorDAO();
+    
+    private ControladorAsignarEncargado controlAsignarEncargado; 
 
     public ControladorAlumno(VistaPrincipalDirector vistaPrincipal) {
         this.vistaAlumno = new VistaAlumno();
         this.vistaPrincipal = vistaPrincipal;
+        
+        this.controlAsignarEncargado = new ControladorAsignarEncargado(vistaPrincipal); 
+        
         onEventos();
         listarAlumnos();
         cargarGrados();
@@ -55,6 +60,10 @@ public class ControladorAlumno {
                 vistaAlumno.Secciones.addItem("-- Seleccione sección --");
             }
         });
+        
+        vistaAlumno.btnAsignarResponsable.addActionListener(e-> { controlAsignarEncargado.iniciarVista(); });
+        
+        
     }
 
     public void mostrarVista() {
@@ -71,17 +80,14 @@ public class ControladorAlumno {
     }
 
     public void listarAlumnos() {
-        try {
-            List<ModeloAlumno> lista = alumnoDAO.listarAlumnos();
-            arbolAlumnos = new ArbolBinarioBusqueda<>();
-            for (ModeloAlumno a : lista) {
-                arbolAlumnos.insertar(a);
-            }
-            llenarTablaDesdeArbol();
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(vistaAlumno, "Error al listar alumnos: " + e.getMessage());
-        }
+    try {
+        arbolAlumnos = alumnoDAO.listarAlumnos();
+        llenarTablaDesdeArbol();
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(vistaAlumno,
+                "Error al listar alumnos: " + e.getMessage());
     }
+}
 
     public void llenarTablaDesdeArbol() {
         DefaultTableModel modelo = new DefaultTableModel(new String[]{

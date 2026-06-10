@@ -92,4 +92,6 @@ public class ModeloAlumno implements Comparable<ModeloAlumno> {
     public void setModeloConducta(ArrayList<ModeloConducta> modeloConducta) {
         this.modeloConducta = modeloConducta;
     }
+    
+    
 }
