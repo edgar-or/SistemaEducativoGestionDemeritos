@@ -3,7 +3,8 @@ package modelo;
 import java.util.ArrayList;
 
 public class ModeloDocente implements Comparable<ModeloDocente> {
-
+    
+    private int idPersonal; 
     private String duiDocente;
     private String nombre;
     private String segundoNombre;
@@ -65,7 +66,6 @@ public class ModeloDocente implements Comparable<ModeloDocente> {
         return this.duiDocente.compareTo(otroDocente.getDuiDocente());
     }
 
-    // ── Getters y Setters ──────────────────────────────────────────────
 
     public String getDuiDocente() { return duiDocente; }
     public void setDuiDocente(String duiDocente) { this.duiDocente = duiDocente; }
@@ -122,5 +122,15 @@ public class ModeloDocente implements Comparable<ModeloDocente> {
     public void setCargoDocente(ModeloCargoDocente cargoDocente) { this.cargoDocente = cargoDocente; }
 
     public Usuario getUsuario() { return usuario; }
-    public void setUsuario(Usuario usuario) { this.usuario = usuario; }
+    public void setUsuario(Usuario usuario) { this.usuario = usuario;  }
+
+    public int getIdPersonal() {
+        return idPersonal;
+    }
+
+    public void setIdPersonal(int idPersonal) {
+        this.idPersonal = idPersonal;
+    }
+
+ 
 }
