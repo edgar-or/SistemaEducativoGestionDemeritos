@@ -37,7 +37,7 @@ public class MantenimientoAlumnoDao {
 
             int idSeccion = (alumno.getModeloSeccion() != null) ? alumno.getModeloSeccion().getIdSeccion() : 0;
 
-            Integer duiEncargado = (alumno.getModeloEncargadoAlumno() != null) ? alumno.getModeloEncargadoAlumno().getDui() : null;
+            String duiEncargado = (alumno.getModeloEncargadoAlumno() != null) ? alumno.getModeloEncargadoAlumno().getDui() : null;
 
             ps.setInt(1, alumno.getNie());
             ps.setString(2, primerNombre);
@@ -48,7 +48,7 @@ public class MantenimientoAlumnoDao {
             ps.setInt(7, idSeccion);
 
             if (duiEncargado != null) {
-                ps.setInt(8, duiEncargado);
+                ps.setString(8, duiEncargado);
             } else {
                 ps.setNull(8, java.sql.Types.INTEGER);
             }
@@ -79,7 +79,7 @@ public class MantenimientoAlumnoDao {
                     ? alumno.getModeloSeccion().getIdSeccion() : 0;
 
             Integer idEncargado = (alumno.getModeloEncargadoAlumno() != null)
-                    ? alumno.getModeloEncargadoAlumno().getId_encargado() : null;
+                    ? alumno.getModeloEncargadoAlumno().getIdEncargado() : null;
 
             ps.setInt(1, alumno.getNie());        // nuevo NIE (editable)
             ps.setString(2, primerNombre);
@@ -186,10 +186,10 @@ public class MantenimientoAlumnoDao {
                     seccion.setIdSeccion(rs.getInt("id_seccion"));
                     a.setModeloSeccion(seccion);
 
-                    int duiVal = rs.getInt("id_encargado");
+                    int duiVal =  rs.getInt("id_encargado");
                     if (!rs.wasNull()) {
                         ModeloEncardoAlumno encargado = new ModeloEncardoAlumno();
-                        encargado.setId_encargado(duiVal);
+                        encargado.setIdEncargado(duiVal);
                         a.setModeloEncargadoAlumno(encargado);
                     }
 
@@ -233,7 +233,7 @@ public class MantenimientoAlumnoDao {
                     int duiVal = rs.getInt("id_encargado");
                     if (!rs.wasNull()) {
                         ModeloEncardoAlumno encargado = new ModeloEncardoAlumno();
-                        encargado.setId_encargado(duiVal);
+                        encargado.setIdEncargado(duiVal);
                         a.setModeloEncargadoAlumno(encargado);
                     }
 

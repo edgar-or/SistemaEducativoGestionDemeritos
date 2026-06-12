@@ -11,72 +11,93 @@ import java.util.ArrayList;
  * @author renec
  */
 public class ModeloEncardoAlumno {
-    
-    private int id_encargado; 
-    private int dui;
-    private String nombre;
-    private String apelllido;
-    private ArrayList<ModeloTelefonosEncargadosAlumno>  telefonos;
-    private ArrayList<ModeloCorreoEncargadoAlumno>  correo;
-    private ArrayList<ModeloAlumno>  Alumno;
+
+    private int idEncargado;
+    private String dui;
+    private String primerNombre;
+    private String segundoNombre;
+    private String primerApellido;
+    private String segundoApellido;
     private String departamento;
     private String municipio;
-    private String caserio;
-    private String canto;
-    private String calle;
     private String distrito;
+    private String canton;
+    private String caserio;
+    private String calle;
+    private String numCasa;
+    private ArrayList<ModeloTelefonosEncargadosAlumno> telefonos;
+    private ArrayList<ModeloCorreoEncargadoAlumno> correo;
+    private ArrayList<ModeloAlumno> Alumno;
 
     public ModeloEncardoAlumno() {
     }
 
-    public ModeloEncardoAlumno(int dui, String nombre, String apelllido, ArrayList<ModeloTelefonosEncargadosAlumno> telefonos, ArrayList<ModeloCorreoEncargadoAlumno> correo, ArrayList<ModeloAlumno> Alumno, String departamento, String municipio, String caserio, String canto, String calle, String distrito) {
+    public ModeloEncardoAlumno(int idEncargado, String dui, String primerNombre, String segundoNombre, String primerApellido, String segundoApellido, String departamento, String municipio, String distrito, String canton, String caserio, String calle, String numCasa, ArrayList<ModeloTelefonosEncargadosAlumno> telefonos, ArrayList<ModeloCorreoEncargadoAlumno> correo, ArrayList<ModeloAlumno> Alumno) {
+        this.idEncargado = idEncargado;
         this.dui = dui;
-        this.nombre = nombre;
-        this.apelllido = apelllido;
+        this.primerNombre = primerNombre;
+        this.segundoNombre = segundoNombre;
+        this.primerApellido = primerApellido;
+        this.segundoApellido = segundoApellido;
+        this.departamento = departamento;
+        this.municipio = municipio;
+        this.distrito = distrito;
+        this.canton = canton;
+        this.caserio = caserio;
+        this.calle = calle;
+        this.numCasa = numCasa;
         this.telefonos = telefonos;
         this.correo = correo;
         this.Alumno = Alumno;
-        this.departamento = departamento;
-        this.municipio = municipio;
-        this.caserio = caserio;
-        this.canto = canto;
-        this.calle = calle;
-        this.distrito = distrito;
     }
 
     
+    public int getIdEncargado() {
+        return idEncargado;
+    }
 
-    
-    public int getDui() {
+    public void setIdEncargado(int idEncargado) {
+        this.idEncargado = idEncargado;
+    }
+
+    public String getDui() {
         return dui;
     }
 
-    public void setDui(int dui) {
+    public void setDui(String dui) {
         this.dui = dui;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getPrimerNombre() {
+        return primerNombre;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setPrimerNombre(String primerNombre) {
+        this.primerNombre = primerNombre;
     }
 
-    public String getApelllido() {
-        return apelllido;
+    public String getSegundoNombre() {
+        return segundoNombre;
     }
 
-    public void setApelllido(String apelllido) {
-        this.apelllido = apelllido;
+    public void setSegundoNombre(String segundoNombre) {
+        this.segundoNombre = segundoNombre;
     }
 
-    public ArrayList<ModeloTelefonosEncargadosAlumno> getTelefonos() {
-        return telefonos;
+    public String getPrimerApellido() {
+        return primerApellido;
     }
 
-    public void setTelefonos(ArrayList<ModeloTelefonosEncargadosAlumno> telefonos) {
-        this.telefonos = telefonos;
+    public void setPrimerApellido(String primerApellido) {
+        this.primerApellido = primerApellido;
+    }
+
+    public String getSegundoApellido() {
+        return segundoApellido;
+    }
+
+    public void setSegundoApellido(String segundoApellido) {
+        this.segundoApellido = segundoApellido;
     }
 
     public String getDepartamento() {
@@ -95,20 +116,28 @@ public class ModeloEncardoAlumno {
         this.municipio = municipio;
     }
 
+    public String getDistrito() {
+        return distrito;
+    }
+
+    public void setDistrito(String distrito) {
+        this.distrito = distrito;
+    }
+
+    public String getCanton() {
+        return canton;
+    }
+
+    public void setCanton(String canton) {
+        this.canton = canton;
+    }
+
     public String getCaserio() {
         return caserio;
     }
 
     public void setCaserio(String caserio) {
         this.caserio = caserio;
-    }
-
-    public String getCanto() {
-        return canto;
-    }
-
-    public void setCanto(String canto) {
-        this.canto = canto;
     }
 
     public String getCalle() {
@@ -119,12 +148,20 @@ public class ModeloEncardoAlumno {
         this.calle = calle;
     }
 
-    public String getDistrito() {
-        return distrito;
+    public String getNumCasa() {
+        return numCasa;
     }
 
-    public void setDistrito(String distrito) {
-        this.distrito = distrito;
+    public void setNumCasa(String numCasa) {
+        this.numCasa = numCasa;
+    }
+
+    public ArrayList<ModeloTelefonosEncargadosAlumno> getTelefonos() {
+        return telefonos;
+    }
+
+    public void setTelefonos(ArrayList<ModeloTelefonosEncargadosAlumno> telefonos) {
+        this.telefonos = telefonos;
     }
 
     public ArrayList<ModeloCorreoEncargadoAlumno> getCorreo() {
@@ -143,15 +180,4 @@ public class ModeloEncardoAlumno {
         this.Alumno = Alumno;
     }
 
-    public int getId_encargado() {
-        return id_encargado;
-    }
-
-    public void setId_encargado(int id_encargado) {
-        this.id_encargado = id_encargado;
-    }
-
-    
-    
-    
 }
