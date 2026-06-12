@@ -44,8 +44,35 @@ public class ControladorDocente {
         });
 
         vistaDocente.btnBuscar.addActionListener(e -> buscar());
-    }
 
+        vistaDocente.btnTelefono.addActionListener(e -> {
+            int fila = vistaDocente.tablaDocente.getSelectedRow();
+            if (fila == -1) {
+                JOptionPane.showMessageDialog(vistaDocente,
+                        "Seleccione un docente de la tabla primero.",
+                        "Aviso", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            String dui    = vistaDocente.tablaDocente.getValueAt(fila, 0).toString();
+            String nombre = vistaDocente.tablaDocente.getValueAt(fila, 1).toString()
+                          + " " + vistaDocente.tablaDocente.getValueAt(fila, 2).toString();
+            new ControladorAgregarTelefono(dui, nombre);
+        });
+
+        vistaDocente.btnCorreo.addActionListener(e -> {
+            int fila = vistaDocente.tablaDocente.getSelectedRow();
+            if (fila == -1) {
+                JOptionPane.showMessageDialog(vistaDocente,
+                        "Seleccione un docente de la tabla primero.",
+                        "Aviso", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            String dui    = vistaDocente.tablaDocente.getValueAt(fila, 0).toString();
+            String nombre = vistaDocente.tablaDocente.getValueAt(fila, 1).toString()
+                          + " " + vistaDocente.tablaDocente.getValueAt(fila, 2).toString();
+            new ControladorAgregarCorreo(dui, nombre);
+        });
+    }
 
     public void mostrarVista() {
         vistaDocente.setVisible(true);
@@ -58,7 +85,6 @@ public class ControladorDocente {
         vistaPrincipal.escritorio.add(vistaDocente);
         vistaDocente.toFront();
     }
-
 
     public void listarDocentes() {
         try {
@@ -75,10 +101,9 @@ public class ControladorDocente {
         }
     }
 
-
     private void llenarTablaDesdeArbol() {
         DefaultTableModel modelo = new DefaultTableModel(
-                new String[]{"DUI", "Nombre", "Apellido", "Departamento", "Municipio", "Distrito"}, 0) {
+                new String[]{"DUI", "Nombre", "Apellido", "Departamento", "Municipio", "Distrito", "Correo", "Teléfono"}, 0) {
             @Override
             public boolean isCellEditable(int r, int c) { return false; }
         };
@@ -90,7 +115,9 @@ public class ControladorDocente {
                 d.getApellido(),
                 nv(d.getDepartamento()),
                 nv(d.getMunicipio()),
-                nv(d.getDistrito())
+                nv(d.getDistrito()),
+                nv(d.getCorreo()),
+                nv(d.getTelefonoDocente())
             });
         }
         vistaDocente.tablaDocente.setModel(modelo);
@@ -100,7 +127,6 @@ public class ControladorDocente {
         VistaAgregarMaestros form = new VistaAgregarMaestros();
         form.setTitle("Registrar Docente");
 
-        
         form.txtDui.setText("");
         form.txtDui.setEnabled(true);
         form.txtNombres1.setText("");
@@ -135,6 +161,8 @@ public class ControladorDocente {
                 d.setDistrito(form.txtDistrito1.getText().trim());
                 d.setCaserio(form.txtDistr1.getText().trim());
                 d.setCalle(form.txtDistr.getText().trim());
+                d.setTelefonoDocente(form.txtDistrito.getText().trim());
+                d.setCorreo(form.txtDistr2.getText().trim());
 
                 dao.insertarDocente(d);
 
@@ -156,7 +184,6 @@ public class ControladorDocente {
         form.setVisible(true);
     }
 
-  
     private void abrirFormularioModificar() {
         int fila = vistaDocente.tablaDocente.getSelectedRow();
         if (fila == -1) {
@@ -190,9 +217,8 @@ public class ControladorDocente {
         VistaAgregarMaestros form = new VistaAgregarMaestros();
         form.setTitle("Modificar Docente");
 
-        
         form.txtDui.setText(docente.getDuiDocente());
-        form.txtDui.setEnabled(false);          
+        form.txtDui.setEnabled(false);
         form.txtNombres1.setText(nv(docente.getNombre()));
         form.txtNombres.setText(nv(docente.getApellido()));
         form.txtDepartamentos.setText(nv(docente.getDepartamento()));
@@ -200,8 +226,8 @@ public class ControladorDocente {
         form.txtDistrito1.setText(nv(docente.getDistrito()));
         form.txtDistr1.setText(nv(docente.getCaserio()));
         form.txtDistr.setText(nv(docente.getCalle()));
-        form.txtDistr2.setText("");
-        form.txtDistrito.setText("");
+        form.txtDistrito.setText(nv(docente.getTelefonoDocente()));
+        form.txtDistr2.setText(nv(docente.getCorreo()));
 
         form.btnGuardar.addActionListener(e -> {
             String nombre   = form.txtNombres1.getText().trim();
@@ -224,7 +250,8 @@ public class ControladorDocente {
                 d.setDistrito(form.txtDistrito1.getText().trim());
                 d.setCaserio(form.txtDistr1.getText().trim());
                 d.setCalle(form.txtDistr.getText().trim());
-                d.setTelefonoDocente(nv(docente.getTelefonoDocente()));
+                d.setTelefonoDocente(form.txtDistrito.getText().trim());
+                d.setCorreo(form.txtDistr2.getText().trim());
 
                 dao.modificarDocente(d);
 
@@ -246,7 +273,6 @@ public class ControladorDocente {
         form.setVisible(true);
     }
 
-   
     private void eliminarDocente() {
         int fila = vistaDocente.tablaDocente.getSelectedRow();
         if (fila == -1) {
@@ -277,7 +303,6 @@ public class ControladorDocente {
         }
     }
 
- 
     private void buscar() {
         String dui    = vistaDocente.txtBuscarDUI.getText().trim();
         String nombre = vistaDocente.txtNombreCompleto.getText().trim();
@@ -289,7 +314,7 @@ public class ControladorDocente {
                 Nodo nodo = arbolDocentes.buscar(clave);
 
                 DefaultTableModel modelo = new DefaultTableModel(
-                        new String[]{"DUI", "Nombre", "Apellido", "Departamento", "Municipio", "Distrito"}, 0) {
+                        new String[]{"DUI", "Nombre", "Apellido", "Departamento", "Municipio", "Distrito", "Correo", "Teléfono"}, 0) {
                     @Override
                     public boolean isCellEditable(int r, int c) { return false; }
                 };
@@ -302,7 +327,9 @@ public class ControladorDocente {
                         d.getApellido(),
                         nv(d.getDepartamento()),
                         nv(d.getMunicipio()),
-                        nv(d.getDistrito())
+                        nv(d.getDistrito()),
+                        nv(d.getCorreo()),
+                        nv(d.getTelefonoDocente())
                     });
                 } else {
                     JOptionPane.showMessageDialog(vistaDocente,
@@ -332,7 +359,6 @@ public class ControladorDocente {
                     "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-
 
     private String nv(String valor) {
         return valor != null ? valor : "";
