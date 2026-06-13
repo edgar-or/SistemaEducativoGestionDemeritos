@@ -4,6 +4,8 @@
  */
 package vista;
 
+import vista.vista.Tema;
+
 /**
  *
  * @author estud
@@ -17,6 +19,7 @@ public class VistaPrincipalMaestros extends javax.swing.JFrame {
      */
     public VistaPrincipalMaestros() {
         initComponents();
+        Tema.aplicar(this);
     }
 
     /**

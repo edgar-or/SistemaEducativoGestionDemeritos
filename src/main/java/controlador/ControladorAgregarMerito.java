@@ -9,6 +9,7 @@ import DAO.MeritoDAO;
 import java.util.List;
 import javax.swing.JOptionPane;
 import modelo.ModeloConducta;
+import sesion.Sesion;
 import vista.VistaAgregarMerito;
 
 /**
@@ -46,6 +47,7 @@ public class ControladorAgregarMerito {
         });
 
         visAgregarMerito.btnAgregar.addActionListener(e -> {
+             String duiSesion = Sesion.getDuiPersonal();
             String nie = visAgregarMerito.txtNie.getText();
             String observacion = visAgregarMerito.txtObservaciones.getText();
             ModeloConducta tipo = (ModeloConducta) visAgregarMerito.ComboDescripcion.getSelectedItem();
@@ -61,7 +63,7 @@ public class ControladorAgregarMerito {
             }
 
             try {
-                MeritoDAO.insertarMerito(nie, tipo.getIdTipo(), observacion);
+                MeritoDAO.insertarMerito(nie, tipo.getIdTipo(), observacion, Sesion.getDuiPersonal());
                 MeritoDAO.actualizarPuntos(nie);
                 JOptionPane.showMessageDialog(null, "Mérito guardado correctamente");
                 visAgregarMerito.dispose();

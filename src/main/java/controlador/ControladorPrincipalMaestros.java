@@ -207,8 +207,21 @@ public class ControladorPrincipalMaestros {
         });
 
         vista.btnVerEstado.addActionListener(e -> {
+            int filaSeleccionada = vista.tablaEstidiantes.getSelectedRow();
+
+            if (filaSeleccionada == -1) {
+                JOptionPane.showMessageDialog(
+                        vista,"Por favor, seleccione un estudiante.", "Atención",JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            ModeloAlumno alumnoActual = new ModeloAlumno();
+            alumnoActual.setNie(Integer.parseInt(vista.tablaEstidiantes.getValueAt(filaSeleccionada, 0).toString()));
+            alumnoActual.setNombre(vista.tablaEstidiantes.getValueAt(filaSeleccionada, 1).toString());
+            alumnoActual.setApelliddos(vista.tablaEstidiantes.getValueAt(filaSeleccionada, 2).toString());
             VistaVerEstado v = new VistaVerEstado();
-            new ControladorVerEstado(v);
+            new ControladorVerEstado(v, alumnoActual);
+
         });
 
         vista.btnCerrarsesion.addActionListener(e -> {
