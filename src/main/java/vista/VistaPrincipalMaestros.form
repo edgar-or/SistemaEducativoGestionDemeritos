@@ -92,7 +92,7 @@
                                   </Group>
                               </Group>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="brnBuscar" min="-2" pref="88" max="-2" attributes="0"/>
+                                  <Component id="btnBuscar" min="-2" pref="88" max="-2" attributes="0"/>
                                   <Component id="txtBuscarApellido" min="-2" pref="119" max="-2" attributes="0"/>
                               </Group>
                           </Group>
@@ -125,7 +125,7 @@
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="comboGrado" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="comboSeccion" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="brnBuscar" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnBuscar" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
@@ -227,12 +227,12 @@
                 <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
               </AuxValues>
             </Component>
-            <Component class="javax.swing.JButton" name="brnBuscar">
+            <Component class="javax.swing.JButton" name="btnBuscar">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Buscar"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="brnBuscarActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBuscarActionPerformed"/>
               </Events>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>

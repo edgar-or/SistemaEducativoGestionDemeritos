@@ -2,11 +2,16 @@ package controlador;
 
 import DAO.EncargadoDAO;
 import java.awt.Dimension;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import modelo.ModeloEncardoAlumno;
+import utileria.ArbolB;
 import vista.VerEncargado;
 import vista.VistaPrincipalDirector;
 
@@ -16,182 +21,248 @@ public class ControladorEncargado {
     private VerEncargado verEncargado;
     private EncargadoDAO dao = new EncargadoDAO();
     private int duiSeleccionado = -1;
+    private ControladorAgregarEncargado controladorAgregarEncargado;
+    private ControladorTelefonoEncargado controladorTelefonoEncargado;
+    private ControladorCorreoEncargado controladorCorreoEncargado;
 
     public ControladorEncargado(VistaPrincipalDirector vistaPrincipal) {
         this.verEncargado = new VerEncargado();
         this.vistaPrincipal = vistaPrincipal;
+        this.controladorAgregarEncargado = new ControladorAgregarEncargado(verEncargado, this);
+        this.controladorTelefonoEncargado = new ControladorTelefonoEncargado(verEncargado, this);
+        this.controladorCorreoEncargado = new ControladorCorreoEncargado(verEncargado, this);
         onEventos();
+        eventosTelefono();
+        eventoCorreo();
+        llenarTabla();
     }
 
     private void onEventos() {
         vistaPrincipal.menuEncargado.addActionListener(e -> mostrarVista());
         verEncargado.btnCerrar.addActionListener(e -> verEncargado.dispose());
-        verEncargado.btnagregarEncargado.addActionListener(e -> agregarEncargado());
-        verEncargado.btnModificar.addActionListener(e -> modificarEncargado());
-        verEncargado.btnEliminar.addActionListener(e -> eliminarEncargado());
-        verEncargado.btnBuscar.addActionListener(e -> buscar());
 
-        verEncargado.tablaEncargados.getSelectionModel().addListSelectionListener(e -> {
-            if (!e.getValueIsAdjusting()) {
-                int fila = verEncargado.tablaEncargados.getSelectedRow();
-                if (fila >= 0) {
-                    try {
-                        duiSeleccionado = Integer.parseInt(String.valueOf(verEncargado.tablaEncargados.getValueAt(fila, 2)));
-                    } catch (Exception ex) {
-                        duiSeleccionado = -1;
-                    }
-                }
+        this.verEncargado.btnAgregar.addActionListener(e -> {
+            controladorAgregarEncargado.limpiarCampos();
+            controladorAgregarEncargado.habilitarDui();
+            controladorAgregarEncargado.iniciarVista();
+        });
+
+        this.verEncargado.btnModificar.addActionListener(e -> modificarEncargado());
+        this.verEncargado.btnEliminar.addActionListener(e -> eliminarEncargado());
+        this.verEncargado.btnBuscar.addActionListener(e -> buscarEncargado());
+
+        this.verEncargado.txtDui.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                verEncargado.txtNombre.setText("");
+                verEncargado.txtNombre.setEnabled(false);
+                verEncargado.txtDui.setEnabled(true);
             }
         });
+
+        this.verEncargado.txtNombre.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                verEncargado.txtDui.setText("");
+                verEncargado.txtDui.setEnabled(false);
+                verEncargado.txtNombre.setEnabled(true);
+            }
+        });
+
     }
 
     public void mostrarVista() {
         verEncargado.setVisible(true);
+        verEncargado.setSize(1000, 500);
+
         Dimension desk = vistaPrincipal.escritorio.getSize();
-        Dimension win = verEncargado.getSize();
-        verEncargado.setLocation((desk.width - win.width) / 2, (desk.height - win.height) / 2);
+        int x = (desk.width - 1000) / 2;
+        int y = (desk.height - 500) / 2;
+        verEncargado.setLocation(x, y);
+
         vistaPrincipal.escritorio.remove(verEncargado);
         vistaPrincipal.escritorio.add(verEncargado);
+
+        verEncargado.revalidate();
+        verEncargado.repaint();
         verEncargado.toFront();
-        cargarTabla(null);
     }
 
-    private void cargarTabla(List<ModeloEncardoAlumno> lista) {
-        DefaultTableModel modelo = new DefaultTableModel(
-                new String[]{"Nombre", "Apellido", "DUI", "Departamento", "Municipio"}, 0) {
-            @Override
-            public boolean isCellEditable(int r, int c) {
-                return false;
-            }
-        };
+    public void llenarTabla() {
+        DefaultTableModel modeloTabla = (DefaultTableModel) verEncargado.tablaEncargados.getModel();
+        String[] titulos = {"ID", "DUI", "Primer Nombre", "Segundo Nombre", "Primer Apellido", "Segundo Apellido"};
+        modeloTabla.setColumnIdentifiers(titulos);
+        modeloTabla.setRowCount(0);
+
         try {
-            if (lista == null) {
-                lista = dao.listarEncargados();
-            }
+
+            List<ModeloEncardoAlumno> lista = dao.listarEncargados();
+
             for (ModeloEncardoAlumno e : lista) {
-                modelo.addRow(new Object[]{
-                    e.getNombre(),
-                    e.getApelllido(),
+                Object[] fila = new Object[]{
+                    e.getIdEncargado(),
                     e.getDui(),
-                    e.getDepartamento(),
-                    e.getMunicipio()
-                });
+                    e.getPrimerNombre(),
+                    e.getSegundoNombre(),
+                    e.getPrimerApellido(),
+                    e.getSegundoApellido()
+                };
+                modeloTabla.addRow(fila);
             }
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(verEncargado, "Error al cargar: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
-        verEncargado.tablaEncargados.setModel(modelo);
-    }
-
-    private void buscar() {
-        String dui = verEncargado.txtDUI.getText().trim();
-        String nombre = verEncargado.txtNombre.getText().trim();
-        try {
-            if (!dui.isEmpty()) {
-                cargarTabla(dao.buscarPorDui(Integer.parseInt(dui)));
-            } else if (!nombre.isEmpty()) {
-                cargarTabla(dao.buscarPorNombre(nombre));
-            } else {
-                cargarTabla(null);
-            }
-        } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(verEncargado, "El DUI debe ser numérico.", "Aviso", JOptionPane.WARNING_MESSAGE);
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(verEncargado, "Error en búsqueda: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    private void agregarEncargado() {
-        JTextField fNombre = new JTextField(), fApellido = new JTextField(),
-                fDUI = new JTextField(), fDepartamento = new JTextField(),
-                fMunicipio = new JTextField(), fCaserio = new JTextField(),
-                fCalle = new JTextField(), fDistrito = new JTextField(), fCanto = new JTextField();
-
-        Object[] campos = {
-            "Nombre:", fNombre, "Apellido:", fApellido, "DUI:", fDUI,
-            "Departamento:", fDepartamento, "Municipio:", fMunicipio,
-            "Distrito:", fDistrito, "Caserío:", fCaserio, "Cantón:", fCanto, "Calle:", fCalle
-        };
-
-        if (JOptionPane.showConfirmDialog(verEncargado, campos, "Agregar Encargado", JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
-            try {
-                ModeloEncardoAlumno enc = new ModeloEncardoAlumno();
-                enc.setDui(Integer.parseInt(fDUI.getText().trim()));
-                enc.setNombre(fNombre.getText().trim());
-                enc.setApelllido(fApellido.getText().trim());
-                enc.setDepartamento(fDepartamento.getText().trim());
-                enc.setMunicipio(fMunicipio.getText().trim());
-                enc.setDistrito(fDistrito.getText().trim());
-                enc.setCaserio(fCaserio.getText().trim());
-                enc.setCanto(fCanto.getText().trim());
-                enc.setCalle(fCalle.getText().trim());
-
-                dao.insertarEncargado(enc);
-                JOptionPane.showMessageDialog(verEncargado, "Encargado agregado.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                cargarTabla(null);
-            } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(verEncargado, "El DUI debe ser numérico.", "Error", JOptionPane.ERROR_MESSAGE);
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(verEncargado, "Error al guardar: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(verEncargado,
+                    "Error al cargar los datos en la tabla: " + e.getMessage(),
+                    "Error de Carga",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
 
     private void modificarEncargado() {
-        if (duiSeleccionado < 0) {
-            JOptionPane.showMessageDialog(verEncargado, "Seleccione un encargado de la tabla.", "Aviso", JOptionPane.WARNING_MESSAGE);
+        int filaSeleccionada = verEncargado.tablaEncargados.getSelectedRow();
+
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(verEncargado,
+                    "Por favor, seleccione un encargado de la tabla para modificar.",
+                    "Aviso", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        int fila = verEncargado.tablaEncargados.getSelectedRow();
-        JTextField fNombre = new JTextField((String) verEncargado.tablaEncargados.getValueAt(fila, 0));
-        JTextField fApellido = new JTextField((String) verEncargado.tablaEncargados.getValueAt(fila, 1));
-        JTextField fDepartamento = new JTextField((String) verEncargado.tablaEncargados.getValueAt(fila, 3));
-        JTextField fMunicipio = new JTextField((String) verEncargado.tablaEncargados.getValueAt(fila, 4));
-        JTextField fCaserio = new JTextField(), fCalle = new JTextField(), fDistrito = new JTextField(), fCanto = new JTextField();
 
-        Object[] campos = {
-            "Nombre:", fNombre, "Apellido:", fApellido,
-            "Departamento:", fDepartamento, "Municipio:", fMunicipio,
-            "Distrito:", fDistrito, "Caserío:", fCaserio, "Cantón:", fCanto, "Calle:", fCalle
-        };
+        try {
+            int filaReal = verEncargado.tablaEncargados.convertRowIndexToModel(filaSeleccionada);
 
-        if (JOptionPane.showConfirmDialog(verEncargado, campos, "Modificar Encargado", JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
-            try {
-                ModeloEncardoAlumno enc = new ModeloEncardoAlumno();
-                enc.setDui(duiSeleccionado);
-                enc.setNombre(fNombre.getText().trim());
-                enc.setApelllido(fApellido.getText().trim());
-                enc.setDepartamento(fDepartamento.getText().trim());
-                enc.setMunicipio(fMunicipio.getText().trim());
-                enc.setDistrito(fDistrito.getText().trim());
-                enc.setCaserio(fCaserio.getText().trim());
-                enc.setCanto(fCanto.getText().trim());
-                enc.setCalle(fCalle.getText().trim());
+            Object valorCeldaDui = verEncargado.tablaEncargados.getModel().getValueAt(filaReal, 1);
+            if (valorCeldaDui == null || valorCeldaDui.toString().trim().isEmpty()) {
+                JOptionPane.showMessageDialog(verEncargado,
+                        "El encargado seleccionado no posee un DUI válido en la tabla.",
+                        "Error de Datos", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
 
-                dao.modificarEncargado(enc, duiSeleccionado);
-                JOptionPane.showMessageDialog(verEncargado, "Encargado modificado.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                duiSeleccionado = -1;
-                cargarTabla(null);
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(verEncargado, "Error al modificar: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            String dui = valorCeldaDui.toString().trim();
+
+            ModeloEncardoAlumno encargado = dao.buscarPorDui(dui);
+
+            if (encargado != null) {
+                if (controladorAgregarEncargado != null) {
+                    controladorAgregarEncargado.iniciarVistaEdicion(encargado);
+                } else {
+                    JOptionPane.showMessageDialog(verEncargado,
+                            "Error interno: El controlador para agregar/editar encargado no está disponible.",
+                            "Error de Sistema", JOptionPane.ERROR_MESSAGE);
+                }
+            } else {
+                JOptionPane.showMessageDialog(verEncargado,
+                        "No se encontraron los datos de ese encargado en el sistema.",
+                        "No Encontrado", JOptionPane.INFORMATION_MESSAGE);
+            }
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(verEncargado,
+                    "Error al recuperar datos para modificar: " + e.getMessage(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        } finally {
+            if (verEncargado != null && verEncargado.tablaEncargados != null) {
+                verEncargado.tablaEncargados.clearSelection();
             }
         }
     }
 
+    private void buscarEncargado() {
+        DefaultTableModel modelo = (DefaultTableModel) verEncargado.tablaEncargados.getModel();
+        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(modelo);
+        verEncargado.tablaEncargados.setRowSorter(sorter);
+
+        String dui = verEncargado.txtDui.getText().trim();
+        String nombre = verEncargado.txtNombre.getText().trim();
+
+        if (!dui.isEmpty()) {
+            sorter.setRowFilter(RowFilter.regexFilter("(?i)" + dui, 1));
+        } else if (!nombre.isEmpty()) {
+            sorter.setRowFilter(RowFilter.regexFilter("(?i)" + nombre, 2, 3, 4, 5));
+        } else {
+            sorter.setRowFilter(null);
+        }
+    }
+
     private void eliminarEncargado() {
-        if (duiSeleccionado < 0) {
-            JOptionPane.showMessageDialog(verEncargado, "Seleccione un encargado de la tabla.", "Aviso", JOptionPane.WARNING_MESSAGE);
+        int filaSeleccionada = verEncargado.tablaEncargados.getSelectedRow();
+
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(verEncargado,
+                    "Por favor, seleccione un encargado de la tabla para eliminar.",
+                    "Aviso", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        if (JOptionPane.showConfirmDialog(verEncargado, "¿Eliminar el encargado seleccionado?", "Confirmar", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+
+        int filaReal = verEncargado.tablaEncargados.convertRowIndexToModel(filaSeleccionada);
+        String dui = verEncargado.tablaEncargados.getModel().getValueAt(filaReal, 1).toString();
+        String nombre = verEncargado.tablaEncargados.getModel().getValueAt(filaReal, 2).toString() + " "
+                + verEncargado.tablaEncargados.getModel().getValueAt(filaReal, 4).toString();
+
+        int respuesta = JOptionPane.showConfirmDialog(verEncargado,
+                "¿Está seguro de que desea eliminar al encargado: " + nombre + " (DUI: " + dui + ")?",
+                "Confirmar Eliminación",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE);
+
+        if (respuesta == JOptionPane.YES_OPTION) {
             try {
-                dao.eliminarEncargado(duiSeleccionado);
-                JOptionPane.showMessageDialog(verEncargado, "Encargado eliminado.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                duiSeleccionado = -1;
-                cargarTabla(null);
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(verEncargado, "Error al eliminar: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                dao.eliminarEncargado(dui);
+                JOptionPane.showMessageDialog(verEncargado, "Encargado eliminado correctamente.");
+                llenarTabla();
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(verEncargado,
+                        "Error al intentar eliminar el encargado: " + e.getMessage(),
+                        "Error", JOptionPane.ERROR_MESSAGE);
+            } finally {
+                verEncargado.tablaEncargados.clearSelection();
             }
         }
+    }
+
+    private void eventosTelefono() {
+        this.verEncargado.btnTelefono.addActionListener(e -> {
+            int filaSeleccionada = verEncargado.tablaEncargados.getSelectedRow();
+
+            if (filaSeleccionada == -1) {
+
+                JOptionPane.showMessageDialog(verEncargado,
+                        "Por favor, seleccione un encargado de la tabla para ver o asignar teléfonos.",
+                        "Aviso", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            int fila = verEncargado.tablaEncargados.convertRowIndexToModel(filaSeleccionada);
+
+            int idEncargado = Integer.parseInt(verEncargado.tablaEncargados.getModel().getValueAt(fila, 0).toString());
+            String nombreEncargado = verEncargado.tablaEncargados.getModel().getValueAt(fila, 2).toString() + " "
+                    + verEncargado.tablaEncargados.getModel().getValueAt(fila, 4).toString();
+
+            controladorTelefonoEncargado.encargadoSeleccionado(idEncargado, nombreEncargado);
+            controladorTelefonoEncargado.iniciarVista();
+            verEncargado.tablaEncargados.clearSelection();
+
+        });
+    }
+
+    private void eventoCorreo() {
+        this.verEncargado.btnCorreo.addActionListener(e -> {
+            int filaSeleccionada = verEncargado.tablaEncargados.getSelectedRow();
+
+            if (filaSeleccionada == -1) {
+                JOptionPane.showMessageDialog(verEncargado,
+                        "Por favor, seleccione un encargado de la tabla para ver o asignar correos.", "Aviso", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            int fila = verEncargado.tablaEncargados.convertRowIndexToModel(filaSeleccionada);
+
+            int idEncargado = Integer.parseInt(verEncargado.tablaEncargados.getModel().getValueAt(fila, 0).toString());
+            String nombreEncargado = verEncargado.tablaEncargados.getModel().getValueAt(fila, 2).toString() + " "
+                    + verEncargado.tablaEncargados.getModel().getValueAt(fila, 4).toString();
+
+            controladorCorreoEncargado.encargadoSeleccionado(idEncargado, nombreEncargado);
+            controladorCorreoEncargado.iniciarVista();
+            verEncargado.tablaEncargados.clearSelection();
+
+        });
     }
 }

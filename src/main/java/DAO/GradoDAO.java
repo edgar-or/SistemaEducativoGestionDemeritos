@@ -13,12 +13,12 @@ public class GradoDAO {
 
     public String obtenerCodigoCE() throws SQLException {
 
-        String sql = "SELECT codigo_CE FROM centro_escolar";
+        String sql = "SELECT id_centro,  codigo_CE FROM centro_escolar";
 
         try (Connection con = Conexion.getConexion(); PreparedStatement ps = con.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
 
             if (rs.next()) {
-                return rs.getString("codigo_CE");
+                return rs.getString("id_centro");
             }
         }
 
@@ -27,7 +27,7 @@ public class GradoDAO {
 
     public void insertarGrado(String nombreGrado) throws SQLException {
 
-        String sql = "INSERT INTO grado(grado, cod_CE) VALUES (?, ?)";
+        String sql = "INSERT INTO grado(grado, id_centro) VALUES (?, ?)";
 
         try (Connection con = Conexion.getConexion(); PreparedStatement ps = con.prepareStatement(sql)) {
 

@@ -25,9 +25,14 @@ public class ControladorAlumno {
     private GradoDAO gradoDAO = new GradoDAO();
     private seccionProfesorDAO seccionDAO = new seccionProfesorDAO();
 
+    private ControladorAsignarEncargado controlAsignarEncargado;
+
     public ControladorAlumno(VistaPrincipalDirector vistaPrincipal) {
         this.vistaAlumno = new VistaAlumno();
         this.vistaPrincipal = vistaPrincipal;
+
+        this.controlAsignarEncargado = new ControladorAsignarEncargado(vistaPrincipal);
+
         onEventos();
         listarAlumnos();
         cargarGrados();
@@ -55,6 +60,11 @@ public class ControladorAlumno {
                 vistaAlumno.Secciones.addItem("-- Seleccione sección --");
             }
         });
+
+        vistaAlumno.btnAsignarResponsable.addActionListener(e -> {
+            controlAsignarEncargado.iniciarVista();
+        });
+
     }
 
     public void mostrarVista() {
@@ -72,24 +82,22 @@ public class ControladorAlumno {
 
     public void listarAlumnos() {
         try {
-            List<ModeloAlumno> lista = alumnoDAO.listarAlumnos();
-            arbolAlumnos = new ArbolBinarioBusqueda<>();
-            for (ModeloAlumno a : lista) {
-                arbolAlumnos.insertar(a);
-            }
+            arbolAlumnos = alumnoDAO.listarAlumnos();
             llenarTablaDesdeArbol();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(vistaAlumno, "Error al listar alumnos: " + e.getMessage());
+            JOptionPane.showMessageDialog(vistaAlumno,
+                    "Error al listar alumnos: " + e.getMessage());
         }
     }
 
     public void llenarTablaDesdeArbol() {
         DefaultTableModel modelo = new DefaultTableModel(new String[]{
-            "NIE", "Nombre", "Apellido", "Puntos"
+            "ID", "NIE", "Nombre", "Apellido", "Puntos"
         }, 0);
         List<ModeloAlumno> lista = arbolAlumnos.IND();
         for (ModeloAlumno a : lista) {
             modelo.addRow(new Object[]{
+                a.getId_alumno(),
                 a.getNie(),
                 a.getNombre(),
                 a.getApelliddos(),
@@ -205,12 +213,13 @@ public class ControladorAlumno {
 
             Nodo<ModeloAlumno> nodo = arbolAlumnos.buscar(alumnoBuscar);
             DefaultTableModel modelo = new DefaultTableModel(new String[]{
-                "NIE", "Nombre", "Apellido", "Puntos"
+                "ID", "NIE", "Nombre", "Apellido", "Puntos"
             }, 0);
 
             if (nodo != null) {
                 ModeloAlumno a = nodo.getDato();
                 modelo.addRow(new Object[]{
+                    a.getId_alumno(),
                     a.getNie(),
                     a.getNombre(),
                     a.getApelliddos(),
@@ -243,10 +252,9 @@ public class ControladorAlumno {
             JOptionPane.showMessageDialog(vistaAlumno, "Seleccione un alumno de la tabla.");
             return;
         }
-        vistaAlumno.txtNIE.setText(vistaAlumno.tablaAlumnos.getValueAt(fila, 0).toString());
-        vistaAlumno.txtNombre.setText(vistaAlumno.tablaAlumnos.getValueAt(fila, 1).toString());
-        vistaAlumno.txtApellido.setText(vistaAlumno.tablaAlumnos.getValueAt(fila, 2).toString());
-        vistaAlumno.txtNIE.setEnabled(false);
+        vistaAlumno.txtNIE.setText(vistaAlumno.tablaAlumnos.getValueAt(fila, 1).toString());
+        vistaAlumno.txtNombre.setText(vistaAlumno.tablaAlumnos.getValueAt(fila, 2).toString());
+        vistaAlumno.txtApellido.setText(vistaAlumno.tablaAlumnos.getValueAt(fila, 3).toString());
         vistaAlumno.btnGuar.setText("Actualizar");
         modoEdicion = true;
     }
@@ -263,6 +271,15 @@ public class ControladorAlumno {
                 return;
             }
             ModeloAlumno alumno = new ModeloAlumno();
+
+            int fila = vistaAlumno.tablaAlumnos.getSelectedRow();
+            if (fila == -1) {
+                JOptionPane.showMessageDialog(null, "Seleccione un estudiante de la tabla");
+            }
+            
+            
+            int id_estudiante =  (int) vistaAlumno.tablaAlumnos.getValueAt(fila, 0);
+            alumno.setId_alumno(id_estudiante);
             alumno.setNie(Integer.parseInt(vistaAlumno.txtNIE.getText().trim()));
             alumno.setNombre(vistaAlumno.txtNombre.getText().trim());
             alumno.setApelliddos(vistaAlumno.txtApellido.getText().trim());
@@ -296,15 +313,15 @@ public class ControladorAlumno {
                 return;
             }
 
-            String nieStr = vistaAlumno.tablaAlumnos.getValueAt(fila, 0).toString();
+            String id_alumno = vistaAlumno.tablaAlumnos.getValueAt(fila, 0).toString();
 
             int confirmacion = JOptionPane.showConfirmDialog(vistaAlumno, "¿Desea eliminar este alumno?", "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
             if (confirmacion != JOptionPane.YES_OPTION) {
                 return;
             }
 
-            int nie = Integer.parseInt(nieStr);
-            boolean eliminado = alumnoDAO.eliminarAlumno(nie);
+            int id = Integer.parseInt(id_alumno);
+            boolean eliminado = alumnoDAO.eliminarAlumno(id);
 
             if (eliminado) {
                 JOptionPane.showMessageDialog(vistaAlumno, "Alumno eliminado correctamente.");
