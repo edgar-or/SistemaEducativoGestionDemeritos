@@ -24,8 +24,12 @@ public class ModeloDocente implements Comparable<ModeloDocente> {
     private ArrayList<ModeloMovimientoConducta> movimientoConducta;
     private ModeloCargoDocente cargoDocente;
     private Usuario usuario;
+    
+    // NUEVA VARIABLE: Para manejar directamente el ID del combo box en el Controlador y DAO
+    private int idCargo; 
 
     public ModeloDocente() {
+        this.idCargo = 0; // Inicialización por seguridad
     }
 
     public ModeloDocente(String duiDocente, String nombre, String segundoNombre,
@@ -56,6 +60,7 @@ public class ModeloDocente implements Comparable<ModeloDocente> {
         this.movimientoConducta = movimientoConducta;
         this.cargoDocente = cargoDocente;
         this.usuario = usuario;
+        this.idCargo = 0; // Inicialización por seguridad en constructor sobrecargado
     }
 
     @Override
@@ -66,6 +71,14 @@ public class ModeloDocente implements Comparable<ModeloDocente> {
         return this.duiDocente.compareTo(otroDocente.getDuiDocente());
     }
 
+    // NUEVOS MÉTODOS GETTER Y SETTER PARA ID_CARGO
+    public int getIdCargo() {
+        return idCargo;
+    }
+
+    public void setIdCargo(int idCargo) {
+        this.idCargo = idCargo;
+    }
 
     public String getDuiDocente() { return duiDocente; }
     public void setDuiDocente(String duiDocente) { this.duiDocente = duiDocente; }
@@ -131,6 +144,4 @@ public class ModeloDocente implements Comparable<ModeloDocente> {
     public void setIdPersonal(int idPersonal) {
         this.idPersonal = idPersonal;
     }
-
- 
 }
