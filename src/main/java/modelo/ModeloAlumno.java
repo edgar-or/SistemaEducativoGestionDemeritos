@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 public class ModeloAlumno implements Comparable<ModeloAlumno> {
 
+    private int id_alumno; 
     private int nie;
     private String nombre;
     private String apelliddos;
@@ -36,6 +37,15 @@ public class ModeloAlumno implements Comparable<ModeloAlumno> {
     public int compareTo(ModeloAlumno otroAlumno) {
         return Integer.compare(this.nie, otroAlumno.getNie());
     }
+
+    public int getId_alumno() {
+        return id_alumno;
+    }
+
+    public void setId_alumno(int id_alumno) {
+        this.id_alumno = id_alumno;
+    }
+    
 
     public int getNie() {
         return nie;
@@ -92,4 +102,6 @@ public class ModeloAlumno implements Comparable<ModeloAlumno> {
     public void setModeloConducta(ArrayList<ModeloConducta> modeloConducta) {
         this.modeloConducta = modeloConducta;
     }
+    
+    
 }

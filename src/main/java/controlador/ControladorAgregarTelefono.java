@@ -37,10 +37,19 @@ public class ControladorAgregarTelefono {
     private void agregarTelefono() {
         String telefono = vista.txtAgregar.getText().trim();
 
+        
         if (telefono.isEmpty()) {
             JOptionPane.showMessageDialog(vista,
                     "Ingrese un número de teléfono.",
                     "Aviso", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+
+        if (telefono.length() != 9 || telefono.charAt(4) != '-') {
+            JOptionPane.showMessageDialog(vista,
+                    "El teléfono no es válido.\nEjemplo: 7894-5612",
+                    "Formato inválido", JOptionPane.WARNING_MESSAGE);
             return;
         }
 

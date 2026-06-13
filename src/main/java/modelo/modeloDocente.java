@@ -3,7 +3,8 @@ package modelo;
 import java.util.ArrayList;
 
 public class ModeloDocente implements Comparable<ModeloDocente> {
-
+    
+    private int idPersonal; 
     private String duiDocente;
     private String nombre;
     private String segundoNombre;
@@ -23,8 +24,12 @@ public class ModeloDocente implements Comparable<ModeloDocente> {
     private ArrayList<ModeloMovimientoConducta> movimientoConducta;
     private ModeloCargoDocente cargoDocente;
     private Usuario usuario;
+    
+    // NUEVA VARIABLE: Para manejar directamente el ID del combo box en el Controlador y DAO
+    private int idCargo; 
 
     public ModeloDocente() {
+        this.idCargo = 0; // Inicialización por seguridad
     }
 
     public ModeloDocente(String duiDocente, String nombre, String segundoNombre,
@@ -55,6 +60,7 @@ public class ModeloDocente implements Comparable<ModeloDocente> {
         this.movimientoConducta = movimientoConducta;
         this.cargoDocente = cargoDocente;
         this.usuario = usuario;
+        this.idCargo = 0; // Inicialización por seguridad en constructor sobrecargado
     }
 
     @Override
@@ -65,7 +71,14 @@ public class ModeloDocente implements Comparable<ModeloDocente> {
         return this.duiDocente.compareTo(otroDocente.getDuiDocente());
     }
 
-    // ── Getters y Setters ──────────────────────────────────────────────
+    // NUEVOS MÉTODOS GETTER Y SETTER PARA ID_CARGO
+    public int getIdCargo() {
+        return idCargo;
+    }
+
+    public void setIdCargo(int idCargo) {
+        this.idCargo = idCargo;
+    }
 
     public String getDuiDocente() { return duiDocente; }
     public void setDuiDocente(String duiDocente) { this.duiDocente = duiDocente; }
@@ -122,5 +135,13 @@ public class ModeloDocente implements Comparable<ModeloDocente> {
     public void setCargoDocente(ModeloCargoDocente cargoDocente) { this.cargoDocente = cargoDocente; }
 
     public Usuario getUsuario() { return usuario; }
-    public void setUsuario(Usuario usuario) { this.usuario = usuario; }
+    public void setUsuario(Usuario usuario) { this.usuario = usuario;  }
+
+    public int getIdPersonal() {
+        return idPersonal;
+    }
+
+    public void setIdPersonal(int idPersonal) {
+        this.idPersonal = idPersonal;
+    }
 }

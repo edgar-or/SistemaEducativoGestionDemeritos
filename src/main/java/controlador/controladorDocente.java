@@ -2,7 +2,9 @@ package controlador;
 
 import DAO.DocenteDAO;
 import java.awt.Dimension;
+import java.sql.SQLException;
 import java.util.List;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modelo.ArbolBinarioBusqueda;
@@ -53,9 +55,9 @@ public class ControladorDocente {
                         "Aviso", JOptionPane.WARNING_MESSAGE);
                 return;
             }
-            String dui    = vistaDocente.tablaDocente.getValueAt(fila, 0).toString();
-            String nombre = vistaDocente.tablaDocente.getValueAt(fila, 1).toString()
-                          + " " + vistaDocente.tablaDocente.getValueAt(fila, 2).toString();
+            String dui    = vistaDocente.tablaDocente.getValueAt(fila, 1).toString();
+            String nombre = vistaDocente.tablaDocente.getValueAt(fila, 2).toString()
+                          + " " + vistaDocente.tablaDocente.getValueAt(fila, 3).toString();
             new ControladorAgregarTelefono(dui, nombre);
         });
 
@@ -67,9 +69,9 @@ public class ControladorDocente {
                         "Aviso", JOptionPane.WARNING_MESSAGE);
                 return;
             }
-            String dui    = vistaDocente.tablaDocente.getValueAt(fila, 0).toString();
-            String nombre = vistaDocente.tablaDocente.getValueAt(fila, 1).toString()
-                          + " " + vistaDocente.tablaDocente.getValueAt(fila, 2).toString();
+            String dui    = vistaDocente.tablaDocente.getValueAt(fila, 1).toString();
+            String nombre = vistaDocente.tablaDocente.getValueAt(fila, 2).toString()
+                          + " " + vistaDocente.tablaDocente.getValueAt(fila, 3).toString();
             new ControladorAgregarCorreo(dui, nombre);
         });
     }
@@ -103,13 +105,14 @@ public class ControladorDocente {
 
     private void llenarTablaDesdeArbol() {
         DefaultTableModel modelo = new DefaultTableModel(
-                new String[]{"DUI", "Nombre", "Apellido", "Departamento", "Municipio", "Distrito", "Correo", "Teléfono"}, 0) {
+                new String[]{"ID", "DUI", "Nombre", "Apellido", "Departamento", "Municipio", "Distrito", "Correo", "Teléfono"}, 0) {
             @Override
             public boolean isCellEditable(int r, int c) { return false; }
         };
         List<ModeloDocente> lista = arbolDocentes.IND();
         for (ModeloDocente d : lista) {
             modelo.addRow(new Object[]{
+                d.getIdPersonal(),
                 d.getDuiDocente(),
                 d.getNombre(),
                 d.getApellido(),
@@ -123,9 +126,26 @@ public class ControladorDocente {
         vistaDocente.tablaDocente.setModel(modelo);
     }
 
+    // Método auxiliar para llenar el ComboBox desde el Controlador
+    private void llenarComboCargos(VistaAgregarMaestros form) {
+        try {
+            DefaultComboBoxModel modeloCombo = new DefaultComboBoxModel();
+            List<Object[]> listaCargos = dao.listarCargos();
+            for (Object[] cargo : listaCargos) {
+                modeloCombo.addElement((String) cargo[1]);
+            }
+            form.cmbCargo.setModel(modeloCombo);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(form, "Error al cargar los cargos: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
     private void abrirFormularioRegistrar() {
         VistaAgregarMaestros form = new VistaAgregarMaestros();
         form.setTitle("Registrar Docente");
+
+        // Llenamos el ComboBox de cargos inmediatamente al abrir la ventana
+        llenarComboCargos(form);
 
         form.txtDui.setText("");
         form.txtDui.setEnabled(true);
@@ -151,18 +171,37 @@ public class ControladorDocente {
                 return;
             }
 
+            // Recuperamos el ID del cargo seleccionado de manera secuencial
+            String cargoSeleccionado = (String) form.cmbCargo.getSelectedItem();
+            int idCargo = 0;
+            try {
+                List<Object[]> listaCargos = dao.listarCargos();
+                for (Object[] cargo : listaCargos) {
+                    if (cargo[1].equals(cargoSeleccionado)) {
+                        idCargo = (int) cargo[0];
+                        break;
+                    }
+                }
+            } catch (SQLException ex) {
+                System.out.println("Error al asociar cargo: " + ex.getMessage());
+            }
+
             try {
                 ModeloDocente d = new ModeloDocente();
                 d.setDuiDocente(dui);
                 d.setNombre(nombre);
                 d.setApellido(apellido);
-                d.setDepartamento(form.txtDepartamentos.getText().trim());
-                d.setMunicipio(form.txtmunicipio.getText().trim());
-                d.setDistrito(form.txtDistrito1.getText().trim());
+                d.setDepartamento(form.txtmunicipio.getText().trim());
+                d.setMunicipio(form.txtDistrito1.getText().trim());
+                d.setDistrito(form.txtDistrito.getText().trim());
                 d.setCaserio(form.txtDistr1.getText().trim());
                 d.setCalle(form.txtDistr.getText().trim());
-                d.setTelefonoDocente(form.txtDistrito.getText().trim());
-                d.setCorreo(form.txtDistr2.getText().trim());
+                d.setNumeroCasa(parsearCasa(form.txtDistr2.getText().trim()));
+                d.setTelefonoDocente("");
+                d.setCorreo("");
+                
+                // Asignamos el ID numérico capturado del combo
+                d.setIdCargo(idCargo); 
 
                 dao.insertarDocente(d);
 
@@ -193,7 +232,7 @@ public class ControladorDocente {
             return;
         }
 
-        String dui = vistaDocente.tablaDocente.getValueAt(fila, 0).toString();
+        String dui = vistaDocente.tablaDocente.getValueAt(fila, 1).toString();
 
         ModeloDocente actual = null;
         try {
@@ -217,17 +256,19 @@ public class ControladorDocente {
         VistaAgregarMaestros form = new VistaAgregarMaestros();
         form.setTitle("Modificar Docente");
 
+        // Cargamos los cargos en la ventana de modificación
+        llenarComboCargos(form);
+
         form.txtDui.setText(docente.getDuiDocente());
         form.txtDui.setEnabled(false);
         form.txtNombres1.setText(nv(docente.getNombre()));
         form.txtNombres.setText(nv(docente.getApellido()));
-        form.txtDepartamentos.setText(nv(docente.getDepartamento()));
-        form.txtmunicipio.setText(nv(docente.getMunicipio()));
-        form.txtDistrito1.setText(nv(docente.getDistrito()));
+        form.txtmunicipio.setText(nv(docente.getDepartamento()));
+        form.txtDistrito1.setText(nv(docente.getMunicipio()));
+        form.txtDistrito.setText(nv(docente.getDistrito()));
         form.txtDistr1.setText(nv(docente.getCaserio()));
         form.txtDistr.setText(nv(docente.getCalle()));
-        form.txtDistrito.setText(nv(docente.getTelefonoDocente()));
-        form.txtDistr2.setText(nv(docente.getCorreo()));
+        form.txtDistr2.setText(String.valueOf(docente.getNumeroCasa() > 0 ? docente.getNumeroCasa() : ""));
 
         form.btnGuardar.addActionListener(e -> {
             String nombre   = form.txtNombres1.getText().trim();
@@ -240,18 +281,36 @@ public class ControladorDocente {
                 return;
             }
 
+            // También capturamos el cargo en caso de que se haya modificado
+            String cargoSeleccionado = (String) form.cmbCargo.getSelectedItem();
+            int idCargo = 0;
+            try {
+                List<Object[]> listaCargos = dao.listarCargos();
+                for (Object[] cargo : listaCargos) {
+                    if (cargo[1].equals(cargoSeleccionado)) {
+                        idCargo = (int) cargo[0];
+                        break;
+                    }
+                }
+            } catch (SQLException ex) {
+                System.out.println("Error al asociar cargo: " + ex.getMessage());
+            }
+
             try {
                 ModeloDocente d = new ModeloDocente();
                 d.setDuiDocente(docente.getDuiDocente());
                 d.setNombre(nombre);
                 d.setApellido(apellido);
-                d.setDepartamento(form.txtDepartamentos.getText().trim());
-                d.setMunicipio(form.txtmunicipio.getText().trim());
-                d.setDistrito(form.txtDistrito1.getText().trim());
+                d.setDepartamento(form.txtmunicipio.getText().trim());
+                d.setMunicipio(form.txtDistrito1.getText().trim());
+                d.setDistrito(form.txtDistrito.getText().trim());
                 d.setCaserio(form.txtDistr1.getText().trim());
                 d.setCalle(form.txtDistr.getText().trim());
-                d.setTelefonoDocente(form.txtDistrito.getText().trim());
-                d.setCorreo(form.txtDistr2.getText().trim());
+                d.setNumeroCasa(parsearCasa(form.txtDistr2.getText().trim()));
+                d.setTelefonoDocente("");
+                d.setCorreo("");
+                
+                d.setIdCargo(idCargo); // Guardamos la actualización del cargo
 
                 dao.modificarDocente(d);
 
@@ -282,7 +341,7 @@ public class ControladorDocente {
             return;
         }
 
-        String dui = vistaDocente.tablaDocente.getValueAt(fila, 0).toString();
+        String dui = vistaDocente.tablaDocente.getValueAt(fila, 1).toString();
 
         int confirm = JOptionPane.showConfirmDialog(vistaDocente,
                 "¿Eliminar al docente con DUI: " + dui + "?",
@@ -314,7 +373,7 @@ public class ControladorDocente {
                 Nodo nodo = arbolDocentes.buscar(clave);
 
                 DefaultTableModel modelo = new DefaultTableModel(
-                        new String[]{"DUI", "Nombre", "Apellido", "Departamento", "Municipio", "Distrito", "Correo", "Teléfono"}, 0) {
+                        new String[]{"ID", "DUI", "Nombre", "Apellido", "Departamento", "Municipio", "Distrito", "Correo", "Teléfono"}, 0) {
                     @Override
                     public boolean isCellEditable(int r, int c) { return false; }
                 };
@@ -322,6 +381,7 @@ public class ControladorDocente {
                 if (nodo != null) {
                     ModeloDocente d = (ModeloDocente) nodo.getDato();
                     modelo.addRow(new Object[]{
+                        d.getIdPersonal(),
                         d.getDuiDocente(),
                         d.getNombre(),
                         d.getApellido(),
@@ -362,5 +422,9 @@ public class ControladorDocente {
 
     private String nv(String valor) {
         return valor != null ? valor : "";
+    }
+
+    private int parsearCasa(String texto) {
+        try { return Integer.parseInt(texto); } catch (NumberFormatException e) { return 0; }
     }
 }

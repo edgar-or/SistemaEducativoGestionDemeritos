@@ -25,14 +25,7 @@ public class UsuarioDao {
         Login u = null;
         LoginResultadoDto resultado = null;
 
-        String consulta = "SELECT pd.dui_personal, pd.primer_nombre, pd.segundo_nombre, "
-                + "pd.primer_apellido, pd.segundo_apellido, pd.departamento, pd.municipio, "
-                + "pd.distrito, pd.caserio, pd.calle, pd.num_casa, pd.id_cargo_docente, pd.id_usuario, "
-                + "cp.id_cargo_personal, cp.cargo_personal, u.id_usuaio AS usuario_id, u.usuario, u.contrasena "
-                + "FROM personal_docente pd "
-                + "INNER JOIN cargo_personal cp ON pd.id_cargo_docente = cp.id_cargo_personal "
-                + "INNER JOIN usuario u ON pd.id_usuario = u.id_usuaio "
-                + "WHERE u.usuario = ? AND u.contrasena = ?;";
+        String consulta = "SELECT pd.id_personal, pd.dui_personal, pd.primer_nombre, pd.segundo_nombre, pd.primer_apellido, pd.segundo_apellido, pd.departamento, pd.municipio, pd.distrito, pd.caserio, pd.calle, pd.num_casa, cp.id_cargo_personal, cp.cargo_personal, u.id_usuario, u.usuario, u.contrasena FROM personal_docente pd INNER JOIN cargo_personal cp ON pd.id_cargo_personal = cp.id_cargo_personal INNER JOIN usuario u ON pd.id_usuario = u.id_usuario WHERE u.usuario = ? AND u.contrasena = ?;";
 
         try (Connection con = Conexion.getConexion(); PreparedStatement ps = con.prepareStatement(consulta)) {
 
@@ -45,6 +38,7 @@ public class UsuarioDao {
 
                     ModeloDocente docente = new ModeloDocente();
 
+                    docente.setIdPersonal(rs.getInt("id_personal")); 
                     docente.setDuiDocente(rs.getString("dui_personal"));
 
                     docente.setNombre(rs.getString("primer_nombre"));

@@ -12,6 +12,7 @@ import java.util.ArrayList;
  */
 public class ModeloEncardoAlumno {
     
+    private int id_encargado; 
     private int dui;
     private String nombre;
     private String apelllido;
@@ -142,5 +143,15 @@ public class ModeloEncardoAlumno {
         this.Alumno = Alumno;
     }
 
+    public int getId_encargado() {
+        return id_encargado;
+    }
+
+    public void setId_encargado(int id_encargado) {
+        this.id_encargado = id_encargado;
+    }
+
+    
+    
     
 }

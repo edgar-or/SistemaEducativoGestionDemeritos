@@ -36,10 +36,19 @@ public class ControladorAgregarCorreo {
     private void agregarCorreo() {
         String correo = vista.txtCorreo.getText().trim();
 
+       
         if (correo.isEmpty()) {
             JOptionPane.showMessageDialog(vista,
                     "Ingrese un correo electrónico.",
                     "Aviso", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+       
+        if (!correo.contains("@") || !correo.contains(".") || correo.indexOf("@") < 1) {
+            JOptionPane.showMessageDialog(vista,
+                    "El correo no es válido. \nEjemplo: usuario@dominio.com",
+                    "Formato inválido", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
