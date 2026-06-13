@@ -136,13 +136,15 @@ public class ControladorDocente {
                 d.setCaserio(form.txtDistr1.getText().trim());
                 d.setCalle(form.txtDistr.getText().trim());
 
-                dao.insertarDocente(d);
+                int idDocente = dao.insertarDocente(d);
 
                 JOptionPane.showMessageDialog(form,
                         "Docente registrado correctamente.",
                         "Éxito", JOptionPane.INFORMATION_MESSAGE);
                 form.dispose();
                 listarDocentes();
+                        new ControladorRegistrarUsuario(vistaPrincipal, idDocente);
+
 
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(form,

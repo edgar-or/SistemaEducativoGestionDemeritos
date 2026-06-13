@@ -31,7 +31,7 @@ public class ControladorAlumno {
         this.vistaAlumno = new VistaAlumno();
         this.vistaPrincipal = vistaPrincipal;
 
-        this.controlAsignarEncargado = new ControladorAsignarEncargado(vistaPrincipal);
+        this.controlAsignarEncargado = new ControladorAsignarEncargado(vistaPrincipal, this);
 
         onEventos();
         listarAlumnos();
@@ -62,19 +62,30 @@ public class ControladorAlumno {
         });
 
         vistaAlumno.btnAsignarResponsable.addActionListener(e -> {
-            controlAsignarEncargado.iniciarVista();
+
+            if (obtenerIdAlumnoSeleccionado() == -1) {
+                JOptionPane.showMessageDialog(null, "Debe seleccionar un alumno");
+            } else {
+                controlAsignarEncargado.iniciarVista();
+
+            }
+
         });
 
     }
 
     public void mostrarVista() {
         vistaAlumno.setVisible(true);
+
+        // Tamaño fijo razonable basado en tu diseño
+        vistaAlumno.setSize(1000, 560);
+
+        // Centrar dentro del escritorio
         Dimension desktopSize = vistaPrincipal.escritorio.getSize();
-        Dimension internal = vistaAlumno.getSize();
-        int x = (desktopSize.width - internal.width) / 2;
-        int y = (desktopSize.height - internal.height) / 2;
+        int x = Math.max(0, (desktopSize.width - 900) / 2);
+        int y = Math.max(0, (desktopSize.height - 560) / 2);
         vistaAlumno.setLocation(x, y);
-        vistaAlumno.setSize(900, 500);
+
         vistaPrincipal.escritorio.remove(vistaAlumno);
         vistaPrincipal.escritorio.add(vistaAlumno);
         vistaAlumno.toFront();
@@ -276,9 +287,8 @@ public class ControladorAlumno {
             if (fila == -1) {
                 JOptionPane.showMessageDialog(null, "Seleccione un estudiante de la tabla");
             }
-            
-            
-            int id_estudiante =  (int) vistaAlumno.tablaAlumnos.getValueAt(fila, 0);
+
+            int id_estudiante = (int) vistaAlumno.tablaAlumnos.getValueAt(fila, 0);
             alumno.setId_alumno(id_estudiante);
             alumno.setNie(Integer.parseInt(vistaAlumno.txtNIE.getText().trim()));
             alumno.setNombre(vistaAlumno.txtNombre.getText().trim());
@@ -336,4 +346,13 @@ public class ControladorAlumno {
             JOptionPane.showMessageDialog(vistaAlumno, "Error: " + e.getMessage());
         }
     }
+
+    public int obtenerIdAlumnoSeleccionado() {
+        int fila = vistaAlumno.tablaAlumnos.getSelectedRow();
+        if (fila == -1) {
+            return -1;
+        }
+        return (int) vistaAlumno.tablaAlumnos.getValueAt(fila, 0);
+    }
+
 }

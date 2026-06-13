@@ -8,18 +8,19 @@ import java.util.ArrayList;
 import java.util.List;
 import modelo.ModeloDocente;
 import DAO.conexion.Conexion;
+import java.sql.Statement;
 
 public class DocenteDAO {
 
 
-    public void insertarDocente(ModeloDocente d) throws SQLException {
+    public int insertarDocente(ModeloDocente d) throws SQLException {
         String sql = "INSERT INTO personal_docente "
                 + "(dui_personal, primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, "
                 + "departamento, municipio, distrito, caserio, calle, id_cargo_docente, id_usuario) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL, NULL)";
 
         try (Connection con = Conexion.getConexion();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+             PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             ps.setString(1, d.getDuiDocente());
             ps.setString(2, d.getNombre());
@@ -32,12 +33,13 @@ public class DocenteDAO {
             ps.setString(9, d.getCaserio());
             ps.setString(10, d.getCalle());
             ps.executeUpdate();
+            
+            ResultSet rs = ps.getGeneratedKeys();
+        rs.next();
+        return rs.getInt(1);
         }
 
-        // Si viene teléfono, lo insertamos en la tabla separada
-        if (d.getTelefonoDocente() != null && !d.getTelefonoDocente().isEmpty()) {
-            insertarTelefono(d.getDuiDocente(), d.getTelefonoDocente());
-        }
+     
     }
 
  

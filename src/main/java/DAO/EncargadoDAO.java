@@ -74,6 +74,7 @@ public class EncargadoDAO {
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     ModeloEncardoAlumno encargado = new ModeloEncardoAlumno();
+                    encargado.setIdEncargado(rs.getInt("id_encargado"));
                     encargado.setDui(rs.getString("dui_encargado"));
                     encargado.setPrimerNombre(rs.getString("primer_nombre"));
                     encargado.setSegundoNombre(rs.getString("segundo_nombre"));
@@ -93,6 +94,37 @@ public class EncargadoDAO {
         return null;
     }
 
+    
+    public List<ModeloEncardoAlumno> buscarPorNombre(String nombre) throws SQLException {
+    String sql = "SELECT * FROM encargado_estudiante WHERE primer_nombre LIKE ? OR primer_apellido LIKE ?";
+    List<ModeloEncardoAlumno> lista = new ArrayList<>();
+    
+    try (Connection con = Conexion.getConexion(); PreparedStatement ps = con.prepareStatement(sql)) {
+        ps.setString(1, "%" + nombre + "%");
+        ps.setString(2, "%" + nombre + "%");
+        try (ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                ModeloEncardoAlumno encargado = new ModeloEncardoAlumno();
+                encargado.setIdEncargado(rs.getInt("id_encargado"));
+                encargado.setDui(rs.getString("dui_encargado"));
+                encargado.setPrimerNombre(rs.getString("primer_nombre"));
+                encargado.setSegundoNombre(rs.getString("segundo_nombre"));
+                encargado.setPrimerApellido(rs.getString("primer_apellido"));
+                encargado.setSegundoApellido(rs.getString("segundo_apellido"));
+                encargado.setDepartamento(rs.getString("departamento"));
+                encargado.setMunicipio(rs.getString("municipio"));
+                encargado.setDistrito(rs.getString("distrito"));
+                encargado.setCanton(rs.getString("canton"));
+                encargado.setCaserio(rs.getString("caserio"));
+                encargado.setCalle(rs.getString("calle"));
+                encargado.setNumCasa(rs.getString("num_casa"));
+                lista.add(encargado);
+            }
+        }
+    }
+    return lista;
+}
+    
     public void modificarEncargado(ModeloEncardoAlumno encargado) throws SQLException {
         String sql = "UPDATE encargado_estudiante SET dui_encargado=?, primer_nombre=?, segundo_nombre=?, primer_apellido=?, "
                 + "segundo_apellido=?, departamento=?, municipio=?, distrito=?, canton=?, caserio=?, "
