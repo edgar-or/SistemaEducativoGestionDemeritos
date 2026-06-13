@@ -10,7 +10,7 @@ import java.util.ArrayList;
  *
  * @author renec
  */
-public class ModeloEncardoAlumno {
+public class ModeloEncardoAlumno implements Comparable<ModeloEncardoAlumno> {
 
     private int idEncargado;
     private String dui;
@@ -51,7 +51,6 @@ public class ModeloEncardoAlumno {
         this.Alumno = Alumno;
     }
 
-    
     public int getIdEncargado() {
         return idEncargado;
     }
@@ -180,4 +179,48 @@ public class ModeloEncardoAlumno {
         this.Alumno = Alumno;
     }
 
+//    //porId
+//    @Override
+//    public int compareTo(ModeloEncardoAlumno o) {
+//        // Si los id son iguales devolvemos 0 id no se repite
+//        if (this.idEncargado == o.getIdEncargado()) {
+//            return 0;
+//        }
+//
+//        // Si los IDs son diferentes, se ordenan numéricamente de menor a mayor
+//        return Integer.compare(this.idEncargado, o.getIdEncargado());
+//    }
+
+//    //porDui
+//    @Override
+//    public int compareTo(ModeloEncardoAlumno o) {
+//        // Si el DUI es igualo ambos son nulos para que NO se descarten
+//        if (this.dui == null || o.getDui() == null || this.dui.equals(o.getDui())) {
+//            return Integer.compare(this.idEncargado, o.getIdEncargado());
+//        }
+//
+//        // Si los DUI son diferentes se ordenan por DUI normalmente
+//        return this.dui.compareTo(o.getDui());
+//    }
+
+    //por nombre
+    @Override
+    public int compareTo(ModeloEncardoAlumno o) {
+        if (this.primerNombre == null || o.getPrimerNombre() == null || this.primerNombre.equalsIgnoreCase(o.getPrimerNombre())) {
+            return Integer.compare(this.idEncargado, o.getIdEncargado());
+        }
+
+        return this.primerNombre.compareToIgnoreCase(o.getPrimerNombre());
+    }
+    //por Apellido
+//    @Override
+//    public int compareTo(ModeloEncardoAlumno o) {
+//        // Si los apellidos son iguales (o nulos), desempatamos por ID para que se muestren todos
+//        if (this.primerApellido == null || o.getPrimerApellido() == null || this.primerApellido.equals(o.getPrimerApellido())) {
+//            return Integer.compare(this.idEncargado, o.getIdEncargado());
+//        }
+//
+//        // Si son diferentes, ordenamos por apellido en orden alfabético
+//        return this.primerApellido.compareTo(o.getPrimerApellido());
+//    }
 }

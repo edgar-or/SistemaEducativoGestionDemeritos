@@ -8,8 +8,14 @@ import java.util.ArrayList;
 import java.util.List;
 import modelo.ModeloEncardoAlumno;
 import DAO.conexion.Conexion;
+import modelo.ArbolBinarioBusqueda;
+import modelo.ModeloCorreoEncargadoAlumno;
+import modelo.ModeloTelefonosEncargadosAlumno;
+import utileria.ArbolB;
 
 public class EncargadoDAO {
+
+    private ArbolB arbolB;
 
     public void insertarEncargado(ModeloEncardoAlumno encargado) throws SQLException {
 
@@ -37,7 +43,8 @@ public class EncargadoDAO {
     }
 
     public List<ModeloEncardoAlumno> listarEncargados() throws SQLException {
-        List<ModeloEncardoAlumno> lista = new ArrayList<>();
+        ArbolBinarioBusqueda<ModeloEncardoAlumno> arbol = new ArbolBinarioBusqueda<>();
+
         String sql = "SELECT id_encargado, dui_encargado, primer_nombre, segundo_nombre, primer_apellido, "
                 + "segundo_apellido, departamento, municipio, distrito, canton, caserio, calle, num_casa "
                 + "FROM encargado_estudiante";
@@ -61,10 +68,11 @@ public class EncargadoDAO {
                 encargado.setCalle(rs.getString("calle"));
                 encargado.setNumCasa(rs.getString("num_casa"));
 
-                lista.add(encargado);
+                arbol.insertar(encargado);
             }
         }
-        return lista;
+
+        return arbol.NID();
     }
 
     public ModeloEncardoAlumno buscarPorDui(String dui) throws SQLException {
@@ -128,4 +136,51 @@ public class EncargadoDAO {
             ps.executeUpdate();
         }
     }
+    
+
+    // correos
+//   public List<ModeloTelefonosEncargadosAlumno> listarTelefonosPorEncargado(int idEncargado) throws SQLException {
+//        List<ModeloTelefonosEncargadosAlumno> lista = new ArrayList<>();
+//
+//        // CORREGIDO: Nombre de tabla y columnas según tu MySQL
+//        String sql = "SELECT id_tel, telefono FROM tel_encargado_estudiante WHERE id_encargado = ?";
+//
+//        try (Connection con = Conexion.getConexion(); PreparedStatement ps = con.prepareStatement(sql)) {
+//
+//            ps.setInt(1, idEncargado);
+//            try (ResultSet rs = ps.executeQuery()) {
+//                while (rs.next()) {
+//                    // CORREGIDO: Mapeo con los nombres reales de las columnas 'id_tel' y 'telefono'
+//                    ModeloTelefonosEncargadosAlumno tel = new ModeloTelefonosEncargadosAlumno(
+//                            rs.getInt("id_tel"),
+//                            rs.getInt("telefono"),
+//                            null
+//                    );
+//                    lista.add(tel);
+//                }
+//            }
+//        }
+//        return lista;
+//    }
+//
+//    public void guardarTelefonoEncargado(ModeloTelefonosEncargadosAlumno telefono) throws SQLException {
+//        String sql = "INSERT INTO tel_encargado_estudiante (telefono, id_encargado) VALUES (?, ?)";
+//
+//        try (Connection con = Conexion.getConexion(); PreparedStatement ps = con.prepareStatement(sql)) {
+//
+//            ps.setInt(1, telefono.getTelefono());
+//            ps.setInt(2, telefono.getEncargadoAlumno().getIdEncargado());
+//            ps.executeUpdate();
+//        }
+//    }
+//
+//    public void eliminarTelefonoEncargado(int idTel) throws SQLException {
+//        String sql = "DELETE FROM tel_encargado_estudiante WHERE id_tel = ?";
+//
+//        try (Connection con = Conexion.getConexion(); PreparedStatement ps = con.prepareStatement(sql)) {
+//
+//            ps.setInt(1, idTel);
+//            ps.executeUpdate();
+//        }
+//    }
 }
