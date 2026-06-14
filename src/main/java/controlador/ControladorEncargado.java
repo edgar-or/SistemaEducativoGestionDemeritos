@@ -41,7 +41,7 @@ public class ControladorEncargado {
         vistaPrincipal.menuEncargado.addActionListener(e -> mostrarVista());
         verEncargado.btnCerrar.addActionListener(e -> verEncargado.dispose());
 
-        this.verEncargado.btnAgregar.addActionListener(e -> {
+        this.verEncargado.btnagregarEncargado.addActionListener(e -> {
             controladorAgregarEncargado.limpiarCampos();
             controladorAgregarEncargado.habilitarDui();
             controladorAgregarEncargado.iniciarVista();
@@ -51,18 +51,18 @@ public class ControladorEncargado {
         this.verEncargado.btnEliminar.addActionListener(e -> eliminarEncargado());
         this.verEncargado.btnBuscar.addActionListener(e -> buscarEncargado());
 
-        this.verEncargado.txtDui.addMouseListener(new java.awt.event.MouseAdapter() {
+        this.verEncargado.txtDUI.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 verEncargado.txtNombre.setText("");
                 verEncargado.txtNombre.setEnabled(false);
-                verEncargado.txtDui.setEnabled(true);
+                verEncargado.txtDUI.setEnabled(true);
             }
         });
 
         this.verEncargado.txtNombre.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                verEncargado.txtDui.setText("");
-                verEncargado.txtDui.setEnabled(false);
+                verEncargado.txtDUI.setText("");
+                verEncargado.txtDUI.setEnabled(false);
                 verEncargado.txtNombre.setEnabled(true);
             }
         });
@@ -170,7 +170,7 @@ public class ControladorEncargado {
         TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(modelo);
         verEncargado.tablaEncargados.setRowSorter(sorter);
 
-        String dui = verEncargado.txtDui.getText().trim();
+        String dui = verEncargado.txtDUI.getText().trim();
         String nombre = verEncargado.txtNombre.getText().trim();
 
         if (!dui.isEmpty()) {
@@ -219,7 +219,7 @@ public class ControladorEncargado {
     }
 
     private void eventosTelefono() {
-        this.verEncargado.btnTelefono.addActionListener(e -> {
+        this.verEncargado.btnAgregarTelefono.addActionListener(e -> {
             int filaSeleccionada = verEncargado.tablaEncargados.getSelectedRow();
 
             if (filaSeleccionada == -1) {

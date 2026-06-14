@@ -85,7 +85,7 @@ public class ControladorMerito {
 
     // ─── Lógica de guardar mérito ───
     private void agregarMerito() {
-        String nie = vistaMerito.txtNie.getText().trim();
+        String nie = vistaMerito.txtidd.getText().trim();
         String nombre = vistaMerito.txtNombreCompleto.getText().trim();
         String descripcion = vistaMerito.ComboDescripcion.getSelectedItem().toString();
         String observacion = vistaMerito.txtObservaciones.getText().trim();
@@ -103,7 +103,7 @@ public class ControladorMerito {
                 + "Observación: " + observacion);
 
         // Limpiar campos
-        vistaMerito.txtNie.setText("");
+        vistaMerito.txtidd.setText("");
         vistaMerito.txtNombreCompleto.setText("");
         vistaMerito.txtObservaciones.setText("");
         vistaMerito.ComboDescripcion.setSelectedIndex(0);

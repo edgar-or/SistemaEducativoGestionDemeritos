@@ -102,8 +102,8 @@ public class ControladorLogin {
 
         // GUARDAR SESION
 //    Sesion.setDuiPersonal(docente.getIdDocente());
-        Sesion.setDuiPersonal(docente.getDuiDocente());
-
+        Sesion.setIdPersonal(docente.getIdPersonal());
+        
         // ABRIR VENTANA SEGUN CARGO
         if (cargo.getCargo().equalsIgnoreCase("Director")) {
 

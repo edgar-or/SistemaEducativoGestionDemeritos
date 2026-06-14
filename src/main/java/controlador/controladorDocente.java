@@ -47,7 +47,7 @@ public class ControladorDocente {
 
         vistaDocente.btnBuscar.addActionListener(e -> buscar());
 
-        vistaDocente.btnTelefono.addActionListener(e -> {
+        vistaDocente.btnAgregarTelefono.addActionListener(e -> {
             int fila = vistaDocente.tablaDocente.getSelectedRow();
             if (fila == -1) {
                 JOptionPane.showMessageDialog(vistaDocente,
@@ -61,7 +61,7 @@ public class ControladorDocente {
             new ControladorAgregarTelefono(dui, nombre);
         });
 
-        vistaDocente.btnCorreo.addActionListener(e -> {
+        vistaDocente.btnAgregarCorreos.addActionListener(e -> {
             int fila = vistaDocente.tablaDocente.getSelectedRow();
             if (fila == -1) {
                 JOptionPane.showMessageDialog(vistaDocente,
