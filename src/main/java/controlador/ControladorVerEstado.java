@@ -26,9 +26,11 @@ public class ControladorVerEstado {
     public ControladorVerEstado(VistaVerEstado visVerEstado, ModeloAlumno alumno) {
         this.visVerEstado = visVerEstado;
         this.alumno = alumno;
+
+
         iniciarVista();
         onEvento();
-        cargarTablaEstadoAlumno(alumno.getNie());
+        cargarTablaEstadoAlumno(alumno.getId_alumno());
         cargarDatosAlumnos();
 
     }

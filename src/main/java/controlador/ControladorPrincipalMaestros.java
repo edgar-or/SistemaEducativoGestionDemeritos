@@ -147,7 +147,7 @@ public class ControladorPrincipalMaestros {
 
     private void llenarTabla(List<ModeloAlumno> alumnos) {
         DefaultTableModel modelo = new DefaultTableModel(
-                new String[]{"ID","NIE", "Nombre", "Apellidos", "Puntos"}, 0
+                new String[]{"ID", "NIE", "Nombre", "Apellidos", "Puntos"}, 0
         );
         for (ModeloAlumno a : alumnos) {
             modelo.addRow(new Object[]{
@@ -190,10 +190,10 @@ public class ControladorPrincipalMaestros {
                 return;
             }
             String nie = vista.tablaEstidiantes.getValueAt(filaSeleccionada, 1).toString();
-            String id= vista.tablaEstidiantes.getValueAt(filaSeleccionada, 0).toString();
+            String id = vista.tablaEstidiantes.getValueAt(filaSeleccionada, 0).toString();
             String nombreCompleto = vista.tablaEstidiantes.getValueAt(filaSeleccionada, 2).toString() + " " + vista.tablaEstidiantes.getValueAt(filaSeleccionada, 2).toString();
             VistaAgregarDemerito vistaDemerito = new VistaAgregarDemerito();
-            new ControladorAgregarDemerito(vistaDemerito, nie,id, nombreCompleto);
+            new ControladorAgregarDemerito(vistaDemerito, nie, id, nombreCompleto);
         });
 
         vista.btnAgregarMerito.addActionListener(e -> {
@@ -203,10 +203,10 @@ public class ControladorPrincipalMaestros {
                 return;
             }
             String nie = vista.tablaEstidiantes.getValueAt(filaSeleccionada, 1).toString();
-            String id=vista.tablaEstidiantes.getValueAt(filaSeleccionada, 0).toString();
+            String id = vista.tablaEstidiantes.getValueAt(filaSeleccionada, 0).toString();
             String nombreCompleto = vista.tablaEstidiantes.getValueAt(filaSeleccionada, 2).toString() + " " + vista.tablaEstidiantes.getValueAt(filaSeleccionada, 2).toString();
             VistaAgregarMerito vistaMerito = new VistaAgregarMerito();
-            new ControladorAgregarMerito(vistaMerito, nie,id, nombreCompleto);
+            new ControladorAgregarMerito(vistaMerito, nie, id, nombreCompleto);
         });
 
         vista.btnVerEstado.addActionListener(e -> {
@@ -214,14 +214,15 @@ public class ControladorPrincipalMaestros {
 
             if (filaSeleccionada == -1) {
                 JOptionPane.showMessageDialog(
-                        vista,"Por favor, seleccione un estudiante.", "Atención",JOptionPane.WARNING_MESSAGE);
+                        vista, "Por favor, seleccione un estudiante.", "Atención", JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
             ModeloAlumno alumnoActual = new ModeloAlumno();
-            alumnoActual.setNie(Integer.parseInt(vista.tablaEstidiantes.getValueAt(filaSeleccionada, 0).toString()));
-            alumnoActual.setNombre(vista.tablaEstidiantes.getValueAt(filaSeleccionada, 1).toString());
-            alumnoActual.setApelliddos(vista.tablaEstidiantes.getValueAt(filaSeleccionada, 2).toString());
+            alumnoActual.setId_alumno(Integer.parseInt(vista.tablaEstidiantes.getValueAt(filaSeleccionada, 0).toString()));
+            alumnoActual.setNie(Integer.parseInt(vista.tablaEstidiantes.getValueAt(filaSeleccionada, 1).toString()));
+            alumnoActual.setNombre(vista.tablaEstidiantes.getValueAt(filaSeleccionada, 2).toString());
+            alumnoActual.setApelliddos(vista.tablaEstidiantes.getValueAt(filaSeleccionada, 3).toString());
             VistaVerEstado v = new VistaVerEstado();
             new ControladorVerEstado(v, alumnoActual);
 

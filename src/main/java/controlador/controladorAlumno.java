@@ -85,7 +85,7 @@ public class ControladorAlumno {
     public void mostrarVista() {
         vistaAlumno.setVisible(true);
 
-        // Tamaño fijo razonable basado en tu diseño
+       
         vistaAlumno.setSize(1200, 700);
 
         // Centrar dentro del escritorio
