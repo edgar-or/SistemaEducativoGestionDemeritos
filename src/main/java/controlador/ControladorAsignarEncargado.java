@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import modelo.ArbolBinarioBusqueda;
 import modelo.ModeloEncardoAlumno;
 import vista.VistaAsignarEncargado;
 import vista.VistaPrincipalDirector;
@@ -51,8 +52,10 @@ public class ControladorAsignarEncargado {
                 System.getLogger(ControladorAsignarEncargado.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
             }
         });
-        
-        visAsignarEncargado.txtBuscarNombre.addActionListener(e-> {asignarEncargado();});
+
+        visAsignarEncargado.txtBuscarNombre.addActionListener(e -> {
+            asignarEncargado();
+        });
 
     }
 
@@ -67,6 +70,7 @@ public class ControladorAsignarEncargado {
         visAsignarEncargado.toFront();
     }
 
+
     public void llenarTabla() {
 
         encargadoDao = new EncargadoDAO();
@@ -77,7 +81,10 @@ public class ControladorAsignarEncargado {
         modeloTabla.setRowCount(0);
 
         try {
-            List<ModeloEncardoAlumno> lista = encargadoDao.listarEncargados();
+            ArbolBinarioBusqueda<ModeloEncardoAlumno> arbol = encargadoDao.listarEncargados();
+
+            List<ModeloEncardoAlumno> lista = arbol.IND();
+
             for (ModeloEncardoAlumno e : lista) {
                 Object[] fila = new Object[]{
                     e.getIdEncargado(),
@@ -185,10 +192,10 @@ public class ControladorAsignarEncargado {
         int idAlumno = controlAlumno.obtenerIdAlumnoSeleccionado();
 
         int idEncargado = obtenerIdEncargadoSeleccionado();
-        
-        System.out.println( "id encargado: "+ idEncargado);
-        
-        System.out.println( "id alumno: "+ idAlumno);
+
+        System.out.println("id encargado: " + idEncargado);
+
+        System.out.println("id alumno: " + idAlumno);
 
         if (idEncargado != -1) {
 

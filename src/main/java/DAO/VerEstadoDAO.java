@@ -14,6 +14,7 @@ import java.util.List;
 import modelo.ModeloConducta;
 import modelo.ModeloDocente;
 import modelo.ModeloMovimientoConducta;
+import utileria.ArbolB;
 
 /**
  *
@@ -21,35 +22,34 @@ import modelo.ModeloMovimientoConducta;
  */
 public class VerEstadoDAO {
 
-    public List<ModeloMovimientoConducta> listarConductasAlumnos(int id) throws SQLException {
-        List<ModeloMovimientoConducta> lista = new ArrayList<>();
-        String sql = """
-       SELECT
-            mc.observacion,
-            mc.fecha,
-            tc.id_tipo_conducta,
-            tc.descripcion,
-            tc.puntos,
-            pd.id_personal,
-            pd.dui_personal,
-            pd.primer_nombre,
-            pd.primer_apellido
-        FROM movimiento_conducta mc
-        INNER JOIN tipo_conducta tc
-            ON mc.id_tipo_conducta = tc.id_tipo_conducta
-        INNER JOIN personal_docente pd
-            ON mc.id_personal = pd.id_personal
-        WHERE mc.id_estudiante = ?
-        ORDER BY mc.fecha DESC
-    """;
-        try (Connection con = Conexion.getConexion(); PreparedStatement ps = con.prepareStatement(sql)) {
+    public ArbolB<ModeloMovimientoConducta> listarConductasAlumnosEnArbol(int id) throws SQLException {
+        ArbolB<ModeloMovimientoConducta> arbol = new ArbolB<>(3);
 
+        String sql = """
+           SELECT
+                mc.observacion,
+                mc.fecha,
+                tc.id_tipo_conducta,
+                tc.descripcion,
+                tc.puntos,
+                pd.id_personal,
+                pd.dui_personal,
+                pd.primer_nombre,
+                pd.primer_apellido
+            FROM movimiento_conducta mc
+            INNER JOIN tipo_conducta tc
+                ON mc.id_tipo_conducta = tc.id_tipo_conducta
+            INNER JOIN personal_docente pd
+                ON mc.id_personal = pd.id_personal
+            WHERE mc.id_estudiante = ?
+            ORDER BY mc.fecha DESC
+        """;
+
+        try (Connection con = Conexion.getConexion(); PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);
 
             try (ResultSet rs = ps.executeQuery()) {
-
                 while (rs.next()) {
-
                     ModeloMovimientoConducta movimiento = new ModeloMovimientoConducta();
                     movimiento.setObservacion(rs.getString("observacion"));
                     movimiento.setFecha(rs.getDate("fecha").toLocalDate());
@@ -68,11 +68,10 @@ public class VerEstadoDAO {
                     movimiento.setModeloConducta(conducta);
                     movimiento.setModeloDocente(docente);
 
-                    lista.add(movimiento);
+                    arbol.insertar(movimiento);
                 }
             }
-            return lista;
+            return arbol;
         }
-
     }
 }

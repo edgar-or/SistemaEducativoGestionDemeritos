@@ -12,6 +12,7 @@ import javax.swing.JTextField;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
+import modelo.ArbolBinarioBusqueda;
 import modelo.ModeloEncardoAlumno;
 import utileria.ArbolB;
 import vista.VerEncargado;
@@ -95,10 +96,12 @@ public class ControladorEncargado {
         modeloTabla.setRowCount(0);
 
         try {
+            ArbolBinarioBusqueda<ModeloEncardoAlumno> arbol = dao.listarEncargados();
 
-            List<ModeloEncardoAlumno> lista = dao.listarEncargados();
+            List<ModeloEncardoAlumno> listaOrdenada = arbol.IND();
 
-            for (ModeloEncardoAlumno e : lista) {
+           
+            for (ModeloEncardoAlumno e : listaOrdenada) {
                 Object[] fila = new Object[]{
                     e.getIdEncargado(),
                     e.getDui(),

@@ -12,6 +12,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modelo.ModeloAlumno;
 import modelo.ModeloMovimientoConducta;
+import utileria.ArbolB;
 import vista.VistaVerEstado;
 
 /**
@@ -48,16 +49,21 @@ public class ControladorVerEstado {
         });
     }
 
-    //R
+
     private void cargarTablaEstadoAlumno(int nie) {
         try {
             VerEstadoDAO dao = new VerEstadoDAO();
-            List<ModeloMovimientoConducta> lista = dao.listarConductasAlumnos(nie);
+
+            ArbolB<ModeloMovimientoConducta> arbol = dao.listarConductasAlumnosEnArbol(nie);
+
             DefaultTableModel modelo = (DefaultTableModel) visVerEstado.tablaVerEstados.getModel();
             modelo.setRowCount(0);
+
+            List<ModeloMovimientoConducta> listaOrdenada = arbol.obtenerListaOrdenada();
+
             int totalPuntos = 0;
 
-            for (ModeloMovimientoConducta movimiento : lista) {
+            for (ModeloMovimientoConducta movimiento : listaOrdenada) {
                 String docente = movimiento.getModeloDocente().getNombre() + " " + movimiento.getModeloDocente().getApellido();
                 modelo.addRow(new Object[]{
                     movimiento.getModeloConducta().getDescripcion(),
@@ -68,10 +74,10 @@ public class ControladorVerEstado {
                 });
                 totalPuntos += movimiento.getModeloConducta().getPuntos();
             }
+
             visVerEstado.totalPuntos.setText("TOTAL PUNTOS: " + totalPuntos);
 
         } catch (SQLException ex) {
-
             JOptionPane.showMessageDialog(visVerEstado, "Error al cargar datos: " + ex.getMessage());
         }
     }

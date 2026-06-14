@@ -1,6 +1,5 @@
 package modelo;
 
-
 import java.time.LocalDate;
 import modelo.ModeloAlumno;
 import modelo.ModeloDocente;
@@ -13,7 +12,7 @@ import modelo.ModeloDocente;
  *
  * @author estud
  */
-public class ModeloMovimientoConducta {
+public class ModeloMovimientoConducta implements Comparable<ModeloMovimientoConducta> {
 
     private String observacion;
     private LocalDate fecha;
@@ -72,6 +71,22 @@ public class ModeloMovimientoConducta {
         this.modeloConducta = modeloConducta;
     }
 
-    
+    @Override
+    public int compareTo(ModeloMovimientoConducta otro) {
+        if (this.fecha == null || otro.getFecha() == null) {
+            return 0;
+        }
+
+        int compFecha = this.fecha.compareTo(otro.getFecha());
+
+        if (compFecha != 0) {
+            return compFecha;
+        }
+
+        String obs1 = (this.observacion != null) ? this.observacion : "";
+        String obs2 = (otro.getObservacion() != null) ? otro.getObservacion() : "";
+
+        return obs1.compareTo(obs2);
+    }
 
 }
