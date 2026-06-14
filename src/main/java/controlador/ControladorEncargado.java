@@ -2,6 +2,8 @@ package controlador;
 
 import DAO.EncargadoDAO;
 import java.awt.Dimension;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +43,7 @@ public class ControladorEncargado {
         vistaPrincipal.menuEncargado.addActionListener(e -> mostrarVista());
         verEncargado.btnCerrar.addActionListener(e -> verEncargado.dispose());
 
-        this.verEncargado.btnAgregar.addActionListener(e -> {
+        this.verEncargado.btnagregarEncargado.addActionListener(e -> {
             controladorAgregarEncargado.limpiarCampos();
             controladorAgregarEncargado.habilitarDui();
             controladorAgregarEncargado.iniciarVista();
@@ -51,18 +53,18 @@ public class ControladorEncargado {
         this.verEncargado.btnEliminar.addActionListener(e -> eliminarEncargado());
         this.verEncargado.btnBuscar.addActionListener(e -> buscarEncargado());
 
-        this.verEncargado.txtDui.addMouseListener(new java.awt.event.MouseAdapter() {
+        this.verEncargado.txtDUI.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 verEncargado.txtNombre.setText("");
                 verEncargado.txtNombre.setEnabled(false);
-                verEncargado.txtDui.setEnabled(true);
+                verEncargado.txtDUI.setEnabled(true);
             }
         });
 
         this.verEncargado.txtNombre.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                verEncargado.txtDui.setText("");
-                verEncargado.txtDui.setEnabled(false);
+                verEncargado.txtDUI.setText("");
+                verEncargado.txtDUI.setEnabled(false);
                 verEncargado.txtNombre.setEnabled(true);
             }
         });
@@ -138,7 +140,7 @@ public class ControladorEncargado {
 
             String dui = valorCeldaDui.toString().trim();
 
-            ModeloEncardoAlumno encargado = dao.buscarPorDui(dui);
+            ModeloEncardoAlumno encargado = dao.buscarPorDuiEnArbol(dui);
 
             if (encargado != null) {
                 if (controladorAgregarEncargado != null) {
@@ -170,11 +172,23 @@ public class ControladorEncargado {
         TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(modelo);
         verEncargado.tablaEncargados.setRowSorter(sorter);
 
-        String dui = verEncargado.txtDui.getText().trim();
+        String dui = verEncargado.txtDUI.getText().trim();
         String nombre = verEncargado.txtNombre.getText().trim();
 
         if (!dui.isEmpty()) {
-            sorter.setRowFilter(RowFilter.regexFilter("(?i)" + dui, 1));
+            try {
+                // se valida primero usando la lógica de búsqueda de tu árbol binario
+                ModeloEncardoAlumno encontrado = dao.buscarPorDuiEnArbol(dui);
+
+                if (encontrado != null) {
+                    sorter.setRowFilter(RowFilter.regexFilter("(?i)" + dui, 1));
+                } else {
+                    sorter.setRowFilter(null);
+                    JOptionPane.showMessageDialog(verEncargado, "No se encontró ningún encargado con ese DUI en el sistema.", "Búsqueda", JOptionPane.INFORMATION_MESSAGE);
+                }
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(verEncargado, "Error al buscar en el árbol: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
         } else if (!nombre.isEmpty()) {
             sorter.setRowFilter(RowFilter.regexFilter("(?i)" + nombre, 2, 3, 4, 5));
         } else {
