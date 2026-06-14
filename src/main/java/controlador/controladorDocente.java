@@ -47,7 +47,7 @@ public class ControladorDocente {
 
         vistaDocente.btnBuscar.addActionListener(e -> buscar());
 
-        vistaDocente.btnAgregarTelefono.addActionListener(e -> {
+        vistaDocente.btnTelefono.addActionListener(e -> {
             int fila = vistaDocente.tablaDocente.getSelectedRow();
             if (fila == -1) {
                 JOptionPane.showMessageDialog(vistaDocente,
@@ -61,7 +61,7 @@ public class ControladorDocente {
             new ControladorAgregarTelefono(dui, nombre);
         });
 
-        vistaDocente.btnAgregarCorreos.addActionListener(e -> {
+        vistaDocente.btnCorreo.addActionListener(e -> {
             int fila = vistaDocente.tablaDocente.getSelectedRow();
             if (fila == -1) {
                 JOptionPane.showMessageDialog(vistaDocente,
@@ -78,14 +78,20 @@ public class ControladorDocente {
 
     public void mostrarVista() {
         vistaDocente.setVisible(true);
+        
+         vistaDocente.setSize(1100, 700);
+        
         Dimension desk = vistaPrincipal.escritorio.getSize();
         Dimension win  = vistaDocente.getSize();
+        
+        
         vistaDocente.setLocation(
                 (desk.width  - win.width)  / 2,
                 (desk.height - win.height) / 2);
         vistaPrincipal.escritorio.remove(vistaDocente);
         vistaPrincipal.escritorio.add(vistaDocente);
         vistaDocente.toFront();
+        
     }
 
     public void listarDocentes() {
@@ -105,7 +111,7 @@ public class ControladorDocente {
 
     private void llenarTablaDesdeArbol() {
         DefaultTableModel modelo = new DefaultTableModel(
-                new String[]{"ID", "DUI", "Nombre", "Apellido", "Departamento", "Municipio", "Distrito", "Correo", "Teléfono"}, 0) {
+                new String[]{"ID", "DUI", "Nombre", "Apellido", "Departamento", "Municipio"}, 0) {
             @Override
             public boolean isCellEditable(int r, int c) { return false; }
         };
@@ -117,10 +123,8 @@ public class ControladorDocente {
                 d.getNombre(),
                 d.getApellido(),
                 nv(d.getDepartamento()),
-                nv(d.getMunicipio()),
-                nv(d.getDistrito()),
-                nv(d.getCorreo()),
-                nv(d.getTelefonoDocente())
+                nv(d.getMunicipio())
+              
             });
         }
         vistaDocente.tablaDocente.setModel(modelo);
@@ -147,8 +151,8 @@ public class ControladorDocente {
         // Llenamos el ComboBox de cargos inmediatamente al abrir la ventana
         llenarComboCargos(form);
 
-        form.txtDui.setText("");
-        form.txtDui.setEnabled(true);
+        form.txtDUI.setText("");
+        form.txtDUI.setEnabled(true);
         form.txtNombres1.setText("");
         form.txtNombres.setText("");
         form.txtDepartamentos.setText("");
@@ -160,7 +164,7 @@ public class ControladorDocente {
         form.txtDistr2.setText("");
 
         form.btnGuardar.addActionListener(e -> {
-            String dui      = form.txtDui.getText().trim();
+            String dui      = form.txtDUI.getText().trim();
             String nombre   = form.txtNombres1.getText().trim();
             String apellido = form.txtNombres.getText().trim();
 
@@ -203,13 +207,15 @@ public class ControladorDocente {
                 // Asignamos el ID numérico capturado del combo
                 d.setIdCargo(idCargo); 
 
-                dao.insertarDocente(d);
+                int idDocente = dao.insertarDocente(d);
 
                 JOptionPane.showMessageDialog(form,
                         "Docente registrado correctamente.",
                         "Éxito", JOptionPane.INFORMATION_MESSAGE);
                 form.dispose();
                 listarDocentes();
+                        new ControladorRegistrarUsuario(vistaPrincipal, idDocente);
+
 
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(form,
@@ -259,8 +265,8 @@ public class ControladorDocente {
         // Cargamos los cargos en la ventana de modificación
         llenarComboCargos(form);
 
-        form.txtDui.setText(docente.getDuiDocente());
-        form.txtDui.setEnabled(false);
+        form.txtDUI.setText(docente.getDuiDocente());
+        form.txtDUI.setEnabled(false);
         form.txtNombres1.setText(nv(docente.getNombre()));
         form.txtNombres.setText(nv(docente.getApellido()));
         form.txtmunicipio.setText(nv(docente.getDepartamento()));

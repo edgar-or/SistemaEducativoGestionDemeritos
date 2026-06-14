@@ -181,7 +181,7 @@ public class ControladorPrincipalMaestros {
             }
         });
 
-        vista.brnBuscar.addActionListener(e -> buscarAlumnos());
+        vista.btnBuscar.addActionListener(e -> buscarAlumnos());
 
         vista.btnAgregarDemerito.addActionListener(e -> {
             int filaSeleccionada = vista.tablaEstidiantes.getSelectedRow();

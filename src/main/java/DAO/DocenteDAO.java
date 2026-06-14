@@ -6,10 +6,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import modelo.ModeloDocente;
 import DAO.conexion.Conexion;
+import java.sql.Statement;
+
+
  
+import modelo.ModeloDocente;
 public class DocenteDAO {
+    
  
     // NUEVO MÉTODO: Para llenar dinámicamente el JComboBox de cargos desde la BD
     public List<Object[]> listarCargos() throws SQLException {
@@ -27,38 +31,49 @@ public class DocenteDAO {
         return lista;
     }
 
-    public void insertarDocente(ModeloDocente d) throws SQLException {
-        // CORREGIDO: Ahora el penúltimo campo acepta el parámetro dinámico (?) del ID de cargo
-        String sql = "INSERT INTO personal_docente "
-                + "(dui_personal, primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, "
-                + "departamento, municipio, distrito, caserio, calle, id_cargo_personal, id_usuario) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL)"; // Posición 11 cambiada de NULL a ?
- 
-        try (Connection con = Conexion.getConexion();
-             PreparedStatement ps = con.prepareStatement(sql)) {
- 
-            ps.setString(1, d.getDuiDocente());
-            ps.setString(2, d.getNombre());
-            ps.setString(3, d.getSegundoNombre());
-            ps.setString(4, d.getApellido());
-            ps.setString(5, d.getSegundoApellido());
-            ps.setString(6, d.getDepartamento());
-            ps.setString(7, d.getMunicipio());
-            ps.setString(8, d.getDistrito());
-            ps.setString(9, d.getCaserio());
-            ps.setString(10, d.getCalle());
-            ps.setInt(11, d.getIdCargo()); // NUEVA LÍNEA: Enviamos el ID numérico correspondiente
-            ps.executeUpdate();
-        }
- 
-        if (d.getTelefonoDocente() != null && !d.getTelefonoDocente().isEmpty()) {
-            insertarTelefono(d.getDuiDocente(), d.getTelefonoDocente());
-        }
- 
-        if (d.getCorreo() != null && !d.getCorreo().isEmpty()) {
-            insertarCorreo(d.getDuiDocente(), d.getCorreo());
+
+public int insertarDocente(ModeloDocente d) throws SQLException {
+    String sql = "INSERT INTO personal_docente "
+            + "(dui_personal, primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, "
+            + "departamento, municipio, distrito, caserio, calle, id_cargo_personal, id_usuario) "
+            + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL)";
+
+    int idGenerado;
+
+    try (Connection con = Conexion.getConexion();
+         PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+
+        ps.setString(1, d.getDuiDocente());
+        ps.setString(2, d.getNombre());
+        ps.setString(3, d.getSegundoNombre());
+        ps.setString(4, d.getApellido());
+        ps.setString(5, d.getSegundoApellido());
+        ps.setString(6, d.getDepartamento());
+        ps.setString(7, d.getMunicipio());
+        ps.setString(8, d.getDistrito());
+        ps.setString(9, d.getCaserio());
+        ps.setString(10, d.getCalle());
+        ps.setInt(11, d.getIdCargo());
+        ps.executeUpdate();
+
+        ResultSet rs = ps.getGeneratedKeys();
+        if (rs.next()) {
+            idGenerado = rs.getInt(1);
+        } else {
+            throw new SQLException("No se generó ID para el docente.");
         }
     }
+
+    if (d.getTelefonoDocente() != null && !d.getTelefonoDocente().isEmpty()) {
+        insertarTelefono(d.getDuiDocente(), d.getTelefonoDocente());
+    }
+
+    if (d.getCorreo() != null && !d.getCorreo().isEmpty()) {
+        insertarCorreo(d.getDuiDocente(), d.getCorreo());
+    }
+
+    return idGenerado;
+}
  
     public void insertarTelefono(String dui, String telefono) throws SQLException {
         String sql = "INSERT INTO tel_personal_docente (telefono, id_personal) VALUES (?, (SELECT id_personal FROM personal_docente WHERE dui_personal = ?))";

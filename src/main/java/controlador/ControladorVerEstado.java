@@ -51,7 +51,7 @@ public class ControladorVerEstado {
         try {
             VerEstadoDAO dao = new VerEstadoDAO();
             List<ModeloMovimientoConducta> lista = dao.listarConductasAlumnos(nie);
-            DefaultTableModel modelo = (DefaultTableModel) visVerEstado.tablaVerEstado.getModel();
+            DefaultTableModel modelo = (DefaultTableModel) visVerEstado.tablaVerEstados.getModel();
             modelo.setRowCount(0);
             int totalPuntos = 0;
 

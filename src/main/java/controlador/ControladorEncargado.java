@@ -73,7 +73,7 @@ public class ControladorEncargado {
 
     public void mostrarVista() {
         verEncargado.setVisible(true);
-        verEncargado.setSize(1000, 500);
+        verEncargado.setSize(1300, 600);
 
         Dimension desk = vistaPrincipal.escritorio.getSize();
         int x = (desk.width - 1000) / 2;
@@ -233,7 +233,7 @@ public class ControladorEncargado {
     }
 
     private void eventosTelefono() {
-        this.verEncargado.btnAgregarTelefono.addActionListener(e -> {
+        this.verEncargado.btnTelefono.addActionListener(e -> {
             int filaSeleccionada = verEncargado.tablaEncargados.getSelectedRow();
 
             if (filaSeleccionada == -1) {

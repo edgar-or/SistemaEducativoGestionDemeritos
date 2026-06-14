@@ -40,7 +40,7 @@ public class VistaPrincipalMaestros extends javax.swing.JFrame {
         txtBuscarNombres = new javax.swing.JTextField();
         txtBuscarNie = new javax.swing.JTextField();
         txtBuscarApellido = new javax.swing.JTextField();
-        brnBuscar = new javax.swing.JButton();
+        btnBuscar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaEstidiantes = new javax.swing.JTable();
         btnAgregarDemerito = new javax.swing.JButton();
@@ -67,19 +67,19 @@ public class VistaPrincipalMaestros extends javax.swing.JFrame {
         txtBuscarApellido.setBorder(javax.swing.BorderFactory.createTitledBorder("APELLIDO"));
         txtBuscarApellido.addActionListener(this::txtBuscarApellidoActionPerformed);
 
-        brnBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Lupa_Icon.png"))); // NOI18N
-        brnBuscar.setText("Buscar");
-        brnBuscar.addActionListener(this::brnBuscarActionPerformed);
+        btnBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Lupa_Icon.png"))); // NOI18N
+        btnBuscar.setText("Buscar");
+        btnBuscar.addActionListener(this::btnBuscarActionPerformed);
 
         tablaEstidiantes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4", "Title 5"
+                "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
         jScrollPane1.setViewportView(tablaEstidiantes);
@@ -128,7 +128,7 @@ public class VistaPrincipalMaestros extends javax.swing.JFrame {
                                     .addComponent(jLabel2)
                                     .addComponent(comboSeccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(76, 76, 76)
-                                .addComponent(brnBuscar)
+                                .addComponent(btnBuscar)
                                 .addGap(26, 26, 26))))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
@@ -154,7 +154,7 @@ public class VistaPrincipalMaestros extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(comboGrado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(comboSeccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(brnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(26, 26, 26)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtBuscarNombres, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -210,9 +210,9 @@ public class VistaPrincipalMaestros extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtBuscarApellidoActionPerformed
 
-    private void brnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_brnBuscarActionPerformed
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_brnBuscarActionPerformed
+    }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnAgregarDemeritoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarDemeritoActionPerformed
         // TODO add your handling code here:
@@ -256,9 +256,9 @@ public class VistaPrincipalMaestros extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    public javax.swing.JButton brnBuscar;
     public javax.swing.JButton btnAgregarDemerito;
     public javax.swing.JButton btnAgregarMerito;
+    public javax.swing.JButton btnBuscar;
     public javax.swing.JButton btnCerrarsesion;
     public javax.swing.JButton btnVerEstado;
     public javax.swing.JComboBox<String> comboGrado;

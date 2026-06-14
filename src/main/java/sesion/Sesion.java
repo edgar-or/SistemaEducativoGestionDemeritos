@@ -16,6 +16,7 @@ public class Sesion {
         return idPersonal;
     }
 
+
     public static void setIdPersonal(int idPersonal) {
         Sesion.idPersonal = idPersonal;
     }
