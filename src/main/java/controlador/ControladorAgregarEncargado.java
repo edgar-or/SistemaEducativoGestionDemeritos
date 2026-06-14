@@ -70,7 +70,7 @@ public class ControladorAgregarEncargado {
             return;
         }
 
-        if (!dui.matches("^d{8}-d$")) {
+        if (!dui.matches("^d{10}d$")) {
             JOptionPane.showMessageDialog(vistaAgregarEncargado, "El DUI no tiene un formato válido (ejemplo: 12345678-9).", "Error de Formato", JOptionPane.ERROR_MESSAGE);
             return;
         }
