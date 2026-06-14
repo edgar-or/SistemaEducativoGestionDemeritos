@@ -192,26 +192,25 @@ public class ModeloEncardoAlumno implements Comparable<ModeloEncardoAlumno> {
 //    }
 
 //    //porDui
-//    @Override
-//    public int compareTo(ModeloEncardoAlumno o) {
-//        // Si el DUI es igualo ambos son nulos para que NO se descarten
-//        if (this.dui == null || o.getDui() == null || this.dui.equals(o.getDui())) {
-//            return Integer.compare(this.idEncargado, o.getIdEncargado());
-//        }
-//
-//        // Si los DUI son diferentes se ordenan por DUI normalmente
-//        return this.dui.compareTo(o.getDui());
-//    }
-
-    //por nombre
     @Override
     public int compareTo(ModeloEncardoAlumno o) {
-        if (this.primerNombre == null || o.getPrimerNombre() == null || this.primerNombre.equalsIgnoreCase(o.getPrimerNombre())) {
+        if (this.dui == null || o.getDui() == null || this.dui.equals(o.getDui())) {
             return Integer.compare(this.idEncargado, o.getIdEncargado());
         }
 
-        return this.primerNombre.compareToIgnoreCase(o.getPrimerNombre());
+        return this.dui.compareTo(o.getDui());
     }
+    
+
+    //por nombre
+//    @Override
+//    public int compareTo(ModeloEncardoAlumno o) {
+//        if (this.primerNombre == null || o.getPrimerNombre() == null || this.primerNombre.equalsIgnoreCase(o.getPrimerNombre())) {
+//            return Integer.compare(this.idEncargado, o.getIdEncargado());
+//        }
+//
+//        return this.primerNombre.compareToIgnoreCase(o.getPrimerNombre());
+//    }
     //por Apellido
 //    @Override
 //    public int compareTo(ModeloEncardoAlumno o) {

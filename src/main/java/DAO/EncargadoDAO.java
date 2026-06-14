@@ -11,11 +11,10 @@ import DAO.conexion.Conexion;
 import modelo.ArbolBinarioBusqueda;
 import modelo.ModeloCorreoEncargadoAlumno;
 import modelo.ModeloTelefonosEncargadosAlumno;
+import modelo.Nodo;
 import utileria.ArbolB;
 
 public class EncargadoDAO {
-
-    private ArbolB arbolB;
 
     public void insertarEncargado(ModeloEncardoAlumno encargado) throws SQLException {
 
@@ -101,6 +100,50 @@ public class EncargadoDAO {
         }
         return null;
     }
+            
+    public ModeloEncardoAlumno buscarPorDuiEnArbol(String dui) throws SQLException {
+        ArbolBinarioBusqueda<ModeloEncardoAlumno> arbol = new ArbolBinarioBusqueda<>();
+
+        String sql = "SELECT id_encargado, dui_encargado, primer_nombre, segundo_nombre, primer_apellido, "
+                + "segundo_apellido, departamento, municipio, distrito, canton, caserio, calle, num_casa "
+                + "FROM encargado_estudiante";
+
+        try (Connection con = Conexion.getConexion(); PreparedStatement ps = con.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                ModeloEncardoAlumno encargado = new ModeloEncardoAlumno();
+
+                encargado.setIdEncargado(rs.getInt("id_encargado"));
+                encargado.setDui(rs.getString("dui_encargado"));
+                encargado.setPrimerNombre(rs.getString("primer_nombre"));
+                encargado.setSegundoNombre(rs.getString("segundo_nombre"));
+                encargado.setPrimerApellido(rs.getString("primer_apellido"));
+                encargado.setSegundoApellido(rs.getString("segundo_apellido"));
+                encargado.setDepartamento(rs.getString("departamento"));
+                encargado.setMunicipio(rs.getString("municipio"));
+                encargado.setDistrito(rs.getString("distrito"));
+                encargado.setCanton(rs.getString("canton"));
+                encargado.setCaserio(rs.getString("caserio"));
+                encargado.setCalle(rs.getString("calle"));
+                encargado.setNumCasa(rs.getString("num_casa"));
+
+                arbol.insertar(encargado);
+            }
+        }
+
+        // crea un modelo auxiliar solo con el DUI para que el árbol lo pueda buscar y comparar
+        ModeloEncardoAlumno modelo = new ModeloEncardoAlumno();
+        modelo.setDui(dui);
+
+        // Llam al método buscar en la clase ArbolBinario
+        Nodo nodoResultado = arbol.buscar(modelo);
+
+        if (nodoResultado != null) {
+            return (ModeloEncardoAlumno) nodoResultado.getDato();
+        }
+
+        return null;
+    }
 
     
     public List<ModeloEncardoAlumno> buscarPorNombre(String nombre) throws SQLException {
@@ -168,51 +211,5 @@ public class EncargadoDAO {
             ps.executeUpdate();
         }
     }
-    
 
-    // correos
-//   public List<ModeloTelefonosEncargadosAlumno> listarTelefonosPorEncargado(int idEncargado) throws SQLException {
-//        List<ModeloTelefonosEncargadosAlumno> lista = new ArrayList<>();
-//
-//        // CORREGIDO: Nombre de tabla y columnas según tu MySQL
-//        String sql = "SELECT id_tel, telefono FROM tel_encargado_estudiante WHERE id_encargado = ?";
-//
-//        try (Connection con = Conexion.getConexion(); PreparedStatement ps = con.prepareStatement(sql)) {
-//
-//            ps.setInt(1, idEncargado);
-//            try (ResultSet rs = ps.executeQuery()) {
-//                while (rs.next()) {
-//                    // CORREGIDO: Mapeo con los nombres reales de las columnas 'id_tel' y 'telefono'
-//                    ModeloTelefonosEncargadosAlumno tel = new ModeloTelefonosEncargadosAlumno(
-//                            rs.getInt("id_tel"),
-//                            rs.getInt("telefono"),
-//                            null
-//                    );
-//                    lista.add(tel);
-//                }
-//            }
-//        }
-//        return lista;
-//    }
-//
-//    public void guardarTelefonoEncargado(ModeloTelefonosEncargadosAlumno telefono) throws SQLException {
-//        String sql = "INSERT INTO tel_encargado_estudiante (telefono, id_encargado) VALUES (?, ?)";
-//
-//        try (Connection con = Conexion.getConexion(); PreparedStatement ps = con.prepareStatement(sql)) {
-//
-//            ps.setInt(1, telefono.getTelefono());
-//            ps.setInt(2, telefono.getEncargadoAlumno().getIdEncargado());
-//            ps.executeUpdate();
-//        }
-//    }
-//
-//    public void eliminarTelefonoEncargado(int idTel) throws SQLException {
-//        String sql = "DELETE FROM tel_encargado_estudiante WHERE id_tel = ?";
-//
-//        try (Connection con = Conexion.getConexion(); PreparedStatement ps = con.prepareStatement(sql)) {
-//
-//            ps.setInt(1, idTel);
-//            ps.executeUpdate();
-//        }
-//    }
 }

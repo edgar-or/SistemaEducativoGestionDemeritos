@@ -40,7 +40,7 @@ public class ControladorDocente {
         vistaDocente.btnEliminar.addActionListener(e -> eliminarDocente());
 
         vistaDocente.btnLimpiar.addActionListener(e -> {
-            vistaDocente.txtDui.setText("");
+            vistaDocente.txtBuscarDUI.setText("");
             vistaDocente.txtNombreCompleto.setText("");
             listarDocentes();
         });
@@ -151,8 +151,8 @@ public class ControladorDocente {
         // Llenamos el ComboBox de cargos inmediatamente al abrir la ventana
         llenarComboCargos(form);
 
-        form.txtDui.setText("");
-        form.txtDui.setEnabled(true);
+        form.txtDUI.setText("");
+        form.txtDUI.setEnabled(true);
         form.txtNombres1.setText("");
         form.txtNombres.setText("");
         form.txtDepartamentos.setText("");
@@ -164,7 +164,7 @@ public class ControladorDocente {
         form.txtDistr2.setText("");
 
         form.btnGuardar.addActionListener(e -> {
-            String dui      = form.txtDui.getText().trim();
+            String dui      = form.txtDUI.getText().trim();
             String nombre   = form.txtNombres1.getText().trim();
             String apellido = form.txtNombres.getText().trim();
 
@@ -265,8 +265,8 @@ public class ControladorDocente {
         // Cargamos los cargos en la ventana de modificación
         llenarComboCargos(form);
 
-        form.txtDui.setText(docente.getDuiDocente());
-        form.txtDui.setEnabled(false);
+        form.txtDUI.setText(docente.getDuiDocente());
+        form.txtDUI.setEnabled(false);
         form.txtNombres1.setText(nv(docente.getNombre()));
         form.txtNombres.setText(nv(docente.getApellido()));
         form.txtmunicipio.setText(nv(docente.getDepartamento()));
@@ -369,7 +369,7 @@ public class ControladorDocente {
     }
 
     private void buscar() {
-        String dui    = vistaDocente.txtDui.getText().trim();
+        String dui    = vistaDocente.txtBuscarDUI.getText().trim();
         String nombre = vistaDocente.txtNombreCompleto.getText().trim();
 
         try {

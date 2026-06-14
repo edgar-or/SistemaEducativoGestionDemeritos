@@ -52,7 +52,7 @@ public class ControladorAsignarEncargado {
             }
         });
         
-        visAsignarEncargado.btnAsignar.addActionListener(e-> {asignarEncargado();});
+        visAsignarEncargado.txtBuscarNombre.addActionListener(e-> {asignarEncargado();});
 
     }
 
@@ -95,12 +95,12 @@ public class ControladorAsignarEncargado {
 
     private void filtro() throws SQLException {
 
-        if (!visAsignarEncargado.txtPorDui.getText().isEmpty() && visAsignarEncargado.txtBuscarNombre.getText().isEmpty()) {
+        if (!visAsignarEncargado.txtPorDui.getText().isEmpty() && visAsignarEncargado.txtBuscarPorNombre.getText().isEmpty()) {
             buscarPorDui();
-        } else if (visAsignarEncargado.txtPorDui.getText().isEmpty() && !visAsignarEncargado.txtBuscarNombre.getText().isEmpty()) {
+        } else if (visAsignarEncargado.txtPorDui.getText().isEmpty() && !visAsignarEncargado.txtBuscarPorNombre.getText().isEmpty()) {
             buscarPorNombre();
 
-        } else if (visAsignarEncargado.txtPorDui.getText().isEmpty() && visAsignarEncargado.txtBuscarNombre.getText().isEmpty()) {
+        } else if (visAsignarEncargado.txtPorDui.getText().isEmpty() && visAsignarEncargado.txtBuscarPorNombre.getText().isEmpty()) {
 
             llenarTabla();
 
@@ -144,7 +144,7 @@ public class ControladorAsignarEncargado {
     private void buscarPorNombre() throws SQLException {
         encargadoDao = new EncargadoDAO();
 
-        String nombre = visAsignarEncargado.txtBuscarNombre.getText().trim();
+        String nombre = visAsignarEncargado.txtBuscarPorNombre.getText().trim();
 
         DefaultTableModel modeloTabla = (DefaultTableModel) visAsignarEncargado.tablaEncargados.getModel();
         String[] titulos = {"ID", "DUI", "Nombre Completo"};
@@ -185,10 +185,14 @@ public class ControladorAsignarEncargado {
         int idAlumno = controlAlumno.obtenerIdAlumnoSeleccionado();
 
         int idEncargado = obtenerIdEncargadoSeleccionado();
+        
+        System.out.println( "id encargado: "+ idEncargado);
+        
+        System.out.println( "id alumno: "+ idAlumno);
 
         if (idEncargado != -1) {
 
-            if (asignarEncargadoDao.asignarEncargadoAAlumno(idEncargado, idAlumno)) {
+            if (asignarEncargadoDao.asignarEncargadoAAlumno(idAlumno, idEncargado)) {
                 JOptionPane.showMessageDialog(null, "Encargado asignado correctamente");
             } else {
                 JOptionPane.showMessageDialog(null, "Error al asignar el encargado");
