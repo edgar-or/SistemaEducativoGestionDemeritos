@@ -14,7 +14,6 @@ import vista.VistaAgregarEncargado;
  *
  * @author estud
  */
-
 public class ControladorAgregarEncargado {
 
     private VistaAgregarEncargado vistaAgregarEncargado;
@@ -60,9 +59,30 @@ public class ControladorAgregarEncargado {
         });
     }
 
+
     private void ejecutarRegistro() {
-        if (vistaAgregarEncargado.txtDui.getText().trim().isEmpty()) {
-            JOptionPane.showMessageDialog(vistaAgregarEncargado, "El campo DUI es obligatorio.");
+        // 1. VALIDACIÓN GENERAL: Limpieza de espacios y campos obligatorios mínimos
+        String dui = vistaAgregarEncargado.txtDui.getText().trim();
+        String primerNombre = vistaAgregarEncargado.txtPrimerNombre.getText().trim();
+        String primerApellido = vistaAgregarEncargado.txtPrimerApellido.getText().trim();
+
+        if (dui.isEmpty()) {
+            JOptionPane.showMessageDialog(vistaAgregarEncargado, "El campo DUI es obligatorio.", "Validación", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        if (!dui.matches("^\\d{8}-\\d$")) {
+            JOptionPane.showMessageDialog(vistaAgregarEncargado, "El DUI no tiene un formato válido (ejemplo: 12345678-9).", "Error de Formato", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (primerNombre.isEmpty()) {
+            JOptionPane.showMessageDialog(vistaAgregarEncargado, "El Primer Nombre es obligatorio.", "Validación", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        if (primerApellido.isEmpty()) {
+            JOptionPane.showMessageDialog(vistaAgregarEncargado, "El Primer Apellido es obligatorio.", "Validación", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
@@ -72,10 +92,10 @@ public class ControladorAgregarEncargado {
             modelo.setIdEncargado(this.idEncargadoEditar);
         }
 
-        modelo.setDui(vistaAgregarEncargado.txtDui.getText().trim());
-        modelo.setPrimerNombre(vistaAgregarEncargado.txtPrimerNombre.getText().trim());
+        modelo.setDui(dui);
+        modelo.setPrimerNombre(primerNombre);
         modelo.setSegundoNombre(vistaAgregarEncargado.txtSeundoNombre.getText().trim());
-        modelo.setPrimerApellido(vistaAgregarEncargado.txtPrimerApellido.getText().trim());
+        modelo.setPrimerApellido(primerApellido);
         modelo.setSegundoApellido(vistaAgregarEncargado.txtSegundoApellido.getText().trim());
         modelo.setDepartamento(vistaAgregarEncargado.txtDepartamentos.getText().trim());
         modelo.setMunicipio(vistaAgregarEncargado.txtMunicipio.getText().trim());
@@ -92,6 +112,10 @@ public class ControladorAgregarEncargado {
                 dao.modificarEncargado(modelo);
                 JOptionPane.showMessageDialog(vistaAgregarEncargado, "¡Encargado modificado con éxito!");
             } else {
+                if (dao.buscarPorDui(dui) != null) {
+                    JOptionPane.showMessageDialog(vistaAgregarEncargado, "El DUI ingresado ya se encuentra registrado en el sistema.", "DUI Duplicado", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
                 dao.insertarEncargado(modelo);
                 JOptionPane.showMessageDialog(vistaAgregarEncargado, "¡Encargado registrado con éxito!");
             }
@@ -110,7 +134,9 @@ public class ControladorAgregarEncargado {
                     "Error SQL",
                     JOptionPane.ERROR_MESSAGE);
         } finally {
-            verEncargado.tablaEncargados.clearSelection();
+            if (verEncargado != null && verEncargado.tablaEncargados != null) {
+                verEncargado.tablaEncargados.clearSelection();
+            }
         }
     }
 

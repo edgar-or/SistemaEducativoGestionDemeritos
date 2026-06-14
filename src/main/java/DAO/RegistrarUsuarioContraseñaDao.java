@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import utileria.Encriptar;
 
 /**
  *
@@ -22,6 +23,9 @@ public class RegistrarUsuarioContraseñaDao {
     String sqlVerificar = "SELECT COUNT(*) FROM usuario WHERE usuario = ?";
     String sqlInsertar  = "INSERT INTO usuario(usuario, contrasena) VALUES (?,?)";
     String sqlUpdate    = "UPDATE personal_docente SET id_usuario = ? WHERE id_personal = ?";
+    
+        String contrasenaEncriptada = Encriptar.getSteingMessageDigest(contrasena, Encriptar.SHA256);
+
 
     try (Connection con = Conexion.getConexion()) {
         con.setAutoCommit(false);
@@ -40,7 +44,7 @@ public class RegistrarUsuarioContraseñaDao {
             int idUsuario;
             try (PreparedStatement ps = con.prepareStatement(sqlInsertar, Statement.RETURN_GENERATED_KEYS)) {
                 ps.setString(1, usuario);
-                ps.setString(2, contrasena);
+                ps.setString(2, contrasenaEncriptada);
                 ps.executeUpdate();
 
                 ResultSet rs = ps.getGeneratedKeys();

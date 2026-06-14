@@ -5,6 +5,7 @@
 package controlador;
 
 import DAO.RegistrarUsuarioContraseñaDao;
+import java.awt.Dimension;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import vista.VistaAgregarUsuarioDocente;
@@ -29,8 +30,15 @@ public class ControladorRegistrarUsuario {
         this.idDocente = idDocente;
         this.vista = new VistaAgregarUsuarioDocente();
 
-        vistaPrincipal.escritorio.add(vista); // agregás el internalFrame al escritorio
+        vistaPrincipal.escritorio.add(vista);
         vista.setVisible(true);
+
+        // Centrar dentro del escritorio
+        Dimension desktopSize = vistaPrincipal.escritorio.getSize();
+        Dimension vistaSize = vista.getSize();
+        int x = Math.max(0, (desktopSize.width - vistaSize.width) / 2);
+        int y = Math.max(0, (desktopSize.height - vistaSize.height) / 2);
+        vista.setLocation(x, y);
 
         try {
             vista.setSelected(true); // lo ponés en primer plano

@@ -11,15 +11,16 @@ package modelo;
  */
 public class ModeloTelefonosEncargadosAlumno {
     private int id;
-    private String telefono;
+    private int telefono;
     private ModeloEncardoAlumno encargadoAlumno;
 
-    public ModeloTelefonosEncargadosAlumno(int id, String telefono, ModeloEncardoAlumno encargadoAlumno) {
+    public ModeloTelefonosEncargadosAlumno(int id, int telefono, ModeloEncardoAlumno encargadoAlumno) {
         this.id = id;
         this.telefono = telefono;
         this.encargadoAlumno = encargadoAlumno;
     }
 
+   
     public int getId() {
         return id;
     }
@@ -28,14 +29,16 @@ public class ModeloTelefonosEncargadosAlumno {
         this.id = id;
     }
 
-    public String getTelefono() {
+    public int getTelefono() {
         return telefono;
     }
 
-    public void setTelefono(String telefono) {
+    public void setTelefono(int telefono) {
         this.telefono = telefono;
     }
 
+    
+    
     public ModeloEncardoAlumno getEncargadoAlumno() {
         return encargadoAlumno;
     }

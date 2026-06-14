@@ -204,9 +204,12 @@ public class MantenimientoAlumnoDao {
 
     public List<ModeloAlumno> buscarPorNombre(String nombre) {
         List<ModeloAlumno> lista = new ArrayList<>();
-        String sql = "SELECT * FROM estudiante WHERE primer_nombre LIKE ?";
+        String sql = "SELECT * FROM estudiante WHERE primer_nombre LIKE ? OR segundo_nombre LIKE ?";
         try (Connection con = Conexion.getConexion(); PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setString(1, "%" + nombre + "%");
+            ps.setString(1, "%" + nombre + "%");     
+            ps.setString(2, "%" + nombre + "%");
+
+            
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     ModeloAlumno a = new ModeloAlumno();
