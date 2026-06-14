@@ -75,7 +75,8 @@ public class ControladorAlumno {
 
         });
 
-        vistaAlumno.btnLimpiar.addActionListener(e -> {
+
+        vistaAlumno.btnLimp.addActionListener(e -> {
             limpiarCampos();
         });
 
