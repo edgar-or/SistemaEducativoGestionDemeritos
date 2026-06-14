@@ -90,7 +90,11 @@
                                           <Component id="comboSeccion" alignment="0" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                       <EmptySpace min="-2" pref="76" max="-2" attributes="0"/>
+<<<<<<< HEAD
                                       <Component id="brnBuscar" min="-2" max="-2" attributes="0"/>
+=======
+                                      <Component id="btnBuscar" min="-2" max="-2" attributes="0"/>
+>>>>>>> cad88470278211f7f83992a4a124f4b645a315c8
                                       <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
@@ -124,7 +128,11 @@
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="comboGrado" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="comboSeccion" alignment="3" min="-2" max="-2" attributes="0"/>
+<<<<<<< HEAD
                           <Component id="brnBuscar" alignment="3" min="-2" pref="34" max="-2" attributes="0"/>
+=======
+                          <Component id="btnBuscar" alignment="3" min="-2" pref="34" max="-2" attributes="0"/>
+>>>>>>> cad88470278211f7f83992a4a124f4b645a315c8
                       </Group>
                       <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">

@@ -61,7 +61,6 @@ public class ControladorAgregarEncargado {
 
 
     private void ejecutarRegistro() {
-        // 1. VALIDACIÓN GENERAL: Limpieza de espacios y campos obligatorios mínimos
         String dui = vistaAgregarEncargado.txtDui.getText().trim();
         String primerNombre = vistaAgregarEncargado.txtPrimerNombre.getText().trim();
         String primerApellido = vistaAgregarEncargado.txtPrimerApellido.getText().trim();
@@ -71,7 +70,7 @@ public class ControladorAgregarEncargado {
             return;
         }
 
-        if (!dui.matches("^\\d{8}-\\d$")) {
+        if (!dui.matches("^d{8}-d$")) {
             JOptionPane.showMessageDialog(vistaAgregarEncargado, "El DUI no tiene un formato válido (ejemplo: 12345678-9).", "Error de Formato", JOptionPane.ERROR_MESSAGE);
             return;
         }
@@ -112,7 +111,7 @@ public class ControladorAgregarEncargado {
                 dao.modificarEncargado(modelo);
                 JOptionPane.showMessageDialog(vistaAgregarEncargado, "¡Encargado modificado con éxito!");
             } else {
-                if (dao.buscarPorDui(dui) != null) {
+                if (dao.buscarPorDuiEnArbol(dui) != null) {
                     JOptionPane.showMessageDialog(vistaAgregarEncargado, "El DUI ingresado ya se encuentra registrado en el sistema.", "DUI Duplicado", JOptionPane.WARNING_MESSAGE);
                     return;
                 }
