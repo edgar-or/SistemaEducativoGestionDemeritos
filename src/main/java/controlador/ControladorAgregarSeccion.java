@@ -35,6 +35,8 @@ public class ControladorAgregarSeccion {
     public void iniciar() {
         visAgregarSeccion.setVisible(true);
         visAgregarSeccion.setLocationRelativeTo(null);
+        
+        
     }
 
     private void cerrarVista() {

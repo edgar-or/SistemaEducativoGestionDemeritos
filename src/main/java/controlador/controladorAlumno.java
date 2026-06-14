@@ -4,6 +4,7 @@ import DAO.GradoDAO;
 import DAO.MantenimientoAlumnoDao;
 import DAO.seccionProfesorDAO;
 import java.awt.Dimension;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -31,7 +32,7 @@ public class ControladorAlumno {
         this.vistaAlumno = new VistaAlumno();
         this.vistaPrincipal = vistaPrincipal;
 
-        this.controlAsignarEncargado = new ControladorAsignarEncargado(vistaPrincipal);
+        this.controlAsignarEncargado = new ControladorAsignarEncargado(vistaPrincipal, this);
 
         onEventos();
         listarAlumnos();
@@ -50,7 +51,9 @@ public class ControladorAlumno {
         });
         vistaAlumno.btnModi.addActionListener(e -> cargarAlumnoFormulario());
         vistaAlumno.btnElimi.addActionListener(e -> eliminarAlumno());
-        vistaAlumno.btnBuscar.addActionListener(e -> buscarAlumnoPorNie());
+        vistaAlumno.btnBuscar.addActionListener(e -> {
+            filtro();
+        });
         vistaAlumno.Grados.addActionListener(e -> {
             int idGrado = getIdGradoSeleccionado();
             if (idGrado != -1) {
@@ -62,19 +65,35 @@ public class ControladorAlumno {
         });
 
         vistaAlumno.btnAsignarResponsable.addActionListener(e -> {
-            controlAsignarEncargado.iniciarVista();
+
+            if (obtenerIdAlumnoSeleccionado() == -1) {
+                JOptionPane.showMessageDialog(null, "Debe seleccionar un alumno");
+            } else {
+                controlAsignarEncargado.iniciarVista();
+
+            }
+
+        });
+
+
+        vistaAlumno.btnLimp.addActionListener(e -> {
+            limpiarCampos();
         });
 
     }
 
     public void mostrarVista() {
         vistaAlumno.setVisible(true);
+
+        // Tamaño fijo razonable basado en tu diseño
+        vistaAlumno.setSize(1200, 700);
+
+        // Centrar dentro del escritorio
         Dimension desktopSize = vistaPrincipal.escritorio.getSize();
-        Dimension internal = vistaAlumno.getSize();
-        int x = (desktopSize.width - internal.width) / 2;
-        int y = (desktopSize.height - internal.height) / 2;
+        int x = Math.max(0, (desktopSize.width - 900) / 2);
+        int y = Math.max(0, (desktopSize.height - 560) / 2);
         vistaAlumno.setLocation(x, y);
-        vistaAlumno.setSize(900, 500);
+
         vistaPrincipal.escritorio.remove(vistaAlumno);
         vistaPrincipal.escritorio.add(vistaAlumno);
         vistaAlumno.toFront();
@@ -92,7 +111,7 @@ public class ControladorAlumno {
 
     public void llenarTablaDesdeArbol() {
         DefaultTableModel modelo = new DefaultTableModel(new String[]{
-            "ID", "NIE", "Nombre", "Apellido", "Puntos"
+            "ID", "NIE", "Nombre", "Apellido"
         }, 0);
         List<ModeloAlumno> lista = arbolAlumnos.IND();
         for (ModeloAlumno a : lista) {
@@ -100,9 +119,8 @@ public class ControladorAlumno {
                 a.getId_alumno(),
                 a.getNie(),
                 a.getNombre(),
-                a.getApelliddos(),
-                a.getTotalPuntos()
-            });
+                a.getApelliddos()
+        });
         }
         vistaAlumno.tablaAlumnos.setModel(modelo);
     }
@@ -167,6 +185,16 @@ public class ControladorAlumno {
                 JOptionPane.showMessageDialog(vistaAlumno, "Complete todos los campos.");
                 return;
             }
+
+            if (!vistaAlumno.txtNombre.getText().matches("[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ ]+")) {
+                JOptionPane.showMessageDialog(vistaAlumno, "El nombre solo debe contener letras.");
+                return;
+            }
+            if (!vistaAlumno.txtApellido.getText().matches("[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ ]+")) {
+                JOptionPane.showMessageDialog(vistaAlumno, "El apellido solo debe contener letras.");
+                return;
+            }
+
             int idSeccion = getIdSeccionSeleccionada();
             if (idSeccion == -1) {
                 JOptionPane.showMessageDialog(vistaAlumno, "Seleccione una sección.");
@@ -199,9 +227,7 @@ public class ControladorAlumno {
 
     public void buscarAlumnoPorNie() {
         try {
-            ///ARREGLAR LA VARIABLE BUSCAR POR NIE
-            
-            
+
             String texto = vistaAlumno.buscarPorNie.getText().trim();
             if (texto.isEmpty()) {
                 llenarTablaDesdeArbol();
@@ -213,7 +239,7 @@ public class ControladorAlumno {
 
             Nodo<ModeloAlumno> nodo = arbolAlumnos.buscar(alumnoBuscar);
             DefaultTableModel modelo = new DefaultTableModel(new String[]{
-                "ID", "NIE", "Nombre", "Apellido", "Puntos"
+                "ID", "NIE", "Nombre", "Apellido"
             }, 0);
 
             if (nodo != null) {
@@ -222,15 +248,64 @@ public class ControladorAlumno {
                     a.getId_alumno(),
                     a.getNie(),
                     a.getNombre(),
-                    a.getApelliddos(),
-                    a.getTotalPuntos()
-                });
+                    a.getApelliddos()                });
             } else {
                 JOptionPane.showMessageDialog(vistaAlumno, "Alumno no encontrado.");
             }
             vistaAlumno.tablaAlumnos.setModel(modelo);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(vistaAlumno, "Error: " + e.getMessage());
+        }
+    }
+
+    public void buscarAlumnoPorNombre() {
+        try {
+
+            String nombre = vistaAlumno.txtBuscarPorNombre.getText().trim();
+            if (nombre.isEmpty()) {
+                llenarTablaDesdeArbol();
+                return;
+            }
+            ModeloAlumno alumnoBuscar = new ModeloAlumno();
+
+            DefaultTableModel modelo = new DefaultTableModel(new String[]{
+                "ID", "NIE", "Nombre", "Apellido"
+            }, 0);
+
+            List<ModeloAlumno> lista = alumnoDAO.buscarPorNombre(nombre);
+
+            if (!lista.isEmpty()) {
+
+                for (ModeloAlumno al : lista) {
+                    modelo.addRow(new Object[]{
+                        al.getId_alumno(),
+                        al.getNie(),
+                        al.getNombre(),
+                        al.getApelliddos()
+                    });
+                }
+
+            } else {
+                JOptionPane.showMessageDialog(vistaAlumno, "Alumno no encontrado.");
+
+            }
+            vistaAlumno.tablaAlumnos.setModel(modelo);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(vistaAlumno, "Error: " + e.getMessage());
+        }
+    }
+
+    private void filtro() {
+        if (!vistaAlumno.buscarPorNie.getText().isEmpty() && vistaAlumno.txtBuscarPorNombre.getText().isEmpty()) {
+
+            buscarAlumnoPorNie();
+
+        } else if (vistaAlumno.buscarPorNie.getText().isEmpty() && !vistaAlumno.txtBuscarPorNombre.getText().isEmpty()) {
+            buscarAlumnoPorNombre();
+        } else if (!vistaAlumno.buscarPorNie.getText().isEmpty() && !vistaAlumno.txtBuscarPorNombre.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Debe llenar solo un filtro");
+        } else {
+            llenarTablaDesdeArbol();
         }
     }
 
@@ -276,9 +351,8 @@ public class ControladorAlumno {
             if (fila == -1) {
                 JOptionPane.showMessageDialog(null, "Seleccione un estudiante de la tabla");
             }
-            
-            
-            int id_estudiante =  (int) vistaAlumno.tablaAlumnos.getValueAt(fila, 0);
+
+            int id_estudiante = (int) vistaAlumno.tablaAlumnos.getValueAt(fila, 0);
             alumno.setId_alumno(id_estudiante);
             alumno.setNie(Integer.parseInt(vistaAlumno.txtNIE.getText().trim()));
             alumno.setNombre(vistaAlumno.txtNombre.getText().trim());
@@ -336,4 +410,13 @@ public class ControladorAlumno {
             JOptionPane.showMessageDialog(vistaAlumno, "Error: " + e.getMessage());
         }
     }
+
+    public int obtenerIdAlumnoSeleccionado() {
+        int fila = vistaAlumno.tablaAlumnos.getSelectedRow();
+        if (fila == -1) {
+            return -1;
+        }
+        return (int) vistaAlumno.tablaAlumnos.getValueAt(fila, 0);
+    }
+
 }

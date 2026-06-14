@@ -60,7 +60,7 @@ public class ControladorGrado {
         if (obtenerIdGradoDeTabla() != -1) {
             controlAgregarSeccion = new ControladorAgregarSeccion(this);
             controlAgregarSeccion.iniciar();
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Debe seleccionar un grado de la tabla");
         }
 
@@ -68,6 +68,8 @@ public class ControladorGrado {
 
     public void mostrarVista() {
         verGrado.setVisible(true);
+        verGrado.setSize(1000, 400); 
+
         Dimension desktopSize = vistaPrincipal.escritorio.getSize();
         Dimension internal = verGrado.getSize();
         verGrado.setLocation(

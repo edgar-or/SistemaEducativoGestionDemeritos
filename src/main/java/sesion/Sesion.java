@@ -10,13 +10,14 @@ package sesion;
  */
 public class Sesion {
 
-    private static String duiPersonal = null; 
+    private static int idPersonal; 
     
-    public static String getDuiPersonal() {
-        return duiPersonal;
+    public static int getIdPersonal() {
+        return idPersonal;
     }
 
-    public static void setDuiPersonal(String duiPersonal) {
-        Sesion.duiPersonal = duiPersonal;
+
+    public static void setIdPersonal(int idPersonal) {
+        Sesion.idPersonal = idPersonal;
     }
 }

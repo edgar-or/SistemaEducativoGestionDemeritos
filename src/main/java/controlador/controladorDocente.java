@@ -78,14 +78,20 @@ public class ControladorDocente {
 
     public void mostrarVista() {
         vistaDocente.setVisible(true);
+        
+         vistaDocente.setSize(1100, 700);
+        
         Dimension desk = vistaPrincipal.escritorio.getSize();
         Dimension win  = vistaDocente.getSize();
+        
+        
         vistaDocente.setLocation(
                 (desk.width  - win.width)  / 2,
                 (desk.height - win.height) / 2);
         vistaPrincipal.escritorio.remove(vistaDocente);
         vistaPrincipal.escritorio.add(vistaDocente);
         vistaDocente.toFront();
+        
     }
 
     public void listarDocentes() {
@@ -105,7 +111,7 @@ public class ControladorDocente {
 
     private void llenarTablaDesdeArbol() {
         DefaultTableModel modelo = new DefaultTableModel(
-                new String[]{"ID", "DUI", "Nombre", "Apellido", "Departamento", "Municipio", "Distrito", "Correo", "Teléfono"}, 0) {
+                new String[]{"ID", "DUI", "Nombre", "Apellido", "Departamento", "Municipio"}, 0) {
             @Override
             public boolean isCellEditable(int r, int c) { return false; }
         };
@@ -117,10 +123,8 @@ public class ControladorDocente {
                 d.getNombre(),
                 d.getApellido(),
                 nv(d.getDepartamento()),
-                nv(d.getMunicipio()),
-                nv(d.getDistrito()),
-                nv(d.getCorreo()),
-                nv(d.getTelefonoDocente())
+                nv(d.getMunicipio())
+              
             });
         }
         vistaDocente.tablaDocente.setModel(modelo);
@@ -203,13 +207,15 @@ public class ControladorDocente {
                 // Asignamos el ID numérico capturado del combo
                 d.setIdCargo(idCargo); 
 
-                dao.insertarDocente(d);
+                int idDocente = dao.insertarDocente(d);
 
                 JOptionPane.showMessageDialog(form,
                         "Docente registrado correctamente.",
                         "Éxito", JOptionPane.INFORMATION_MESSAGE);
                 form.dispose();
                 listarDocentes();
+                        new ControladorRegistrarUsuario(vistaPrincipal, idDocente);
+
 
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(form,

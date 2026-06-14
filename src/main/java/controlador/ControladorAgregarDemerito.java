@@ -23,12 +23,12 @@ public class ControladorAgregarDemerito {
 
     private VistaAgregarDemerito visAgregarDemerito;
 
-    public ControladorAgregarDemerito(VistaAgregarDemerito visAgregarDemeritos, String nie, String nombreCompleto) {
+    public ControladorAgregarDemerito(VistaAgregarDemerito visAgregarDemeritos, String nie, String id, String nombreCompleto) {
         this.visAgregarDemerito = visAgregarDemeritos;
         iniciarVista();
         onEvento();
         llenarCombo();
-        cargarDatosEstudiante(nie, nombreCompleto);
+        cargarDatosEstudiante(nie, id, nombreCompleto);
     }
 
     private void iniciarVista() {
@@ -50,8 +50,9 @@ public class ControladorAgregarDemerito {
         });
 
         visAgregarDemerito.btnAgregar.addActionListener(e -> {
-            String duiSesion = Sesion.getDuiPersonal();
+            int idSesion = Sesion.getIdPersonal();
             String nie = visAgregarDemerito.txtNie.getText();
+            int id= Integer.parseInt(visAgregarDemerito.txtidM.getText());
             String observacion = visAgregarDemerito.txtObservaciones.getText();
             ModeloConducta tipo = (ModeloConducta) visAgregarDemerito.ComboDescripcion.getSelectedItem();
 
@@ -65,14 +66,14 @@ public class ControladorAgregarDemerito {
                 return;
             }
 
-            if (duiSesion == null || duiSesion.trim().isEmpty()) {
+            if (idSesion == -1) {
                 JOptionPane.showMessageDialog(null, "Error: sesión no encontrada");
                 return;
             }
 
-            DemeritoDAO.insertarDemerito(nie, observacion, duiSesion, tipo.getIdTipo());
-            DemeritoDAO.actualizarPuntos(nie);
-
+            DemeritoDAO.insertarDemerito(id, observacion, idSesion, tipo.getIdTipo());
+            DemeritoDAO.actualizarPuntos(id);
+            System.out.println("id estudiante"+ id+ "id sesion" + idSesion+ "tipo"+tipo.getIdTipo());
             JOptionPane.showMessageDialog(null, "Demérito guardado correctamente");
             visAgregarDemerito.dispose();
         });
@@ -86,9 +87,11 @@ public class ControladorAgregarDemerito {
         }
     }
 
-    private void cargarDatosEstudiante(String nie, String nombreCompleto) {
+    private void cargarDatosEstudiante(String nie,String id, String nombreCompleto) {
+        this.visAgregarDemerito.txtidM.setText(id);
         this.visAgregarDemerito.txtNie.setText(nie);
         this.visAgregarDemerito.txtNombreCompleto.setText(nombreCompleto);
+        this.visAgregarDemerito.txtidM.setEditable(false);
         this.visAgregarDemerito.txtNie.setEditable(false);
         this.visAgregarDemerito.txtNombreCompleto.setEditable(false);
     }

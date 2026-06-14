@@ -20,12 +20,12 @@ public class ControladorAgregarMerito {
 
     private VistaAgregarMerito visAgregarMerito;
 
-    public ControladorAgregarMerito(VistaAgregarMerito visAgregarMerito, String nie, String nombreCompleto) {
+    public ControladorAgregarMerito(VistaAgregarMerito visAgregarMerito, String nie, String id, String nombreCompleto) {
         this.visAgregarMerito = visAgregarMerito;
         iniciarVista();
         onEvento();
         llenarCombo();
-        cargarDatosEstudiante(nie, nombreCompleto);
+        cargarDatosEstudiante(nie, id, nombreCompleto);
     }
 
     private void iniciarVista() {
@@ -47,8 +47,9 @@ public class ControladorAgregarMerito {
         });
 
         visAgregarMerito.btnAgregar.addActionListener(e -> {
-             String duiSesion = Sesion.getDuiPersonal();
-            String nie = visAgregarMerito.txtNie.getText();
+            int idSesion = Sesion.getIdPersonal();
+            int id = Integer.parseInt(visAgregarMerito.txtidd.getText());
+            String nie = visAgregarMerito.txtniee.getText();
             String observacion = visAgregarMerito.txtObservaciones.getText();
             ModeloConducta tipo = (ModeloConducta) visAgregarMerito.ComboDescripcion.getSelectedItem();
 
@@ -63,8 +64,8 @@ public class ControladorAgregarMerito {
             }
 
             try {
-                MeritoDAO.insertarMerito(nie, tipo.getIdTipo(), observacion, Sesion.getDuiPersonal());
-                MeritoDAO.actualizarPuntos(nie);
+                MeritoDAO.insertarMerito(id, observacion,idSesion,tipo.getIdTipo());
+                MeritoDAO.actualizarPuntos(id);
                 JOptionPane.showMessageDialog(null, "Mérito guardado correctamente");
                 visAgregarMerito.dispose();
             } catch (Exception ex) {
@@ -81,10 +82,12 @@ public class ControladorAgregarMerito {
         }
     }
 
-    private void cargarDatosEstudiante(String nie, String nombreCompleto) {
-        visAgregarMerito.txtNie.setText(nie);
+    private void cargarDatosEstudiante(String nie, String id, String nombreCompleto) {
+        visAgregarMerito.txtniee.setText(nie);
+        visAgregarMerito.txtidd.setText(id);
+
         visAgregarMerito.txtNombreCompleto.setText(nombreCompleto);
-        visAgregarMerito.txtNie.setEditable(false);
+        visAgregarMerito.txtidd.setEditable(false);
         visAgregarMerito.txtNombreCompleto.setEditable(false);
     }
 }

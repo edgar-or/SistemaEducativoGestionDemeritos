@@ -43,14 +43,14 @@ public class DemeritoDAO {
         return lista;
     }
 
-    public static void insertarDemerito(String nie, String observacion, String dui, int idTipo) {
-        String sql = "INSERT INTO movimiento_conducta (observacion, fecha, dui_personal, nie, id_tipo_conducta) VALUES (?, NOW(), ?, ?, ?)";
+    public static void insertarDemerito(int id_estudiante, String observacion, int id_personal, int idTipo) {
+        String sql = "INSERT INTO movimiento_conducta (observacion, fecha, id_personal, id_estudiante, id_tipo_conducta) VALUES (?, NOW(), ?, ?, ?)";
 
         try (Connection con = Conexion.getConexion(); PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setString(1, observacion);
-            ps.setString(2, dui);
-            ps.setString(3, nie);
+            ps.setInt(2, id_personal);
+            ps.setInt(3, id_estudiante);
             ps.setInt(4, idTipo);
 
             ps.executeUpdate();
@@ -59,12 +59,16 @@ public class DemeritoDAO {
         }
     }
 
-    public static void actualizarPuntos(String nie) {
-        String sql = "UPDATE estudiante e SET total_puntos = ( SELECT COALESCE(SUM(tc.puntos),0) FROM movimiento_conducta mc INNER JOIN tipo_conducta tc ON mc.id_tipo_conducta = tc.id_tipo_conducta WHERE mc.nie = e.nie ) WHERE e.nie = ?";
+    public static void actualizarPuntos(int id) {
+        String sql = "UPDATE estudiante e SET total_puntos = "
+                + "( SELECT COALESCE(SUM(tc.puntos),0) FROM movimiento_conducta "
+                + "mc INNER JOIN tipo_conducta tc ON mc.id_tipo_conducta = tc.id_tipo_conducta"
+                + " WHERE mc.id_estudiante = e.id_estudiante )"
+                + " WHERE e.id_estudiante = ?";
 
         try (Connection con = Conexion.getConexion(); PreparedStatement ps = con.prepareStatement(sql)) {
 
-            ps.setString(1, nie);
+            ps.setInt(1, id);
             ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();

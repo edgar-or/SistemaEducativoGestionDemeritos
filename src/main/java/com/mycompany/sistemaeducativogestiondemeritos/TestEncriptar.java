@@ -13,7 +13,7 @@ import utileria.Encriptar;
 public class TestEncriptar {
     
     public static void main(String[] args) {
-        String clave = "asdasdasd4#"; 
+        String clave = "1234"; 
         clave = Encriptar.getSteingMessageDigest(clave,  Encriptar.SHA256); 
         
         System.out.println(clave);

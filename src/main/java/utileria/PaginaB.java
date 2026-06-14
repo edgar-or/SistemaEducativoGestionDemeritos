@@ -6,19 +6,15 @@ package utileria;
 
 import java.util.ArrayList;
 
-/**
- *
- * @author estud
- */
-public class PaginaB  <T extends Comparable<T>> {
+public class PaginaB <T extends Comparable<T>> {
     private ArrayList<T> claves;
     private ArrayList<PaginaB<T>> hijos;
     private boolean hoja;
-
-    public PaginaB(boolean hoja) {
+    
+    public PaginaB(boolean hoja){
         this.hoja = hoja;
-        claves= new ArrayList();
-        hijos= new ArrayList();
+        this.claves = new ArrayList<>();
+        this.hijos = new ArrayList<>();
     }
 
     public ArrayList<T> getClaves() {
@@ -44,7 +40,6 @@ public class PaginaB  <T extends Comparable<T>> {
     public void setHoja(boolean hoja) {
         this.hoja = hoja;
     }
-    
     
     
 }

@@ -25,34 +25,35 @@ public class AlumnoDAO {
 
     public List<ModeloAlumno> obtenerAlumnosPorSeccion(int idSeccion) {
         List<ModeloAlumno> lista = new ArrayList<>();
-        String sql = "SELECT e.nie, "
+        String sql = "SELECT e.id_estudiante, "
+                + "e.nie, "
                 + "CONCAT(e.primer_nombre, ' ', IFNULL(e.segundo_nombre,'')) AS nombre, "
                 + "CONCAT(e.primer_apellido, ' ', IFNULL(e.segundo_apellido,'')) AS apellidos, "
                 + "s.id_grado, "
-                + "e.dui_encargado, "
                 + "IFNULL(e.total_puntos, 0) AS total_puntos "
                 + "FROM estudiante e "
-                + "INNER JOIN seccion s ON e.id_seccion = s.id_seccion "
+                + "LEFT JOIN seccion s ON e.id_seccion = s.id_seccion "
                 + "WHERE e.id_seccion = ?";
 
         try (Connection con = Conexion.getConexion(); PreparedStatement ps = con.prepareStatement(sql)) {
+
+            System.out.println("ID SECCION: " + idSeccion);
+
             ps.setInt(1, idSeccion);
+
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    String nie = rs.getString("nie").trim();
+
+                    int idEstudiante = rs.getInt("id_estudiante");
+                    int nie = rs.getInt("nie");
                     String nombre = rs.getString("nombre").trim();
                     String apellidos = rs.getString("apellidos").trim();
                     int totalPuntos = rs.getInt("total_puntos");
 
-                    int nieInt = 0;
-                    try {
-                        nieInt = Integer.parseInt(nie);
-                    } catch (NumberFormatException ex) {
-                        System.out.println("NIE inválido: [" + nie + "]");
-                    }
-
                     ModeloAlumno alumno = new ModeloAlumno();
-                    alumno.setNie(nieInt);
+
+                    alumno.setId_alumno(idEstudiante);
+                    alumno.setNie(nie);
                     alumno.setNombre(nombre);
                     alumno.setApelliddos(apellidos);
                     alumno.setTotalPuntos(totalPuntos);
@@ -60,9 +61,11 @@ public class AlumnoDAO {
                     lista.add(alumno);
                 }
             }
+
         } catch (SQLException e) {
             System.out.println("Error al obtener alumnos: " + e.getMessage());
         }
+
         return lista;
     }
 
