@@ -20,34 +20,40 @@ public class MeritoDAO {
 
     public static List<ModeloConducta> obtenerTiposConducta() {
         List<ModeloConducta> lista = new ArrayList<>();
-        String sql = "SELECT id_tipo_conducta, tipo, descripcion, puntos FROM tipo_conducta WHERE tipo = 'merito'";
+        String sql = "SELECT id_tipo_conducta, tipo, descripcion, puntos " +
+                 "FROM tipo_conducta WHERE tipo = 'merito'";
 
-        try (Connection con = Conexion.getConexion(); PreparedStatement ps = con.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+    try (Connection con = Conexion.getConexion();
+         PreparedStatement ps = con.prepareStatement(sql);
+         ResultSet rs = ps.executeQuery()) {
 
-            while (rs.next()) {
-                ModeloConducta conducta = new ModeloConducta();
-                conducta.setIdTipo(rs.getInt("id_tipo_conducta"));
-                conducta.setTipo(rs.getString("tipo"));
-                conducta.setDescripcion(rs.getString("descripcion"));
-                conducta.setPuntos(rs.getInt("puntos"));
-                conducta.setMovimientoConducta(new ArrayList<>());
+        while (rs.next()) {
 
+            ModeloConducta conducta = new ModeloConducta();
+            conducta.setIdTipo(rs.getInt("id_tipo_conducta"));
+            conducta.setTipo(rs.getString("tipo"));
+            conducta.setDescripcion(rs.getString("descripcion"));
+            conducta.setPuntos(rs.getInt("puntos"));
+
+            // misma lógica que demérito
+            conducta.setMovimientoConducta(new ArrayList<>());
                 lista.add(conducta);
             }
         } catch (Exception e) {
             System.err.println("Error al obtener tipos de conducta: " + e.getMessage());
         }
-        return lista;
+    return lista;
     }
 
-    public static void insertarMerito(String nie, int idTipo, String observacion) {
-        String sql = "INSERT INTO movimiento_conducta (nie, id_tipo_conducta, observacion, fecha) VALUES (?, ?, ?, NOW())";
+    public static void insertarMerito(String nie, int idTipo, String observacion, String dui_personal) {
+        String sql = "INSERT INTO movimiento_conducta (observacion,fecha, dui_personal,nie, id_tipo_conducta) VALUES (?, NOW(), ?,?,? )";
 
         try (Connection con = Conexion.getConexion(); PreparedStatement ps = con.prepareStatement(sql)) {
 
-            ps.setString(1, nie);
-            ps.setInt(2, idTipo);
-            ps.setString(3, observacion);
+            ps.setString(1, observacion);
+            ps.setString(2, dui_personal);
+            ps.setString(3, nie);
+            ps.setInt(4, idTipo);
 
             ps.executeUpdate();
         } catch (Exception e) {

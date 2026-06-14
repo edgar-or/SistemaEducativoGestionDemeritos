@@ -75,7 +75,7 @@ public class ModeloConducta {
     
     @Override
     public String toString() {
-        return "ModeloConducta{" + "descripcion=" + descripcion + '}';
+        return descripcion ;
     }
    
    
