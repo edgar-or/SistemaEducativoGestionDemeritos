@@ -47,6 +47,7 @@ public class VistaPrincipalMaestros extends javax.swing.JFrame {
         btnVerEstado = new javax.swing.JButton();
         btnAgregarMerito = new javax.swing.JButton();
         btnCerrarsesion = new javax.swing.JButton();
+        btnLimpiar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -100,6 +101,9 @@ public class VistaPrincipalMaestros extends javax.swing.JFrame {
         btnCerrarsesion.setText("Cerrar Sesion");
         btnCerrarsesion.addActionListener(this::btnCerrarsesionActionPerformed);
 
+        btnLimpiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons_Limpiar.png"))); // NOI18N
+        btnLimpiar.setText("Actualizar");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -133,15 +137,16 @@ public class VistaPrincipalMaestros extends javax.swing.JFrame {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(26, 26, 26)
+                .addContainerGap()
                 .addComponent(btnAgregarMerito)
-                .addGap(18, 18, 18)
+                .addGap(31, 31, 31)
                 .addComponent(btnAgregarDemerito)
-                .addGap(20, 20, 20)
+                .addGap(32, 32, 32)
                 .addComponent(btnVerEstado)
                 .addGap(18, 18, 18)
-                .addComponent(btnCerrarsesion)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(btnLimpiar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                .addComponent(btnCerrarsesion))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -167,8 +172,9 @@ public class VistaPrincipalMaestros extends javax.swing.JFrame {
                     .addComponent(btnAgregarMerito, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnAgregarDemerito, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnVerEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnLimpiar)
                     .addComponent(btnCerrarsesion))
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addContainerGap(68, Short.MAX_VALUE))
         );
 
         btnCerrarsesion.getAccessibleContext().setAccessibleDescription("");
@@ -260,6 +266,7 @@ public class VistaPrincipalMaestros extends javax.swing.JFrame {
     public javax.swing.JButton btnAgregarMerito;
     public javax.swing.JButton btnBuscar;
     public javax.swing.JButton btnCerrarsesion;
+    public javax.swing.JButton btnLimpiar;
     public javax.swing.JButton btnVerEstado;
     public javax.swing.JComboBox<String> comboGrado;
     public javax.swing.JComboBox<String> comboSeccion;

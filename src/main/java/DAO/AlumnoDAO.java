@@ -63,7 +63,6 @@ public class AlumnoDAO {
             }
 
         } catch (SQLException e) {
-            System.out.println("Error al obtener alumnos: " + e.getMessage());
         }
 
         return lista;
@@ -72,31 +71,27 @@ public class AlumnoDAO {
     public List<ModeloAlumno> buscarAlumnos(int idSeccion, String nie, String nombre, String apellido) {
         List<ModeloAlumno> lista = new ArrayList<>();
         String sql = "SELECT e.id_estudiante, "
-        + "e.nie, "
-        + "CONCAT(e.primer_nombre, ' ', IFNULL(e.segundo_nombre,'')) AS nombre, "
-        + "CONCAT(e.primer_apellido, ' ', IFNULL(e.segundo_apellido,'')) AS apellidos, "
-        + "s.id_grado, "
-        + "IFNULL(e.total_puntos, 0) AS total_puntos "
-        + "FROM estudiante e "
-        + "INNER JOIN seccion s ON e.id_seccion = s.id_seccion "
-        + "WHERE e.id_seccion = ? "
-        + "AND e.nie LIKE ? "
-        + "AND CONCAT(e.primer_nombre, ' ', IFNULL(e.segundo_nombre,'')) LIKE ? "
-        + "AND CONCAT(e.primer_apellido, ' ', IFNULL(e.segundo_apellido,'')) LIKE ?";
-        
-        
+                + "e.nie, "
+                + "CONCAT(e.primer_nombre, ' ', IFNULL(e.segundo_nombre,'')) AS nombre, "
+                + "CONCAT(e.primer_apellido, ' ', IFNULL(e.segundo_apellido,'')) AS apellidos, "
+                + "s.id_grado, "
+                + "IFNULL(e.total_puntos, 0) AS total_puntos "
+                + "FROM estudiante e "
+                + "INNER JOIN seccion s ON e.id_seccion = s.id_seccion "
+                + "WHERE e.id_seccion = ? "
+                + "AND e.nie LIKE ? "
+                + "AND CONCAT(e.primer_nombre, ' ', IFNULL(e.segundo_nombre,'')) LIKE ? "
+                + "AND CONCAT(e.primer_apellido, ' ', IFNULL(e.segundo_apellido,'')) LIKE ?";
+
         try (Connection con = Conexion.getConexion(); PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, idSeccion);
             ps.setString(2, "%" + nie + "%");
             ps.setString(3, "%" + nombre + "%");
             ps.setString(4, "%" + apellido + "%");
 
-            System.out.println(sql);
-            System.out.println("Nombre = " + nombre);
-            System.out.println("Apellido = " + apellido);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    String Id_alumno =rs.getString("id_estudiante");
+                    String Id_alumno = rs.getString("id_estudiante");
                     String rNie = rs.getString("nie");
                     String rNombre = rs.getString("nombre").trim();
                     String rApellidos = rs.getString("apellidos").trim();
@@ -109,6 +104,7 @@ public class AlumnoDAO {
                     }
 
                     ModeloAlumno alumno = new ModeloAlumno();
+                    alumno.setId_alumno(Integer.parseInt(Id_alumno));
                     alumno.setNie(nieInt);
                     alumno.setNombre(rNombre);
                     alumno.setApelliddos(rApellidos);

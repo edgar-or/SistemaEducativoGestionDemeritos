@@ -46,10 +46,12 @@ public class VerEstadoDAO {
         """;
 
         try (Connection con = Conexion.getConexion(); PreparedStatement ps = con.prepareStatement(sql)) {
+           
             ps.setInt(1, id);
 
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
+
                     ModeloMovimientoConducta movimiento = new ModeloMovimientoConducta();
                     movimiento.setObservacion(rs.getString("observacion"));
                     movimiento.setFecha(rs.getDate("fecha").toLocalDate());
@@ -68,10 +70,15 @@ public class VerEstadoDAO {
                     movimiento.setModeloConducta(conducta);
                     movimiento.setModeloDocente(docente);
 
+                   
+
                     arbol.insertar(movimiento);
+
+                   
                 }
             }
             return arbol;
         }
     }
 }
+

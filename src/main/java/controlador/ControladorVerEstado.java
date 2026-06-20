@@ -28,7 +28,6 @@ public class ControladorVerEstado {
         this.visVerEstado = visVerEstado;
         this.alumno = alumno;
 
-
         iniciarVista();
         onEvento();
         cargarTablaEstadoAlumno(alumno.getId_alumno());
@@ -49,7 +48,6 @@ public class ControladorVerEstado {
         });
     }
 
-
     private void cargarTablaEstadoAlumno(int nie) {
         try {
             VerEstadoDAO dao = new VerEstadoDAO();
@@ -60,10 +58,10 @@ public class ControladorVerEstado {
             modelo.setRowCount(0);
 
             List<ModeloMovimientoConducta> listaOrdenada = arbol.obtenerListaOrdenada();
-
             int totalPuntos = 0;
 
             for (ModeloMovimientoConducta movimiento : listaOrdenada) {
+             
                 String docente = movimiento.getModeloDocente().getNombre() + " " + movimiento.getModeloDocente().getApellido();
                 modelo.addRow(new Object[]{
                     movimiento.getModeloConducta().getDescripcion(),
@@ -85,5 +83,7 @@ public class ControladorVerEstado {
     private void cargarDatosAlumnos() {
         visVerEstado.txtNombre.setText(alumno.getNombre() + " " + alumno.getApelliddos());
     }
+    
+    
 
 }

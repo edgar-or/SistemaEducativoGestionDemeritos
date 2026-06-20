@@ -42,6 +42,7 @@ public class ControladorPrincipalMaestros {
         cargarGrados();
         configurarEventos();
         vista.setVisible(true);
+        limpiarBusqueda();
     }
 
     public void cargarGrados() {
@@ -55,6 +56,18 @@ public class ControladorPrincipalMaestros {
             vista.comboGrado.putClientProperty("listaGrados", grados);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(vista, "Error al cargar grados: " + e.getMessage());
+        }
+    }
+
+    private void limpiarBusqueda() {
+        vista.txtBuscarNie.setText("");
+        vista.txtBuscarNombres.setText("");
+        vista.txtBuscarApellido.setText("");
+
+        int idSeccion = getIdSeccionSeleccionada();
+
+        if (idSeccion != -1) {
+            llenarTabla(alumnoDAO.obtenerAlumnosPorSeccion(idSeccion));
         }
     }
 
@@ -79,44 +92,137 @@ public class ControladorPrincipalMaestros {
     }
 
     private void buscarAlumnos() {
+
         int idSeccion = getIdSeccionSeleccionada();
+
         if (idSeccion == -1) {
             return;
         }
 
         String textoNie = vista.txtBuscarNie.getText().trim();
+        String nombre = vista.txtBuscarNombres.getText().trim();
+        String apellido = vista.txtBuscarApellido.getText().trim();
+
+        //Validacion para que solo busqye por un filtro
+        int filtrosActivos = 0;
 
         if (!textoNie.isEmpty()) {
-            try {
-                int nie = Integer.parseInt(textoNie);
-                ModeloAlumno alumnoBuscar = new ModeloAlumno();
-                alumnoBuscar.setNie(nie);
+            filtrosActivos++;
+        }
 
-                Nodo nodo = arbolAlumnos.buscar(alumnoBuscar);
+        if (!nombre.isEmpty()) {
+            filtrosActivos++;
+        }
 
-                DefaultTableModel modelo = new DefaultTableModel(
-                        new String[]{"NIE", "Nombre", "Apellidos", "Puntos"}, 0
+        if (!apellido.isEmpty()) {
+            filtrosActivos++;
+        }
+
+        if (filtrosActivos > 1) {
+            JOptionPane.showMessageDialog(
+                    vista,
+                    "Utilice únicamente un filtro a la vez.\n"
+                    + "Puede buscar por NIE, Nombre o Apellido.",
+                    "Búsqueda inválida",
+                    JOptionPane.WARNING_MESSAGE
+            );
+            return;
+        }
+
+        // validacion de nie 
+        if (!textoNie.isEmpty()) {
+
+            if (!textoNie.matches("\\d+")) {
+                JOptionPane.showMessageDialog(
+                        vista,
+                        "El NIE solo puede contener números.",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE
+                );
+                vista.txtBuscarNie.requestFocus();
+                return;
+            }
+
+            int nie = Integer.parseInt(textoNie);
+
+            ModeloAlumno alumnoBuscar = new ModeloAlumno();
+            alumnoBuscar.setNie(nie);
+
+            Nodo nodo = arbolAlumnos.buscar(alumnoBuscar);
+
+            DefaultTableModel modelo = new DefaultTableModel(
+                    new String[]{"ID", "NIE", "Nombre", "Apellidos", "Puntos"}, 0
+            );
+
+            if (nodo != null) {
+
+                ModeloAlumno encontrado = (ModeloAlumno) nodo.getDato();
+
+                modelo.addRow(new Object[]{
+                    encontrado.getId_alumno(),
+                    encontrado.getNie(),
+                    encontrado.getNombre(),
+                    encontrado.getApelliddos(),
+                    encontrado.getTotalPuntos()
+                });
+
+            } else {
+
+                JOptionPane.showMessageDialog(
+                        vista,
+                        "No se encontró ningún estudiante con ese NIE.",
+                        "Sin resultados",
+                        JOptionPane.INFORMATION_MESSAGE
+                );
+            }
+
+            vista.tablaEstidiantes.setModel(modelo);
+            return;
+        }
+
+        // validacion del nombre
+        if (!nombre.isEmpty()) {
+
+            if (!nombre.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) {
+
+                JOptionPane.showMessageDialog(
+                        vista,
+                        "El nombre solo puede contener letras.",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE
                 );
 
-                if (nodo != null) {
-                    ModeloAlumno encontrado = (ModeloAlumno) nodo.getDato();
-                    modelo.addRow(new Object[]{
-                        encontrado.getNie(),
-                        encontrado.getNombre(),
-                        encontrado.getApelliddos(),
-                        encontrado.getTotalPuntos()
-                    });
-                }
-                vista.tablaEstidiantes.setModel(modelo);
-
-            } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(vista, "Ingrese un NIE válido");
+                vista.txtBuscarNombres.requestFocus();
+                return;
             }
-        } else {
-            String nombre = vista.txtBuscarNombres.getText().trim();
-            String apellido = vista.txtBuscarApellido.getText().trim();
-            llenarTabla(alumnoDAO.buscarAlumnos(idSeccion, "", nombre, apellido));
         }
+
+        // validacion del apeillido      
+        if (!apellido.isEmpty()) {
+
+            if (!apellido.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) {
+
+                JOptionPane.showMessageDialog(
+                        vista,
+                        "El apellido solo puede contener letras.",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE
+                );
+
+                vista.txtBuscarApellido.requestFocus();
+                return;
+            }
+        }
+
+        // busqueda ya sea por el nombre o por el apellido
+        llenarTabla(
+                alumnoDAO.buscarAlumnos(
+                        idSeccion,
+                        "",
+                        nombre,
+                        apellido
+                )
+        );
     }
 
     @SuppressWarnings("unchecked")
@@ -210,6 +316,7 @@ public class ControladorPrincipalMaestros {
         });
 
         vista.btnVerEstado.addActionListener(e -> {
+
             int filaSeleccionada = vista.tablaEstidiantes.getSelectedRow();
 
             if (filaSeleccionada == -1) {
@@ -235,6 +342,10 @@ public class ControladorPrincipalMaestros {
             login.setLocationRelativeTo(null);
             login.setVisible(true);
             vista.dispose();
+        });
+        vista.btnLimpiar.addActionListener(e -> {
+            limpiarBusqueda();
+
         });
     }
 }
