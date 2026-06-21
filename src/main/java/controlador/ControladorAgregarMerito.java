@@ -42,7 +42,7 @@ public class ControladorAgregarMerito {
             ModeloConducta seleccionado = (ModeloConducta) visAgregarMerito.ComboDescripcion.getSelectedItem();
             if (seleccionado != null) {
                 int id = seleccionado.getIdTipo();
-                System.out.println("ID seleccionado: " + id);
+              //  System.out.println("ID seleccionado: " + id);
             }
         });
 

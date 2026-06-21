@@ -19,7 +19,7 @@ public class TestRSA {
         
                 generadorClaves.getClavePublica().getEncoded()
         ));
-        System.out.println(Base64.getEncoder().encodeToString(
+      System.out.println(Base64.getEncoder().encodeToString(
                 generadorClaves.getClavePrivada().getEncoded()
         ));
         

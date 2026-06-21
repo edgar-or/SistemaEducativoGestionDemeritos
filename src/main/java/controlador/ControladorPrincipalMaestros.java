@@ -215,14 +215,35 @@ public class ControladorPrincipalMaestros {
         }
 
         // busqueda ya sea por el nombre o por el apellido
-        llenarTabla(
-                alumnoDAO.buscarAlumnos(
-                        idSeccion,
-                        "",
-                        nombre,
-                        apellido
-                )
+        List<ModeloAlumno> resultados = alumnoDAO.buscarAlumnos(
+                idSeccion,
+                "",
+                nombre,
+                apellido
         );
+
+        if (resultados.isEmpty()) {
+
+            if (!nombre.isEmpty()) {
+                JOptionPane.showMessageDialog(
+                        vista,
+                        "Nombre no encontrado.",
+                        "Sin resultados",
+                        JOptionPane.INFORMATION_MESSAGE
+                );
+            } else if (!apellido.isEmpty()) {
+                JOptionPane.showMessageDialog(
+                        vista,
+                        "Apellido no encontrado.",
+                        "Sin resultados",
+                        JOptionPane.INFORMATION_MESSAGE
+                );
+            }
+
+            return;
+        }
+
+        llenarTabla(resultados);
     }
 
     @SuppressWarnings("unchecked")

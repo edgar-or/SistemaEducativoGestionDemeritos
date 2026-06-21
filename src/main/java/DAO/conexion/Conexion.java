@@ -26,9 +26,9 @@ public class Conexion {
         Connection con = null;
         try {
             con = DriverManager.getConnection(URL, USER, PASSWORD);
-            System.out.println("Conexion exitosa");
+           // System.out.println("Conexion exitosa");
         } catch (SQLException e) {
-            System.out.println("Error: " + e.getMessage());
+            //System.out.println("Error: " + e.getMessage());
         }
         return con;
     }

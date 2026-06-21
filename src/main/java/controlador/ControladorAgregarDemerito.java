@@ -45,14 +45,14 @@ public class ControladorAgregarDemerito {
             ModeloConducta seleccionado = (ModeloConducta) visAgregarDemerito.ComboDescripcion.getSelectedItem();
             if (seleccionado != null) {
                 int id = seleccionado.getIdTipo();
-                System.out.println("ID seleccionado: " + id);
+                // System.out.println("ID seleccionado: " + id);
             }
         });
 
         visAgregarDemerito.btnAgregar.addActionListener(e -> {
             int idSesion = Sesion.getIdPersonal();
             String nie = visAgregarDemerito.txtNie.getText();
-            int id= Integer.parseInt(visAgregarDemerito.txtidM.getText());
+            int id = Integer.parseInt(visAgregarDemerito.txtidM.getText());
             String observacion = visAgregarDemerito.txtObservaciones.getText();
             ModeloConducta tipo = (ModeloConducta) visAgregarDemerito.ComboDescripcion.getSelectedItem();
 
@@ -73,7 +73,7 @@ public class ControladorAgregarDemerito {
 
             DemeritoDAO.insertarDemerito(id, observacion, idSesion, tipo.getIdTipo());
             DemeritoDAO.actualizarPuntos(id);
-            System.out.println("id estudiante"+ id+ "id sesion" + idSesion+ "tipo"+tipo.getIdTipo());
+            //System.out.println("id estudiante"+ id+ "id sesion" + idSesion+ "tipo"+tipo.getIdTipo());
             JOptionPane.showMessageDialog(null, "Demérito guardado correctamente");
             visAgregarDemerito.dispose();
         });
@@ -87,7 +87,7 @@ public class ControladorAgregarDemerito {
         }
     }
 
-    private void cargarDatosEstudiante(String nie,String id, String nombreCompleto) {
+    private void cargarDatosEstudiante(String nie, String id, String nombreCompleto) {
         this.visAgregarDemerito.txtidM.setText(id);
         this.visAgregarDemerito.txtNie.setText(nie);
         this.visAgregarDemerito.txtNombreCompleto.setText(nombreCompleto);
